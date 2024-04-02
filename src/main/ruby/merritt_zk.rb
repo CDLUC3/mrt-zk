@@ -71,7 +71,7 @@ require 'yaml'
 #     zk.close
 # 
 # == See Also
-# @see https://github.com/CDLUC3/mrt-doc/blob/main/design/queue-2023/README.md
+# @see https://github.com/CDLUC3/mrt-zk/blob/main/design/README.md
 
 module MerrittZK
   ## 

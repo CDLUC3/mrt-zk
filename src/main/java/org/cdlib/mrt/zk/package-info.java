@@ -84,6 +84,6 @@
  * }
  * </pre>
  * 
- * @see <a href="https://github.com/CDLUC3/mrt-doc/blob/main/design/queue-2023/README.md">Design Document</a>
+ * @see <a href="https://github.com/CDLUC3/mrt-zk/blob/main/design/README.md">Design Document</a>
  */
 package org.cdlib.mrt.zk;

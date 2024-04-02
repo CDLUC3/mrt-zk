@@ -2,7 +2,7 @@ package org.cdlib.mrt.zk;
 
 /**
  * Defines relative pathnames to ZooKeeper nodes for a Batch or a Job.
- * @see <a href="https://github.com/CDLUC3/mrt-doc/blob/main/design/queue-2023/data.md">ZooKeeper Node Design</a>
+ * @see <a href="https://github.com/CDLUC3/mrt-zk/blob/main/design/data.md">ZooKeeper Node Design</a>
  */
 public enum ZKKey {
   /**

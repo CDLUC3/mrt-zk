@@ -2,7 +2,7 @@ package org.cdlib.mrt.zk;
 
 /**
  * Lookup key names for properties stored as JSON within ZooKeeper nodes.
- * @see <a href="https://github.com/CDLUC3/mrt-doc/blob/main/design/queue-2023/data.md">ZooKeeper Node Design</a>
+ * @see <a href="https://github.com/CDLUC3/mrt-zk/blob/main/design/data.md">ZooKeeper Node Design</a>
  */
 public enum MerrittJsonKey {
   Status("status"),

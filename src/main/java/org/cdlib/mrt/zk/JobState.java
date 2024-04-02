@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * <h2>Job State Transitions</h2>
- * @see <a href="https://github.com/CDLUC3/mrt-doc/blob/main/design/queue-2023/states.md">State Transition Design</a>
+ * @see <a href="https://github.com/CDLUC3/mrt-zk/blob/main/design/states.md">State Transition Design</a>
  * @see <a href="https://github.com/CDLUC3/merritt-tinker/blob/main/state-transition/states.yml">State Definition Yaml</a>
  */
 public enum JobState implements IngestState {

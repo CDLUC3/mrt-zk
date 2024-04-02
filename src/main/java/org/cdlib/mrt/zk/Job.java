@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 /**
  * Class to manage a Merritt Ingest Job in the Job Queue.
- * @see <a href="https://github.com/CDLUC3/mrt-doc/blob/main/design/queue-2023/transition.md">State Transition Design</a>
+ * @see <a href="https://github.com/CDLUC3/mrt-zk/blob/main/design/transition.md">State Transition Design</a>
  */
 public class Job extends QueueItem {
   public static final String DIR = "/jobs";
