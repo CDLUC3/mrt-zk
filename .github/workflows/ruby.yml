@@ -1,0 +1,28 @@
+name: Rubocop
+
+on: [push, pull_request]
+
+jobs:
+  rubocop:
+    runs-on: ubuntu-20.04
+
+    steps:
+    # Checkout the repo
+    - uses: actions/checkout@v3
+
+    # Install Ruby and run bundler
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.0'
+        bundler-cache: true
+        working-directory: src/main/ruby
+        
+    # Run the Rubocop linter checks
+    # - name: 'Run Rubocop'
+    #  run: bundle exec rubocop
+    #  working-directory: coll-health-obj-analysis
+
+    # Run the Rubocop linter checks
+    - name: 'Generate rdoc'
+      run: bundle exec rdoc merritt_zk.rb
+      working-directory: src/main/ruby
