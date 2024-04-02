@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>class MerrittZK::Batch - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+  var index_rel_prefix = "../";
+</script>
+
+<script src="../js/navigation.js" defer></script>
+<script src="../js/search.js" defer></script>
+<script src="../js/search_index.js" defer></script>
+<script src="../js/searcher.js" defer></script>
+<script src="../js/darkfish.js" defer></script>
+
+<link href="../css/fonts.css" rel="stylesheet">
+<link href="../css/rdoc.css" rel="stylesheet">
+
+
+<body id="top" role="document" class="class">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../table_of_contents.html#pages">Pages</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search (/) for a class, method, ..." spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    
+<div id="parent-class-section" class="nav-section">
+  <h3>Parent</h3>
+
+  <p class="link"><a href="QueueItem.html">MerrittZK::QueueItem</a>
+</div>
+
+    
+    
+    
+<!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    <li ><a href="#method-c-acquire_complete_batch">::acquire_complete_batch</a>
+    <li ><a href="#method-c-acquire_pending_batch">::acquire_pending_batch</a>
+    <li ><a href="#method-c-create_batch">::create_batch</a>
+    <li ><a href="#method-c-dir">::dir</a>
+    <li class="calls-super" ><a href="#method-c-new">::new</a>
+    <li ><a href="#method-c-prefix_path">::prefix_path</a>
+    <li ><a href="#method-i-delete">#delete</a>
+    <li ><a href="#method-i-load_has_failure">#load_has_failure</a>
+    <li ><a href="#method-i-load_properties">#load_properties</a>
+    <li ><a href="#method-i-path">#path</a>
+    <li ><a href="#method-i-states">#states</a>
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="class-MerrittZK::Batch">
+  <h1 id="class-MerrittZK::Batch" class="class">
+    class MerrittZK::Batch
+  </h1>
+
+  <section class="description">
+    
+  </section>
+
+  <section id="5Buntitled-5D" class="documentation-section">
+
+
+
+    <section class="attribute-method-details" class="method-section">
+      <header>
+        <h3>Attributes</h3>
+      </header>
+
+      <div id="attribute-i-has_failure" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">has_failure</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        </div>
+      </div>
+    </section>
+
+
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
+
+      <div id="method-c-acquire_complete_batch" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">acquire_complete_batch</span><span
+              class="method-args">(zk)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="acquire_complete_batch-source">
+            <pre><span class="ruby-comment"># File merritt_zk.rb, line 477</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">acquire_complete_batch</span>(<span class="ruby-identifier">zk</span>)
+  <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">children</span>(<span class="ruby-identifier">@@dir</span>).<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">cp</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-node">&quot;#{@@dir}/#{cp}/states/batch-processing&quot;</span>)
+    <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">children</span>(<span class="ruby-node">&quot;#{@@dir}/#{cp}/states/batch-processing&quot;</span>).<span class="ruby-identifier">empty?</span>
+    <span class="ruby-identifier">b</span> = <span class="ruby-constant">Batch</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">cp</span>)
+    <span class="ruby-identifier">b</span>.<span class="ruby-identifier">load</span>(<span class="ruby-identifier">zk</span>)
+    <span class="ruby-keyword">begin</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">lock</span>(<span class="ruby-identifier">zk</span>)
+        <span class="ruby-identifier">b</span>.<span class="ruby-identifier">set_status</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-constant">BatchState</span>.<span class="ruby-constant">Reporting</span>)
+        <span class="ruby-keyword">return</span> <span class="ruby-identifier">b</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">rescue</span>  <span class="ruby-constant">ZK</span><span class="ruby-operator">::</span><span class="ruby-constant">Exceptions</span><span class="ruby-operator">::</span><span class="ruby-constant">NodeExists</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">e</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">nil</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-c-acquire_pending_batch" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">acquire_pending_batch</span><span
+              class="method-args">(zk)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="acquire_pending_batch-source">
+            <pre><span class="ruby-comment"># File merritt_zk.rb, line 461</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">acquire_pending_batch</span>(<span class="ruby-identifier">zk</span>)
+  <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">children</span>(<span class="ruby-identifier">@@dir</span>).<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">cp</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-node">&quot;#{@@dir}/#{cp}/states&quot;</span>)
+    <span class="ruby-identifier">b</span> = <span class="ruby-constant">Batch</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">cp</span>)
+    <span class="ruby-identifier">b</span>.<span class="ruby-identifier">load</span>(<span class="ruby-identifier">zk</span>)
+    <span class="ruby-keyword">begin</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">lock</span>(<span class="ruby-identifier">zk</span>)
+        <span class="ruby-identifier">b</span>.<span class="ruby-identifier">set_data</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-string">&#39;states&#39;</span>, <span class="ruby-keyword">nil</span>)
+        <span class="ruby-keyword">return</span> <span class="ruby-identifier">b</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">rescue</span>  <span class="ruby-constant">ZK</span><span class="ruby-operator">::</span><span class="ruby-constant">Exceptions</span><span class="ruby-operator">::</span><span class="ruby-constant">NodeExists</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">e</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">nil</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-c-create_batch" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">create_batch</span><span
+              class="method-args">(zk, submission)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="create_batch-source">
+            <pre><span class="ruby-comment"># File merritt_zk.rb, line 453</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">create_batch</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">submission</span>)
+  <span class="ruby-identifier">id</span> = <span class="ruby-constant">QueueItem</span>.<span class="ruby-identifier">create_id</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">prefix_path</span>)
+  <span class="ruby-identifier">batch</span> = <span class="ruby-constant">Batch</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">id</span>, <span class="ruby-value">data:</span> <span class="ruby-identifier">submission</span>)
+  <span class="ruby-identifier">batch</span>.<span class="ruby-identifier">set_data</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-string">&quot;submission&quot;</span>, <span class="ruby-identifier">submission</span>)
+  <span class="ruby-identifier">batch</span>.<span class="ruby-identifier">set_status</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">@@init_status</span>)
+  <span class="ruby-identifier">batch</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-c-dir" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">dir</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="dir-source">
+            <pre><span class="ruby-comment"># File merritt_zk.rb, line 441</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">dir</span>
+  <span class="ruby-node">&quot;#{@@dir}&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-c-new" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">new</span><span
+              class="method-args">(id, data: nil)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+            <div class="method-calls-super">
+              Calls superclass method
+              <a href="QueueItem.html#method-c-new"><code>MerrittZK::QueueItem::new</code></a>
+            </div>
+
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File merritt_zk.rb, line 416</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">id</span>, <span class="ruby-value">data:</span> <span class="ruby-keyword">nil</span>)
+  <span class="ruby-keyword">super</span>(<span class="ruby-identifier">id</span>, <span class="ruby-value">data:</span> <span class="ruby-identifier">data</span>)
+  <span class="ruby-ivar">@has_failure</span> = <span class="ruby-keyword">false</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-c-prefix_path" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">prefix_path</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="prefix_path-source">
+            <pre><span class="ruby-comment"># File merritt_zk.rb, line 445</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">prefix_path</span>
+  <span class="ruby-node">&quot;#{@@dir}/#{@@prefix}&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+    </section>
+
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+      <div id="method-i-delete" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">delete</span><span
+              class="method-args">(zk)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="delete-source">
+            <pre><span class="ruby-comment"># File merritt_zk.rb, line 494</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">delete</span>(<span class="ruby-identifier">zk</span>)
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">MerrittZK</span><span class="ruby-operator">::</span><span class="ruby-constant">MerrittStateError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;Delete invalid #{path}&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@status</span>.<span class="ruby-identifier">deletable?</span>
+  [<span class="ruby-string">&#39;batch-processing&#39;</span>, <span class="ruby-string">&#39;batch-failed&#39;</span>, <span class="ruby-string">&#39;batch-completed&#39;</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">state</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">p</span> = <span class="ruby-node">&quot;#{path}/states/#{state}&quot;</span>
+    <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">p</span>)
+    <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">children</span>(<span class="ruby-identifier">p</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">cp</span><span class="ruby-operator">|</span>
+      <span class="ruby-constant">MerrittZK</span><span class="ruby-operator">::</span><span class="ruby-constant">Job</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">cp</span>).<span class="ruby-identifier">load</span>(<span class="ruby-identifier">zk</span>).<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">zk</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">empty?</span>
+    <span class="ruby-comment"># puts &quot;DELETE #{path}&quot;</span>
+    <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">rm_rf</span>(<span class="ruby-identifier">path</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-load_has_failure" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">load_has_failure</span><span
+              class="method-args">(zk)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="load_has_failure-source">
+            <pre><span class="ruby-comment"># File merritt_zk.rb, line 423</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">load_has_failure</span>(<span class="ruby-identifier">zk</span>)
+  <span class="ruby-ivar">@has_failure</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-identifier">p</span> = <span class="ruby-node">&quot;#{path}/states/batch-failed&quot;</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">p</span>)
+    <span class="ruby-keyword">unless</span> <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">children</span>(<span class="ruby-identifier">p</span>).<span class="ruby-identifier">empty?</span>
+      <span class="ruby-ivar">@has_failure</span> = <span class="ruby-keyword">true</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-load_properties" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">load_properties</span><span
+              class="method-args">(zk)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="load_properties-source">
+            <pre><span class="ruby-comment"># File merritt_zk.rb, line 433</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">load_properties</span>(<span class="ruby-identifier">zk</span>)
+  <span class="ruby-identifier">load_has_failure</span>(<span class="ruby-identifier">zk</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-path" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">path</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="path-source">
+            <pre><span class="ruby-comment"># File merritt_zk.rb, line 449</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">path</span>
+  <span class="ruby-node">&quot;#{@@dir}/#{@id}&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-states" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">states</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="states-source">
+            <pre><span class="ruby-comment"># File merritt_zk.rb, line 437</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">states</span>
+  <span class="ruby-constant">BatchState</span>.<span class="ruby-identifier">states</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+    </section>
+
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.6.3.1.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+
