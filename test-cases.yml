@@ -1,0 +1,369 @@
+# ZK Test Cases
+test_read_write_from_zk:
+  input:
+    /qqq/qqq/www: null
+    /aaa/bbb: 'aaa'
+    /aaa/ccc: 2
+    /aaa/ddd: {foo: 'bar'}
+  output:
+    /qqq/qqq/www: null
+    /aaa/bbb: 'aaa'
+    /aaa/ccc: 2
+    /aaa/ddd: {foo: 'bar'}
+test_sequential_node_mapping:
+  input:
+  output:
+    # added by api
+    /foo0:
+    /foo1:
+    /foo2:
+ephemeral_node_remaining:
+  input:
+  output:
+    # added by api
+    /foo:
+ephemeral_node_destroyed:
+  input:
+  output: null
+create_batch:
+  input:
+  output:
+    /batches/bid0/submission: 
+      foo: bar
+    /batches/bid0/status: 
+      status: Pending
+      last_modified: now
+create_and_load_batch:
+  input:
+  output:
+    /batches/bid0/submission: 
+      foo: bar
+    /batches/bid0/status: 
+      status: Pending
+      last_modified: now
+load_non_existent_batch:
+  input:
+  output:
+batch_with_lock_unlock:
+  input:
+  output:
+    /batches/bid0/submission: 
+      foo: bar
+    /batches/bid0/status: 
+      status: Pending
+      last_modified: now
+batch_with_ephemeral_released_lock:
+  input:
+  output:
+    /batches/bid0/submission: 
+      foo: bar
+    /batches/bid0/status: 
+      status: Pending
+      last_modified: now
+batch_with_unreleased_lock:
+  input:
+  output:
+    /batches/bid0/submission: 
+      foo: bar
+    /batches/bid0/status: 
+      status: Pending
+      last_modified: now
+    /batches/bid0/lock: null 
+modify_batch_state:
+  input:
+  output:
+    /batches/bid0/submission: 
+      foo: bar
+    /batches/bid0/status: 
+      status: Processing
+      last_modified: now
+batch_acquire:
+  input:
+  output:
+    /batches/bid0/submission: 
+      foo: bar
+    /batches/bid0/states: null 
+    /batches/bid0/status: 
+      status: Pending
+      last_modified: now
+    /batches/bid0/lock: null 
+    /batches/bid1/submission: 
+      foo: bar2
+    /batches/bid1/states: null 
+    /batches/bid1/status: 
+      status: Pending
+      last_modified: now
+    /batches/bid1/lock: null 
+create_job:
+  input:
+  output:
+    /batches/bid0/lock: null
+    /batches/bid0/states/batch-processing/jid0: null
+    /batches/bid0/submission: 
+      foo: bar
+    /batches/bid0/status: 
+      status: Pending
+      last_modified: now
+    /jobs/jid0/bid: bid0
+    /jobs/jid0/configuration:
+      job: quack
+    /jobs/jid0/priority: 5
+    /jobs/jid0/space_needed: 0
+    /jobs/jid0/status: 
+      last_successful_status: null
+      status: Pending
+      last_modified: now
+      retry_count: 0
+    /jobs/states/pending/05-jid0: null
+create_job_state_change:
+  input:
+  output:
+    /batches/bid0/lock: null
+    /batches/bid0/states/batch-processing/jid0: null
+    /batches/bid0/submission: 
+      foo: bar
+    /batches/bid0/status: 
+      status: Pending
+      last_modified: now
+    /jobs/jid0/bid: bid0
+    /jobs/jid0/configuration:
+      job: quack
+    /jobs/jid0/priority: 5
+    /jobs/jid0/space_needed: 0
+    /jobs/jid0/status: 
+      last_successful_status: null
+      status: Estimating
+      last_modified: now
+      retry_count: 0
+    /jobs/states/estimating/05-jid0: null
+load_job_state_change:
+  input:
+  output:
+    /batches/bid0/lock: null
+    /batches/bid0/states/batch-processing/jid0: null
+    /batches/bid0/submission: 
+      foo: bar
+    /batches/bid0/status: 
+      status: Pending
+      last_modified: now
+    /jobs/jid0/bid: bid0
+    /jobs/jid0/configuration:
+      job: quack
+    /jobs/jid0/priority: 5
+    /jobs/jid0/space_needed: 0
+    /jobs/jid0/status: 
+      last_successful_status: null
+      status: Estimating
+      last_modified: now
+      retry_count: 0
+    /jobs/states/estimating/05-jid0: null
+acquire_pending_job:
+  input:
+  output:
+    /batches/bid0/states/batch-processing/jid0: null
+    /batches/bid0/submission: 
+      foo: bar
+    /batches/bid0/status: 
+      status: Pending
+      last_modified: now
+    /jobs/jid0/bid: bid0
+    /jobs/jid0/lock: null
+    /jobs/jid0/configuration:
+      job: quack
+    /jobs/jid0/priority: 5
+    /jobs/jid0/space_needed: 0
+    /jobs/jid0/status: 
+      last_successful_status: null
+      status: Estimating
+      last_modified: now
+      retry_count: 0
+    /jobs/states/estimating/05-jid0: null
+acquire_lowest_priority_job:
+  input:
+  output:
+    /batches/bid0/states/batch-processing/jid0: null
+    /batches/bid0/states/batch-processing/jid1: null
+    /batches/bid0/states/batch-processing/jid2: null
+    /batches/bid0/submission: 
+      foo: bar
+    /batches/bid0/status: 
+      status: Pending
+      last_modified: now
+    /jobs/jid0/bid: bid0
+    /jobs/jid0/configuration:
+      job: quack1
+    /jobs/jid0/priority: 5
+    /jobs/jid0/space_needed: 0
+    /jobs/jid0/status: 
+      last_successful_status: null
+      status: Pending
+      last_modified: now
+      retry_count: 0
+    /jobs/states/pending/05-jid0: null
+    /jobs/jid1/bid: bid0
+    /jobs/jid1/lock: null
+    /jobs/jid1/configuration:
+      job: quack2
+    /jobs/jid1/priority: 2
+    /jobs/jid1/space_needed: 0
+    /jobs/jid1/status: 
+      last_successful_status: null
+      status: Estimating
+      last_modified: now
+      retry_count: 0
+    /jobs/states/estimating/02-jid1: null
+    /jobs/jid2/bid: bid0
+    /jobs/jid2/configuration:
+      job: quack3
+    /jobs/jid2/priority: 5
+    /jobs/jid2/space_needed: 0
+    /jobs/jid2/status: 
+      last_successful_status: null
+      status: Pending
+      last_modified: now
+      retry_count: 0
+    /jobs/states/pending/05-jid2: null
+job_happy_path:
+  input:
+  output:
+    /batches/bid0/states/batch-processing/jid0: null
+    /batches/bid0/states/batch-completed/jid1: null
+    /batches/bid0/states/batch-processing/jid2: null
+    /batches/bid0/submission: 
+      foo: bar
+    /batches/bid0/status: 
+      status: Pending
+      last_modified: now
+    /jobs/jid0/bid: bid0
+    /jobs/jid0/configuration:
+      job: quack1
+    /jobs/jid0/priority: 5
+    /jobs/jid0/space_needed: 0
+    /jobs/jid0/status: 
+      last_successful_status: null
+      status: Pending
+      last_modified: now
+      retry_count: 0
+    /jobs/states/pending/05-jid0: null
+    /jobs/jid1/bid: bid0
+    /jobs/jid1/configuration:
+      job: quack2
+    /jobs/jid1/priority: 2
+    /jobs/jid1/space_needed: 0
+    /jobs/jid1/status: 
+      last_successful_status: null
+      status: Completed
+      last_modified: now
+      retry_count: 0
+    /jobs/states/completed/02-jid1: null
+    /jobs/jid2/bid: bid0
+    /jobs/jid2/configuration:
+      job: quack3
+    /jobs/jid2/priority: 5
+    /jobs/jid2/space_needed: 0
+    /jobs/jid2/status: 
+      last_successful_status: null
+      status: Pending
+      last_modified: now
+      retry_count: 0
+    /jobs/states/pending/05-jid2: null
+batch_happy_path:
+  input:
+  output:
+    /batches/bid0/states/batch-completed/jid1: null
+    /batches/bid0/states/batch-processing: null
+    /batches/bid0/submission: 
+      foo: bar
+    /batches/bid0/status: 
+      status: Completed
+      last_modified: now
+    /jobs/jid1/bid: bid0
+    /jobs/jid1/configuration:
+      job: quack2
+    /jobs/jid1/priority: 2
+    /jobs/jid1/space_needed: 0
+    /jobs/jid1/status: 
+      last_successful_status: null
+      status: Completed
+      last_modified: now
+      retry_count: 0
+    /jobs/states/completed/02-jid1: null
+batch_failure:
+  input:
+  output:
+    /batches/bid0/states/batch-failed/jid1: null
+    /batches/bid0/states/batch-processing: null
+    /batches/bid0/submission: 
+      foo: bar
+    /batches/bid0/status: 
+      status: Deleted
+      last_modified: now
+    /jobs/jid1/bid: bid0
+    /jobs/jid1/configuration:
+      job: quack2
+    /jobs/jid1/priority: 2
+    /jobs/jid1/space_needed: 0
+    /jobs/jid1/status: 
+      last_successful_status: null
+      status: Failed
+      last_modified: now
+      retry_count: 0
+    /jobs/states/failed/02-jid1: null
+batch_recovery:
+  input:
+  output:
+    /batches/bid0/states/batch-completed/jid1: null
+    /batches/bid0/states/batch-processing: null
+    /batches/bid0/states/batch-failed: null
+    /batches/bid0/submission: 
+      foo: bar
+    /batches/bid0/status: 
+      status: Completed
+      last_modified: now
+    /jobs/jid1/bid: bid0
+    /jobs/jid1/configuration:
+      job: quack2
+    /jobs/jid1/priority: 2
+    /jobs/jid1/space_needed: 0
+    /jobs/jid1/status: 
+      last_successful_status: null
+      status: Completed
+      last_modified: now
+      retry_count: 1
+    /jobs/states/completed/02-jid1: null
+job_happy_path_with_delete:
+  input:
+  output:
+    /batches/bid0/states/batch-processing/jid0: null
+    /batches/bid0/states/batch-completed: null
+    /batches/bid0/states/batch-processing/jid2: null
+    /batches/bid0/submission: 
+      foo: bar
+    /batches/bid0/status: 
+      status: Pending
+      last_modified: now
+    /jobs/jid0/bid: bid0
+    /jobs/jid0/configuration:
+      job: quack1
+    /jobs/jid0/priority: 5
+    /jobs/jid0/space_needed: 0
+    /jobs/jid0/status: 
+      last_successful_status: null
+      status: Pending
+      last_modified: now
+      retry_count: 0
+    /jobs/states/pending/05-jid0: null
+    /jobs/jid2/bid: bid0
+    /jobs/jid2/configuration:
+      job: quack3
+    /jobs/jid2/priority: 5
+    /jobs/jid2/space_needed: 0
+    /jobs/jid2/status: 
+      last_successful_status: null
+      status: Pending
+      last_modified: now
+      retry_count: 0
+    /jobs/states/pending/05-jid2: null
+batch_happy_path_with_delete:
+  input:
+  output: null

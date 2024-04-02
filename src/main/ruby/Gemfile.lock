@@ -1,0 +1,40 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    colorize (1.1.0)
+    diff-lcs (1.5.1)
+    psych (5.1.2)
+      stringio
+    rdoc (6.6.3.1)
+      psych (>= 4.0.0)
+    rspec (3.13.0)
+      rspec-core (~> 3.13.0)
+      rspec-expectations (~> 3.13.0)
+      rspec-mocks (~> 3.13.0)
+    rspec-core (3.13.0)
+      rspec-support (~> 3.13.0)
+    rspec-expectations (3.13.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-mocks (3.13.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-support (3.13.1)
+    stringio (3.1.0)
+    zk (1.10.0)
+      zookeeper (~> 1.5.0)
+    zookeeper (1.5.5)
+
+PLATFORMS
+  arm64-darwin-23
+  x86_64-linux
+
+DEPENDENCIES
+  colorize
+  rdoc
+  rspec
+  zk
+  zookeeper
+
+BUNDLED WITH
+   2.3.25

@@ -1,0 +1,51 @@
+job_states:
+  Pending:
+    Held:
+    Estimating:
+  Held:
+    Pending:
+    Deleted:
+  Estimating:
+    Provisioning: {success: true}
+  Provisioning:
+    Downloading: {success: true}
+  Downloading:
+    Processing: {success: true}
+    Failed: {fail: true}
+  Processing:
+    Recording: {success: true}
+    Failed: {fail: true}
+  Recording:
+    Notify: {success: true}
+    Failed: {fail: true}
+  Notify:
+    Completed: {success: true}
+    Failed: {fail: true}
+  Completed:
+  Deleted:
+  Failed:
+    Downloading:
+    Processing:
+    Recording:
+    Notify:
+    Deleted:
+batch_states:
+  Pending:
+    Held:
+    Processing:
+  Held:
+    Pending:
+    Deleted:
+  Processing:
+    Reporting: {success: true, fail: true}
+  Reporting:
+    Completed: {success: true}
+    Failed: {fail: true}
+  Completed:
+  Deleted:
+  Failed:
+    UpdateReporting:
+    Deleted:
+  UpdateReporting:
+    Completed: {success: true}
+    Failed: {fail: true}
