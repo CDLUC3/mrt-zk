@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>class MerrittZK::BatchState - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+  var index_rel_prefix = "../";
+</script>
+
+<script src="../js/navigation.js" defer></script>
+<script src="../js/search.js" defer></script>
+<script src="../js/search_index.js" defer></script>
+<script src="../js/searcher.js" defer></script>
+<script src="../js/darkfish.js" defer></script>
+
+<link href="../css/fonts.css" rel="stylesheet">
+<link href="../css/rdoc.css" rel="stylesheet">
+
+
+<body id="top" role="document" class="class">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../table_of_contents.html#pages">Pages</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search (/) for a class, method, ..." spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    
+<div id="parent-class-section" class="nav-section">
+  <h3>Parent</h3>
+
+  <p class="link"><a href="IngestState.html">MerrittZK::IngestState</a>
+</div>
+
+    
+    
+    
+<!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    <li ><a href="#method-c-Completed">::Completed</a>
+    <li ><a href="#method-c-Deleted">::Deleted</a>
+    <li ><a href="#method-c-Failed">::Failed</a>
+    <li ><a href="#method-c-Held">::Held</a>
+    <li ><a href="#method-c-Pending">::Pending</a>
+    <li ><a href="#method-c-Processing">::Processing</a>
+    <li ><a href="#method-c-Reporting">::Reporting</a>
+    <li ><a href="#method-c-UpdateReporting">::UpdateReporting</a>
+    <li ><a href="#method-c-init">::init</a>
+    <li ><a href="#method-c-states">::states</a>
+    <li ><a href="#method-i-fail">#fail</a>
+    <li ><a href="#method-i-state_change">#state_change</a>
+    <li ><a href="#method-i-success">#success</a>
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="class-MerrittZK::BatchState">
+  <h1 id="class-MerrittZK::BatchState" class="class">
+    class MerrittZK::BatchState
+  </h1>
+
+  <section class="description">
+    
+  </section>
+
+  <section id="5Buntitled-5D" class="documentation-section">
+
+
+
+
+
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
+
+      <div id="method-c-Completed" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">Completed</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="Completed-source">
+            <pre><span class="ruby-comment"># File merritt_zk.rb, line 274</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-constant">Completed</span>
+  <span class="ruby-identifier">@@states</span>[<span class="ruby-value">:Completed</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-c-Deleted" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">Deleted</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="Deleted-source">
+            <pre><span class="ruby-comment"># File merritt_zk.rb, line 270</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-constant">Deleted</span>
+  <span class="ruby-identifier">@@states</span>[<span class="ruby-value">:Deleted</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-c-Failed" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">Failed</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="Failed-source">
+            <pre><span class="ruby-comment"># File merritt_zk.rb, line 266</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-constant">Failed</span>
+  <span class="ruby-identifier">@@states</span>[<span class="ruby-value">:Failed</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-c-Held" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">Held</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="Held-source">
+            <pre><span class="ruby-comment"># File merritt_zk.rb, line 250</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-constant">Held</span>
+  <span class="ruby-identifier">@@states</span>[<span class="ruby-value">:Held</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-c-Pending" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">Pending</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="Pending-source">
+            <pre><span class="ruby-comment"># File merritt_zk.rb, line 246</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-constant">Pending</span>
+  <span class="ruby-identifier">@@states</span>[<span class="ruby-value">:Pending</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-c-Processing" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">Processing</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="Processing-source">
+            <pre><span class="ruby-comment"># File merritt_zk.rb, line 254</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-constant">Processing</span>
+  <span class="ruby-identifier">@@states</span>[<span class="ruby-value">:Processing</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-c-Reporting" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">Reporting</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="Reporting-source">
+            <pre><span class="ruby-comment"># File merritt_zk.rb, line 258</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-constant">Reporting</span>
+  <span class="ruby-identifier">@@states</span>[<span class="ruby-value">:Reporting</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-c-UpdateReporting" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">UpdateReporting</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="UpdateReporting-source">
+            <pre><span class="ruby-comment"># File merritt_zk.rb, line 262</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-constant">UpdateReporting</span>
+  <span class="ruby-identifier">@@states</span>[<span class="ruby-value">:UpdateReporting</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-c-init" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">init</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="init-source">
+            <pre><span class="ruby-comment"># File merritt_zk.rb, line 242</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">init</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-constant">Pending</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-c-states" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">states</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="states-source">
+            <pre><span class="ruby-comment"># File merritt_zk.rb, line 238</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">states</span>
+  <span class="ruby-identifier">@@states</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+    </section>
+
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+      <div id="method-i-fail" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">fail</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="fail-source">
+            <pre><span class="ruby-comment"># File merritt_zk.rb, line 286</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">fail</span>
+  <span class="ruby-identifier">fail_lookup</span>(<span class="ruby-identifier">@@states</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-state_change" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">state_change</span><span
+              class="method-args">(state)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="state_change-source">
+            <pre><span class="ruby-comment"># File merritt_zk.rb, line 278</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">state_change</span>(<span class="ruby-identifier">state</span>)
+  <span class="ruby-identifier">state_lookup</span>(<span class="ruby-identifier">@@states</span>, <span class="ruby-identifier">state</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-success" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">success</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="success-source">
+            <pre><span class="ruby-comment"># File merritt_zk.rb, line 282</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">success</span>
+  <span class="ruby-identifier">success_lookup</span>(<span class="ruby-identifier">@@states</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+    </section>
+
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.6.3.1.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+
