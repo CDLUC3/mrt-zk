@@ -1,6 +1,6 @@
 # Queue Data
 
-- [Design](README.md)
+- [Design](../README.md)
 
 ## Queue Data
 

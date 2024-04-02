@@ -1,6 +1,6 @@
 # State Transition Details
 
-- [Design](README.md)
+- [Design](../README.md)
 
 ## Conventions
 

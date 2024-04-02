@@ -1,6 +1,6 @@
 # Batch Queue Use Cases
 
-- [Design](README.md)
+- [Design](../README.md)
 
 ## Use Case: Successful Batch
 

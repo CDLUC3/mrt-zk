@@ -1,6 +1,6 @@
 # Queue Administration
 
-- [Design](README.md)
+- [Design](../README.md)
 
 ## Purpose
 Migrate Queue Administration Tasks from Ingest to the Merritt Admin Tool
