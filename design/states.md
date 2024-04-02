@@ -1,6 +1,6 @@
 # Queue States
 
-- [Design](README.md)
+- [Design](../README.md)
 
 ## Batch Queue
 
