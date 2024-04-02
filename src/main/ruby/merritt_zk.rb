@@ -71,7 +71,7 @@ require 'yaml'
 #     zk.close
 # 
 # == See Also
-# @see https://github.com/CDLUC3/mrt-zk/blob/main/design/README.md
+# @see https://github.com/CDLUC3/mrt-zk/blob/main/README.md
 
 module MerrittZK
   ## 
