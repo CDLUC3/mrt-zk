@@ -5,6 +5,14 @@ This microservice is part of the [Merritt Preservation System](https://github.co
 ## Purpose
 
 ZooKeeper API for Merritt Microservices.
+- Match ingest workload to available resources (compute, memory, working storage)
+  - dynamically provision resources to match demand
+  - dynamically manage running thread count based on processing load
+- Hold jobs based on temporary holds (collection lock, storage node lock, queue hold)
+- Graceful resumption of processing in progress
+  - allow processing to be resumed on a different ingest host
+- Accurate notification of ingest completion (including inventory recording)
+  - send accurate summary email on completion of a batch regardless of any interruption that occurred while processing
 
 ## API Documentation
 - [Java API](https://cdluc3.github.io/mrt-zk/javadoc/)
@@ -12,9 +20,12 @@ ZooKeeper API for Merritt Microservices.
 - [Ruby API](#)
   - TBD 
 
-Goal: implement an API in Java and Ruby for the [Ingest Queue Redesign](https://github.com/CDLUC3/mrt-doc/blob/main/design/queue-2023/transition.md)
-
-Equivalent test cases will be written in java and ruby using the test cases defined in [test-cases.yml](test-cases.yml)
+## Design documents
+- [Queue State Transitions](design/states.md)
+- [Queue Entry Data Storage](design/data.md)
+- [State Transition Details](design/transition.md)
+- [Admin Function Mapping](design/queue-admin.md)
+- [Use Cases](design/use-cases.md)
 
 ## Start a local ZK instance (for integration tests)
 
