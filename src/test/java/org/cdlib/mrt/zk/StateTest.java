@@ -1,4 +1,4 @@
-package org.cdlib.mrt;
+package org.cdlib.mrt.zk;
 
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
@@ -13,9 +13,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.LinkedHashMap;
 
-import org.cdlib.mrt.zk.BatchState;
-import org.cdlib.mrt.zk.IngestState;
-import org.cdlib.mrt.zk.JobState;
 import org.json.JSONObject;
 
 public class StateTest {

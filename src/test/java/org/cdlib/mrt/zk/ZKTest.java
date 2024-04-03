@@ -1,4 +1,4 @@
-package org.cdlib.mrt;
+package org.cdlib.mrt.zk;
 
 import org.junit.After;
 import org.junit.Before;
@@ -23,13 +23,7 @@ import java.util.Map;
 
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooKeeper;
-import org.cdlib.mrt.zk.Batch;
-import org.cdlib.mrt.zk.BatchState;
-import org.cdlib.mrt.zk.Job;
-import org.cdlib.mrt.zk.JobState;
-import org.cdlib.mrt.zk.MerrittStateError;
-import org.cdlib.mrt.zk.MerrittZKNodeInvalid;
-import org.cdlib.mrt.zk.QueueItemHelper;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
