@@ -39,8 +39,6 @@
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
-			<!--TODO: move this to the BOM-->
-			<version>20240303</version>
 		</dependency>
 		<dependency>
 			<groupId>org.yaml</groupId>
@@ -121,18 +119,6 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${maven.surefire.plugin.version}</version>
-				<configuration>
-					<!-- Includes Test* and *Test by default -->
-					<!-- skips surefire tests without skipping failsafe tests.
-										 Property
-						value seems to magically default to false -->
-					<skipTests>${skip.surefire.tests}</skipTests>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>${jacoco.maven.plugin.version}</version>
@@ -189,7 +175,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.6.3</version>
+				<version>${maven.javadoc.plugin.version}</version>
 				<configuration>
 					<notimestamp>true</notimestamp>
 				</configuration>
