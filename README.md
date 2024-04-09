@@ -26,10 +26,32 @@ ZooKeeper API for Merritt Microservices.
 - [Admin Function Mapping](design/queue-admin.md)
 - [Use Cases](design/use-cases.md)
 
-## Start a local ZK instance (for integration tests)
+## Run integration tests with maven
+
+Maven will start/stop an integration test instance of ZooKeeper as tests are executed.
 
 ```
+maven clean install
+```
+
+## Run Integration tests in a debugger.
+
+### To run from the command line or in a debugger
+
+Make sure that the jar is up to date
+```
+mvn install -Ddocker.skip -DskipITs -Dmaven.test.skip=true
+```
+
+Launch Containers
+```
 docker-compose up -d
+```
+
+Run the junit tests in VSCode
+
+```
+docker-compose down
 ```
 
 ## Java Code -- Purpose

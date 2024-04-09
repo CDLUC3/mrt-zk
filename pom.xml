@@ -11,60 +11,153 @@
 	<name>Test</name>
 	<url>http://maven.apache.org</url>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.cdlib.mrt</groupId>
+				<artifactId>mrt-reflectoring-bom</artifactId>
+				<version>1.0.0</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<parent>
+		<groupId>org.cdlib.mrt</groupId>
+		<artifactId>mrt-parent-properties</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<!-- force UTF-8 -->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<docker.skip>${env.SKIP_DOCKER_TEST}</docker.skip>
+		<skipTests>${env.SKIP_DOCKER_TEST}</skipTests>
 	</properties>
-
 	<dependencies>
-    <dependency>
-      <groupId>org.json</groupId>
-      <artifactId>json</artifactId>
-      <version>20240303</version>
-    </dependency>
-    <dependency>
-      <groupId>org.yaml</groupId>
-      <artifactId>snakeyaml</artifactId>
-      <version>2.2</version>
-    </dependency>
-    <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
-      <version>2.10.1</version>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13.2</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.zookeeper</groupId>
-      <artifactId>zookeeper</artifactId>
-      <version>3.8.3</version>
-    </dependency>
-  </dependencies>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<!--TODO: move this to the BOM-->
+			<version>20240303</version>
+		</dependency>
+		<dependency>
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.zookeeper</groupId>
+			<artifactId>zookeeper</artifactId>
+		</dependency>
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>${docker.maven.plugin.version}</version>
+				<executions>
+					<execution>
+						<id>prepare-it-server</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>start</goal>
+						</goals>
+						<configuration>
+							<images>
+								<image>
+									<name>zookeeper:3.8.3</name>
+									<alias>zoo</alias>
+									<run>
+										<ports>
+											<port>zoo.port:2181</port>
+										</ports>
+										<wait>
+											<time>2000</time>
+										</wait>
+									</run>
+								</image>
+							</images>
+						</configuration>
+					</execution>
+					<execution>
+						<id>remove-it-server</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>${maven.failsafe.plugin.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<includes>
+						<include>**/*IT</include>
+					</includes>
+					<environmentVariables>
+						<zoo.port>${zoo.port}</zoo.port>
+					</environmentVariables>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.4</version>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven.surefire.plugin.version}</version>
 				<configuration>
-					<archive>
-						<manifest>
-							<addClasspath>true</addClasspath>
-							<mainClass>org.cdlib.mrt.zk.Batch</mainClass>
-						</manifest>
-					</archive>
+					<!-- Includes Test* and *Test by default -->
+					<!-- skips surefire tests without skipping failsafe tests.
+										 Property
+						value seems to magically default to false -->
+					<skipTests>${skip.surefire.tests}</skipTests>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.maven.plugin.version}</version>
+				<executions>
+					<execution>
+						<id>default-prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>default-report</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.compiler.plugin.version}</version>
+				<configuration>
+					<compilerArgument>${compilerArgument}</compilerArgument>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -81,27 +174,27 @@
 					</execution>
 				</executions>
 			</plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.22.2</version>
-        <configuration>
-            <!-- Includes Test* and *Test by default -->
-            <!-- skips surefire tests without skipping failsafe tests.
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven.surefire.plugin.version}</version>
+				<configuration>
+					<!-- Includes Test* and *Test by default -->
+					<!-- skips surefire tests without skipping failsafe tests.
              Property
             value seems to magically default to false -->
-            <skipTests>${skip.surefire.tests}</skipTests>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.6.3</version>
-        <configuration>
-          <notimestamp>true</notimestamp>
-        </configuration>
-      </plugin>
-    </plugins>
+					<skipTests>${skip.surefire.tests}</skipTests>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.6.3</version>
+				<configuration>
+					<notimestamp>true</notimestamp>
+				</configuration>
+			</plugin>
+		</plugins>
 		<directory>target</directory>
 		<outputDirectory>target/classes</outputDirectory>
 		<finalName>${project.artifactId}-${project.version}</finalName>
