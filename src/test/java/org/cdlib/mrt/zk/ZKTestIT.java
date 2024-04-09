@@ -27,7 +27,7 @@ import org.apache.zookeeper.ZooKeeper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ZKTest {
+public class ZKTestIT {
     enum Tests {
       test_read_write_from_zk,
       test_sequential_node_mapping,
@@ -58,8 +58,10 @@ public class ZKTest {
     private JSONObject testCasesJson;
     private Tests currentTest;
     private Map<String, String> remap = new HashMap<>();
+    private static int port = 8084;
+    private static String host = "localhost";
 
-    public ZKTest() throws IOException {
+    public ZKTestIT() throws IOException {
       Yaml yaml = new Yaml();
       final Object testCasesYaml = yaml.load(new FileReader(new File("test-cases.yml")));
       //Note that jackson yaml parsing does not support anchors and references, so Gson is used instead.
@@ -68,11 +70,17 @@ public class ZKTest {
       String json = gson.toJson(testCasesYaml,LinkedHashMap.class);
       testCasesJson = new JSONObject(json);
 
+      try {
+        port = Integer.parseInt(System.getenv("zoo.port"));
+      } catch (NumberFormatException e) {
+        System.err.println("zoo.port not set... using default value");
+      }
+
       zk = createZk();
     }
 
     public static ZooKeeper createZk() throws IOException {
-      return new ZooKeeper("localhost:8084", 100, null);
+      return new ZooKeeper(String.format("%s:%d", host, port), 100, null);
     }
 
     public String makePath(String path, String cp) {
