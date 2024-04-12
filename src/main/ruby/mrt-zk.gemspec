@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
 
   spec.files         = Dir['*.rb']
   #spec.require_paths = ['lib']
-  spec.required_ruby_version = '>= 3.2'
+  spec.required_ruby_version = '>= 3.0'
 
   spec.add_runtime_dependency('zookeeper', '~> 1.5.5')
   spec.add_runtime_dependency('zk', '~> 1.10.0')
