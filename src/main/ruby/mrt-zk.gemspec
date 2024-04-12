@@ -12,8 +12,8 @@ Gem::Specification.new do |spec|
   spec.homepage    = 'https://github.com/CDLUC3/mrt-zk'
   spec.license     = 'MIT'
 
-  spec.files         = Dir['src/main/ruby/*'] + %w[README.md]
-  spec.require_paths = ['lib']
+  spec.files         = Dir['*.rb']
+  #spec.require_paths = ['lib']
   spec.required_ruby_version = '>= 3.2'
 
   spec.add_runtime_dependency('zookeeper', '~> 1.5.5')
