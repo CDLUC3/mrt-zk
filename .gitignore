@@ -1,4 +1,4 @@
 target
-src/main/ruby/vendor
-src/main/ruby/doc
+src/*/ruby/vendor
+src/*/ruby/doc
 mrt-zk-*.gem
