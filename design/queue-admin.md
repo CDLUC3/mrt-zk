@@ -38,19 +38,19 @@ Migrate Queue Administration Tasks from Ingest to the Merritt Admin Tool
 |ingest|/help| NA | | /admin/help duplicates /state |
 |ingest|POST reset| ?? | | |
 |ingest|/locks| admin| read zookeeper from admin| |
-|ingest|/queues| admin | read zookeeper from admin | |
-|ingest|/queues-acc| admin | read zookeeper from admin | |
+|ingest|/queues| admin | read zookeeper from admin | NA|
+|ingest|/queues-acc| admin | read zookeeper from admin | NA |
 |ingest|/queues-inv| admin | read zookeeper from admin | |
-|ingest|/queue| admin | read zookeeper from admin| |
-|ingest|/queue/{queue}| admin | read zookeeper from admin | diffult with current java property serialization |
-|ingest|/queue-acc/{queue}| admin | read zookeeper from admin | |
-|ingest|/queue-inv/{queue}| admin | read zookeeper from admin | |
-|ingest|/lock/{lock}| admin |read  zookeeper from admin | |
-|ingest|POST /requeue/{queue}/{id}/{fromState}| admin | write zookeeper from admin | |
-|ingest|POST /deleteq/{queue}/{id}/{fromState}| admin | write zookeeper from admin  | |
-|ingest|POST /cleanupq/{queue}| admin | write zookeeper from admin  | |
-|ingest|POST /{action: hold or release}/{queue}/{id}| admin | write zookeeper from admin  | |
-|ingest|POST /release-all/{queue}/{profile}| admin | write zookeeper from admin  | |
+|ingest|/queue| admin | read zookeeper from admin| ?|
+|ingest|/queue/{queue}| admin | read zookeeper from admin | Job.list_all<br>Job.list_all_legacy |
+|ingest|/queue-acc/{queue}| admin | read zookeeper from admin | Assembly.list_all_legacy|
+|ingest|/queue-inv/{queue}| admin | read zookeeper from admin | Job.list_all_legacy_inv|
+|ingest|/lock/{lock}| admin |read  zookeeper from admin | ObjectLocks.list_all |
+|ingest|POST /requeue/{queue}/{id}/{fromState}| admin | write zookeeper from admin | job.set_status(zk, job.status.state_change(:State)) |
+|ingest|POST /deleteq/{queue}/{id}/{fromState}| admin | write zookeeper from admin  | job.delete(zk)|
+|ingest|POST /cleanupq/{queue}| admin | write zookeeper from admin  | Job.cleanup |
+|ingest|POST /{action: hold or release}/{queue}/{id}| admin | write zookeeper from admin  | job.set_status(zk, job.status.state_change(:State)) |
+|ingest|POST /release-all/{queue}/{profile}| admin | write zookeeper from admin  | Collection.release_jobs|
 |ingest|{profilePath}| admin | profiles as artifact | |
 |ingest|/profiles-full| admin| profiles as artifact | |
 |ingest|/profile/{profile}| admin | profiles as artifact| |
@@ -61,8 +61,8 @@ Migrate Queue Administration Tasks from Ingest to the Merritt Admin Tool
 |ingest|/jid-erc/{batchID}/{jobID}| ingest| mount zfs to lambda | keep in ingest|
 |ingest|/jid-file/{batchID}/{jobID}| ingest | mount zfs to lambda| keep in ingest|
 |ingest|/jid-manifest/{batchID}/{jobID}| ingest | mount zfs to lambda|  keep in ingest|
-|ingest|POST /submission/{request: freeze or thaw}/{collection}| admin | implement hold/freeze in ZK | |
-|ingest|POST /submissions/{request: freeze or thaw}| admin | implement hold/freeze in ZK | |
+|ingest|POST /submission/{request: freeze or thaw}/{collection}| admin | implement hold/freeze in ZK | Collection.hold <br/>Collection.release |
+|ingest|POST /submissions/{request: freeze or thaw}| admin | implement hold/freeze in ZK | Job.hold <br/> Job.release|
 |ingest|POST /profile/{type}| admin? | | Is this simply a template edit?  If so, could the admin tool do this?|
-|access|POST /flag/set/access/#{qobj}|admin|write zookeeper from admin |Access Queue freeze/thaw|
-|access|POST /flag/clear/access/#{qobj}|admin|write zookeeper from admin |Access Queue freeze/thaw|
+|access|POST /flag/set/access/#{qobj}|admin|write zookeeper from admin |Access.hold|
+|access|POST /flag/clear/access/#{qobj}|admin|write zookeeper from admin |Access.relese|
