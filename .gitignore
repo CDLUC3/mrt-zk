@@ -1,3 +1,4 @@
 target
 src/main/ruby/vendor
 src/main/ruby/doc
+mrt-zk-*.gem
