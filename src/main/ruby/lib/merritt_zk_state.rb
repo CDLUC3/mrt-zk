@@ -22,7 +22,7 @@ module MerrittZK
     def self.state_yaml
       JSON.parse(
         YAML.safe_load(
-          File.read('../../../states.yml'), 
+          File.read(File.join(File.dirname(__FILE__), '../../../../states.yml')), 
           aliases: true
         ).to_json, 
         symbolize_names: true
