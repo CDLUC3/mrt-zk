@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name        = 'mrt-zk'
-  spec.version     = '1.0.0'
+  spec.version     = '1.0.1'
   spec.platform    = Gem::Platform::RUBY
   spec.authors     = ['Terry Brady']
   spec.email       = ['terrence.brady@ucop.edu']
