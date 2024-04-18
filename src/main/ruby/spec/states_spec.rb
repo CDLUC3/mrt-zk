@@ -1,7 +1,7 @@
 require 'spec_helper'
-require_relative '../merritt_zk_state'
-require_relative '../merritt_zk_job_state'
-require_relative '../merritt_zk_batch_state'
+require_relative '../lib/merritt_zk_state'
+require_relative '../lib/merritt_zk_job_state'
+require_relative '../lib/merritt_zk_batch_state'
 
 RSpec.describe 'state transition tests' do
   before(:each) do

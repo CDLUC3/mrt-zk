@@ -3,8 +3,8 @@ require 'json'
 require 'yaml'
 
 require 'spec_helper'
-require_relative '../merritt_zk'
-require_relative '../zk_test'
+require_relative '../lib/merritt_zk'
+require_relative '../lib/zk_test'
 
 RSpec.describe 'ZK input/ouput tests' do
   before(:all) do
