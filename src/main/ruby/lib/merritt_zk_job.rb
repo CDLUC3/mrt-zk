@@ -251,7 +251,7 @@ module MerrittZK
 
     def self.list_jobs(zk)
       jobs = []
-      zk.children(@@dir).sort.each do |cp|
+      zk.children(dir).sort.each do |cp|
         jobs.append(LegacyIngestJob.new(cp).load(zk))
       end
       jobs
