@@ -98,6 +98,8 @@
     
 <p>Class details</p>
 
+<p>Class details</p>
+
   </section>
 
   <section id="5Buntitled-5D" class="documentation-section">
@@ -124,7 +126,7 @@
           
 
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File merritt_zk.rb, line 80</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_state.rb, line 9</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">status</span>, <span class="ruby-identifier">next_status</span>)
   <span class="ruby-identifier">next_status</span> = {} <span class="ruby-keyword">if</span> <span class="ruby-identifier">next_status</span>.<span class="ruby-identifier">nil?</span>
   <span class="ruby-ivar">@status</span> = <span class="ruby-identifier">status</span>
@@ -156,11 +158,11 @@
           
 
           <div class="method-source-code" id="state_yaml-source">
-            <pre><span class="ruby-comment"># File merritt_zk.rb, line 93</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_state.rb, line 22</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">state_yaml</span>
   <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(
     <span class="ruby-constant">YAML</span>.<span class="ruby-identifier">safe_load</span>(
-      <span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-string">&#39;../../../states.yml&#39;</span>), 
+      <span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-keyword">__FILE__</span>), <span class="ruby-string">&#39;../../../../states.yml&#39;</span>)), 
       <span class="ruby-value">aliases:</span> <span class="ruby-keyword">true</span>
     ).<span class="ruby-identifier">to_json</span>, 
     <span class="ruby-value">symbolize_names:</span> <span class="ruby-keyword">true</span>
@@ -192,7 +194,7 @@
           
 
           <div class="method-source-code" id="deletable-3F-source">
-            <pre><span class="ruby-comment"># File merritt_zk.rb, line 115</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_state.rb, line 44</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">deletable?</span>
   <span class="ruby-ivar">@next_status</span>.<span class="ruby-identifier">empty?</span>
 <span class="ruby-keyword">end</span></pre>
@@ -215,7 +217,7 @@
           
 
           <div class="method-source-code" id="fail_lookup-source">
-            <pre><span class="ruby-comment"># File merritt_zk.rb, line 123</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_state.rb, line 52</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">fail_lookup</span>(<span class="ruby-identifier">states</span>)
   <span class="ruby-identifier">states</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">fail_state</span>, <span class="ruby-keyword">nil</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -238,7 +240,7 @@
           
 
           <div class="method-source-code" id="name-source">
-            <pre><span class="ruby-comment"># File merritt_zk.rb, line 107</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_state.rb, line 36</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">name</span>
   <span class="ruby-ivar">@status</span>.<span class="ruby-identifier">to_s</span>
 <span class="ruby-keyword">end</span></pre>
@@ -261,7 +263,7 @@
           
 
           <div class="method-source-code" id="next_status-source">
-            <pre><span class="ruby-comment"># File merritt_zk.rb, line 111</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_state.rb, line 40</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">next_status</span>
   <span class="ruby-ivar">@next_status</span>
 <span class="ruby-keyword">end</span></pre>
@@ -284,7 +286,7 @@
           
 
           <div class="method-source-code" id="state_change_allowed-source">
-            <pre><span class="ruby-comment"># File merritt_zk.rb, line 127</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_state.rb, line 56</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">state_change_allowed</span>(<span class="ruby-identifier">state</span>)
   <span class="ruby-identifier">next_status</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">state</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -307,7 +309,7 @@
           
 
           <div class="method-source-code" id="state_lookup-source">
-            <pre><span class="ruby-comment"># File merritt_zk.rb, line 131</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_state.rb, line 60</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">state_lookup</span>(<span class="ruby-identifier">states</span>, <span class="ruby-identifier">state</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">states</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">state</span>, <span class="ruby-keyword">nil</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">state_change_allowed</span>(<span class="ruby-identifier">state</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -330,7 +332,7 @@
           
 
           <div class="method-source-code" id="status-source">
-            <pre><span class="ruby-comment"># File merritt_zk.rb, line 103</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_state.rb, line 32</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">status</span>
   <span class="ruby-ivar">@status</span>
 <span class="ruby-keyword">end</span></pre>
@@ -353,7 +355,7 @@
           
 
           <div class="method-source-code" id="success_lookup-source">
-            <pre><span class="ruby-comment"># File merritt_zk.rb, line 119</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_state.rb, line 48</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">success_lookup</span>(<span class="ruby-identifier">states</span>)
   <span class="ruby-identifier">states</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">success_state</span>, <span class="ruby-keyword">nil</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -376,7 +378,7 @@
           
 
           <div class="method-source-code" id="to_s-source">
-            <pre><span class="ruby-comment"># File merritt_zk.rb, line 135</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_state.rb, line 64</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">to_s</span>
   <span class="ruby-node">&quot;#{@status}: #{@next_status}&quot;</span>
 <span class="ruby-keyword">end</span></pre>

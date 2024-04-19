@@ -120,7 +120,7 @@
 <p>Send accurate summary email on completion of a batch regardless of any interruption that occurred while processing</p>
 </li></ul>
 
-<h2 id="module-MerrittZK-label-Batch+Queue+vs+Job+Queue">Batch Queue vs Job Queue<span><a href="#module-MerrittZK-label-Batch+Queue+vs+Job+Queue">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="module-MerrittZK-label-Batch+Queue+vs+Job+Queue"><a href="MerrittZK/Batch.html"><code>Batch</code></a> Queue vs <a href="MerrittZK/Job.html"><code>Job</code></a> Queue<span><a href="#module-MerrittZK-label-Batch+Queue+vs+Job+Queue">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
 <p>The work of the Merritt Ingest Service takes place at a <em>Job</em> level. Merritt Depositors initiate submissions at a <em>Batch</em> level.</p>
 
@@ -145,21 +145,21 @@
 
 <h2 id="module-MerrittZK-label-Code+Examples">Code Examples<span><a href="#module-MerrittZK-label-Code+Examples">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
-<h3 id="module-MerrittZK-label-Create+Batch">Create Batch<span><a href="#module-MerrittZK-label-Create+Batch">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-MerrittZK-label-Create+Batch">Create <a href="MerrittZK/Batch.html"><code>Batch</code></a><span><a href="#module-MerrittZK-label-Create+Batch">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
 <pre class="ruby"><span class="ruby-identifier">zk</span> = <span class="ruby-constant">ZK</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;localhost:8084&#39;</span>)
 <span class="ruby-identifier">batchSub</span> = {}
 <span class="ruby-constant">Batch</span> <span class="ruby-identifier">batch</span> = <span class="ruby-constant">MerrittZK</span><span class="ruby-operator">::</span><span class="ruby-constant">Batch</span>.<span class="ruby-identifier">create_batch</span>(<span class="ruby-ivar">@zk</span>, {<span class="ruby-value">foo:</span> <span class="ruby-string">&#39;bar&#39;</span>})
 </pre>
 
-<h3 id="module-MerrittZK-label-Consumer+Daemon+Acquires+Batch+and+Creates+Jobs">Consumer Daemon Acquires Batch and Creates Jobs<span><a href="#module-MerrittZK-label-Consumer+Daemon+Acquires+Batch+and+Creates+Jobs">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-MerrittZK-label-Consumer+Daemon+Acquires+Batch+and+Creates+Jobs">Consumer Daemon Acquires <a href="MerrittZK/Batch.html"><code>Batch</code></a> and Creates Jobs<span><a href="#module-MerrittZK-label-Consumer+Daemon+Acquires+Batch+and+Creates+Jobs">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
 <pre>zk = ZK.new(&#39;localhost:8084&#39;)
 batch = MerrittZK::Batch.acquire_pending_batch(zk)
 job = MerrittZK::Job.create_job(zk, batch.id, {foo: &#39;bar})
 zk.close</pre>
 
-<h3 id="module-MerrittZK-label-Consumer+Daemon+Acquires+Pending+Job+and+Moves+Job+to+Estimating">Consumer Daemon Acquires Pending Job and Moves Job to Estimating<span><a href="#module-MerrittZK-label-Consumer+Daemon+Acquires+Pending+Job+and+Moves+Job+to+Estimating">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-MerrittZK-label-Consumer+Daemon+Acquires+Pending+Job+and+Moves+Job+to+Estimating">Consumer Daemon Acquires Pending <a href="MerrittZK/Job.html"><code>Job</code></a> and Moves <a href="MerrittZK/Job.html"><code>Job</code></a> to Estimating<span><a href="#module-MerrittZK-label-Consumer+Daemon+Acquires+Pending+Job+and+Moves+Job+to+Estimating">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
 <pre class="ruby"><span class="ruby-identifier">zk</span> = <span class="ruby-constant">ZK</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;localhost:8084&#39;</span>)
 <span class="ruby-identifier">jj</span> = <span class="ruby-constant">MerrittZK</span><span class="ruby-operator">::</span><span class="ruby-constant">Job</span>.<span class="ruby-identifier">acquire_job</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-constant">MerrittZK</span><span class="ruby-operator">::</span><span class="ruby-constant">JobState</span>.<span class="ruby-constant">Pending</span>)
@@ -167,7 +167,7 @@ zk.close</pre>
 <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">close</span>
 </pre>
 
-<h3 id="module-MerrittZK-label-Consumer+Daemon+Acquires+Estimating+Job+and+Updates+Priority">Consumer Daemon Acquires Estimating Job and Updates Priority<span><a href="#module-MerrittZK-label-Consumer+Daemon+Acquires+Estimating+Job+and+Updates+Priority">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-MerrittZK-label-Consumer+Daemon+Acquires+Estimating+Job+and+Updates+Priority">Consumer Daemon Acquires Estimating <a href="MerrittZK/Job.html"><code>Job</code></a> and Updates Priority<span><a href="#module-MerrittZK-label-Consumer+Daemon+Acquires+Estimating+Job+and+Updates+Priority">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
 <pre class="ruby"><span class="ruby-identifier">zk</span> = <span class="ruby-constant">ZK</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;localhost:8084&#39;</span>)
 <span class="ruby-identifier">jj</span> = <span class="ruby-constant">MerrittZK</span><span class="ruby-operator">::</span><span class="ruby-constant">Job</span>.<span class="ruby-identifier">acquire_job</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-constant">MerrittZK</span><span class="ruby-operator">::</span><span class="ruby-constant">JobState</span>.<span class="ruby-constant">Estimating</span>)
@@ -175,7 +175,7 @@ zk.close</pre>
 <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">close</span>
 </pre>
 
-<h3 id="module-MerrittZK-label-Acquire+Completed+Batch-2C+Perform+Reporting">Acquire Completed Batch, Perform Reporting<span><a href="#module-MerrittZK-label-Acquire+Completed+Batch-2C+Perform+Reporting">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-MerrittZK-label-Acquire+Completed+Batch-2C+Perform+Reporting">Acquire Completed <a href="MerrittZK/Batch.html"><code>Batch</code></a>, Perform Reporting<span><a href="#module-MerrittZK-label-Acquire+Completed+Batch-2C+Perform+Reporting">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
 <pre class="ruby"><span class="ruby-identifier">zk</span> = <span class="ruby-constant">ZK</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;localhost:8084&#39;</span>)
 <span class="ruby-identifier">batch</span> = <span class="ruby-constant">MerrittZK</span><span class="ruby-operator">::</span><span class="ruby-constant">Batch</span>.<span class="ruby-identifier">acquire_completed_batch</span>(<span class="ruby-identifier">zk</span>)
