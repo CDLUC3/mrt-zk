@@ -138,7 +138,6 @@ module MerrittZK
     end
 
     def load(zk)
-      puts "LOAD: #{dir}/#{@id}"
       arr = zk.get("#{dir}/#{@id}")
       return if arr.nil?
       payload = arr[0]
