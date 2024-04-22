@@ -135,6 +135,7 @@ module MerrittZK
       @id = id
       @data = {}
       @bytes = []
+      @payload = {}
     end
 
     def load(zk)
@@ -142,6 +143,7 @@ module MerrittZK
       return if arr.nil?
       payload = arr[0]
       @bytes = payload.nil? ? [] : payload.bytes
+      @payload = payload_object
     end
 
     def status_name

@@ -207,47 +207,47 @@ module MerrittZK
     end
 
     def submitter
-      json.fetch('submitter', '')
+      @payload.fetch('submitter', '')
     end
 
     def creator
-      json.fetch('creator', '')
+      @payload.fetch('creator', '')
     end
 
     def profile
-      json.fetch('profile', '')
+      @payload.fetch('profile', '')
     end
 
     def response_form
-      json.fetch('responseForm', '')
+      @payload.fetch('responseForm', '')
     end
 
     def filename
-      json.fetch('filename', '')
+      @payload.fetch('filename', '')
     end
 
     def udpate
-      json.fetch('update', false)
+      @payload.fetch('update', false)
     end
 
     def type
-      json.fetch('type', '')
+      @payload.fetch('type', '')
     end
 
     def title
-      json.fetch('title', '')
+      @payload.fetch('title', '')
     end
 
     def bid
-      json.fetch('bid', '')
+      @payload.fetch('bid', '')
     end
 
     def priority
-      json.fetch('priority', 0)
+      @payload.fetch('priority', 0)
     end
 
     def title
-      json.fetch('space_needed', 0)
+      @payload.fetch('space_needed', 0)
     end
 
     def self.list_jobs(zk)
