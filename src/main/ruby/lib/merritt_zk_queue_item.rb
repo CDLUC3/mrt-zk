@@ -146,6 +146,10 @@ module MerrittZK
       @payload = payload_object
     end
 
+    def status_byte
+      @bytes[0]
+    end
+
     def status_name
       return 'NA' if status_byte > status_vals.length
       status_vals[status_byte]
