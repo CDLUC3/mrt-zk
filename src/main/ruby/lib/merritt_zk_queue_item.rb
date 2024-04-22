@@ -178,7 +178,7 @@ module MerrittZK
       json['queueNode'] = dir
       json['id'] = @id
       json['date'] = time
-      json['status'] = status
+      json['status'] = status_name
       json
     end
 
