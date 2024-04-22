@@ -255,7 +255,7 @@ module MerrittZK
       zk.children(DIR).sort.each do |cp|
         lj = LegacyIngestJob.new(cp)
         lj.load(zk)
-        jobs.append(lj)
+        jobs.append(lj.payload_object)
       end
       jobs
     end
