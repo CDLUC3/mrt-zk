@@ -172,7 +172,7 @@ module MerrittZK
     end
 
     def payload_object
-      if @is_json
+      if is_json
         json = JSON.parse(payload_text)
       else
         json = {
