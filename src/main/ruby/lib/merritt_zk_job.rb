@@ -197,8 +197,9 @@ module MerrittZK
   end
 
   class LegacyIngestJob < LegacyItem
-    def self.dir
-      '/ingest'
+    DIR = '/ingest'
+    def dir
+      DIR
     end
 
     def status_vals

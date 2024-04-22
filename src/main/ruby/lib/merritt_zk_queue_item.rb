@@ -122,8 +122,9 @@ module MerrittZK
   end
 
   class LegacyItem
+    DIR = '/na'
     def dir
-      '/na'
+      DIR
     end
 
     def status_vals
