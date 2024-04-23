@@ -203,7 +203,7 @@ module MerrittZK
     end
 
     def status_vals
-      ['Pending', 'Consumed', 'Deleted', 'Completed', 'Failed', 'Resolved']
+      ['Pending', 'Consumed', 'Deleted', 'Failed', 'Completed', 'Held']
     end
 
     def submitter

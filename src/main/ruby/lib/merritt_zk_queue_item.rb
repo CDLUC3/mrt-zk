@@ -147,7 +147,7 @@ module MerrittZK
     end
 
     def status_byte
-      @bytes[0]
+      @bytes.empty? ? 0 : @bytes[0]
     end
 
     def status_name
