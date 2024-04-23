@@ -1,4 +1,0 @@
-source 'https://rubygems.org'
-
-gem 'mrt-zk', git: 'https://github.com/CDLUC3/mrt-zk.git', branch: 'main', glob: 'src/main/ruby/*.gemspec', ref: '47fed161537977d368f99f138199e32697382e11'
-gem 'uc3-ssm', git: 'https://github.com/CDLUC3/uc3-ssm.git', branch: 'main'

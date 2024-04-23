@@ -161,8 +161,8 @@ module MerrittZK
   
     def time
       return nil if @bytes.length < 9
-        # https://stackoverflow.com/a/68855488/3846548
-        t = @bytes[1..8].inject(0) {|m, b| (m << 8) + b }
+      # https://stackoverflow.com/a/68855488/3846548
+      t = @bytes[1..8].inject(0) {|m, b| (m << 8) + b }
       Time.at(t/1000)
     end
   
@@ -181,7 +181,7 @@ module MerrittZK
       end
       json['queueNode'] = dir
       json['id'] = @id
-      json['date'] = time
+      json['date'] = time.to_s
       json['status'] = status_name
       json
     end
