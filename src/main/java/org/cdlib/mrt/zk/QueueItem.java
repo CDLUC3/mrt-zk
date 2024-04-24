@@ -11,7 +11,7 @@ import org.apache.zookeeper.ZooKeeper;
  */
 abstract public class QueueItem {
   private String id;
-  private JSONObject data;
+  protected JSONObject data;
   private IngestState status;
 
   public QueueItem(String id){
@@ -31,6 +31,15 @@ abstract public class QueueItem {
     return data;
   }
 
+  public Object jsonDataProperty(JSONObject obj, MerrittJsonKey key, Object dval) {
+    String k = key.key();
+    return obj.has(k) ? obj.get(k) : dval;
+  }
+  public String jsonStringProperty(JSONObject obj, MerrittJsonKey key, String dval) {
+    String k = key.key();
+    return obj.has(k) ? obj.getString(k) : dval;
+  }
+
   abstract public IngestState[] states();
   public IngestState status() {
     return this.status;
@@ -43,6 +52,9 @@ abstract public class QueueItem {
   };
 
   public String makePath(ZKKey key) {
+    if (key == ZKKey.ROOT) {
+      return path();
+    }
     return path() + "/" + key.key();
   }
 
@@ -65,6 +77,14 @@ abstract public class QueueItem {
   public void loadProperties(ZooKeeper client) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
   }
 
+  public String optStringProperty(ZooKeeper client, ZKKey key) throws KeeperException, InterruptedException {
+    String p = makePath(key);
+    if (!QueueItemHelper.exists(client, p)) {
+      return "";
+    }
+    return QueueItemHelper.pathToString(client, p);
+  }
+
   public String stringProperty(ZooKeeper client, ZKKey key) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
     String p = makePath(key);
     if (!QueueItemHelper.exists(client, p)) {
@@ -76,6 +96,18 @@ abstract public class QueueItem {
   public JSONObject jsonProperty(ZooKeeper client, ZKKey key) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
     try {
       return new JSONObject(stringProperty(client, key));
+    } catch(JSONException e) {
+      throw new MerrittZKNodeInvalid("Improperly formatted object for " + makePath(key));
+    }
+  }
+
+  public JSONObject optJsonProperty(ZooKeeper client, ZKKey key) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
+    try {
+      String s = optStringProperty(client, key);
+      if (s.isEmpty()) {
+        return new JSONObject();
+      }
+      return new JSONObject(s);
     } catch(JSONException e) {
       throw new MerrittZKNodeInvalid("Improperly formatted object for " + makePath(key));
     }
@@ -105,6 +137,15 @@ abstract public class QueueItem {
   public void createData(ZooKeeper client, ZKKey key, Object data) throws KeeperException, InterruptedException {
     String p = makePath(key);
     QueueItemHelper.create(client, p, QueueItemHelper.serializeAsBytes(data));
+  }
+
+  public void createOrSetData(ZooKeeper client, ZKKey key, Object data) throws KeeperException, InterruptedException {
+    String p = makePath(key);
+    if (QueueItemHelper.exists(client, p)) {
+      QueueItemHelper.setData(client, p, QueueItemHelper.serializeAsBytes(data));
+    } else {
+      QueueItemHelper.create(client, p, QueueItemHelper.serializeAsBytes(data));
+    }
   }
 
   public JSONObject statusObject(IngestState status) {

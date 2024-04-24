@@ -51,7 +51,10 @@ public class ZKTestIT {
       batch_failure,
       batch_recovery,
       job_happy_path_with_delete,
-      batch_happy_path_with_delete;
+      batch_happy_path_with_delete,
+      job_create_config,
+      job_create_config_ident,
+      job_create_config_ident_metadata;
     }
 
     private ZooKeeper zk;
@@ -985,4 +988,82 @@ public class ZKTestIT {
       bbbb.delete(zk);
     }
 
+    @Test
+    public void jobCreateConfig() throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError{
+      load(Tests.job_create_config);
+      Batch b = Batch.createBatch(zk, fooBar());
+      remap.put("bid0", b.id());
+
+      Batch bb = Batch.acquirePendingBatch(zk);
+      assertEquals(b.id(), bb.id());
+
+      Job j = Job.createJob(zk, bb.id(), Job.createJobConfiguration("a", "b", "c", "d", "e"));
+      remap.put("jid0", j.id());
+
+      bb.unlock(zk);
+
+      Job jj = new Job(remap.get("jid0"));
+      jj.load(zk);
+
+      assertEquals("a", jj.profileName());
+      assertEquals("b", jj.submitter());
+      assertEquals("c", jj.payloadUrl());
+      assertEquals("d", jj.payloadType());
+      assertEquals("e", jj.responseType());
+    }
+
+    @Test
+    public void jobCreateConfigIdentifiers() throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError{
+      load(Tests.job_create_config_ident);
+      Batch b = Batch.createBatch(zk, fooBar());
+      remap.put("bid0", b.id());
+
+      Batch bb = Batch.acquirePendingBatch(zk);
+      assertEquals(b.id(), bb.id());
+
+      Job j = Job.createJob(
+        zk, 
+        bb.id(), 
+        Job.createJobConfiguration("a", "b", "c", "d", "e"),
+        Job.createJobIdentifiers("f", "g;h")
+      );
+      remap.put("jid0", j.id());
+
+      bb.unlock(zk);
+
+      Job jj = new Job(remap.get("jid0"));
+      jj.load(zk);
+
+      assertEquals("f", jj.primaryId());
+      assertEquals("g;h", jj.localId());
+    }
+
+    @Test
+    public void jobCreateConfigIdentifiersMetadata() throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError{
+      load(Tests.job_create_config_ident_metadata);
+      Batch b = Batch.createBatch(zk, fooBar());
+      remap.put("bid0", b.id());
+
+      Batch bb = Batch.acquirePendingBatch(zk);
+      assertEquals(b.id(), bb.id());
+
+      Job j = Job.createJob(
+        zk, 
+        bb.id(), 
+        Job.createJobConfiguration("a", "b", "c", "d", "e"),
+        Job.createJobIdentifiers("f", "g;h"),
+        Job.createJobMetadata("i", "j", "k", "l")
+      );
+      remap.put("jid0", j.id());
+
+      bb.unlock(zk);
+
+      Job jj = new Job(remap.get("jid0"));
+      jj.load(zk);
+
+      assertEquals("i", jj.ercWho());
+      assertEquals("j", jj.ercWhat());
+      assertEquals("k", jj.ercWhen());
+      assertEquals("l", jj.ercWhere());
+    }
 }

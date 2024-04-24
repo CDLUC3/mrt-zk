@@ -8,7 +8,21 @@ public enum MerrittJsonKey {
   Status("status"),
   LastModified("last_modified"),
   RetryCount("retry_count"),
-  LastSuccessfulStatus("last_successful_status");
+  LastSuccessfulStatus("last_successful_status"),
+  ErcWho("erc_who"),
+  ErcWhat("erc_what"),
+  ErcWhere("erc_where"),
+  ErcWhen("erc_when"),
+  PrimaryId("primary_id"),
+  LocalId("local_id"),
+  ProfileName("profile_name"),
+  Submitter("submitter"),
+  BatchPayloadFileName("payload_file_name"),
+  BatchType("batch_type"),
+  SubmissionMode("submission_mode"),
+  JobPayloadUrl("payload_url"),
+  JobPayloadType("payload_type"),
+  JobResponseType("response_type");
   private String key;
   MerrittJsonKey(String s) {
     this.key = s;

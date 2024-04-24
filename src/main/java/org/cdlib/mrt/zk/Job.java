@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooKeeper;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -20,6 +21,8 @@ public class Job extends QueueItem {
   private long spaceNeeded = 0;
   private String jobStatePath = null;
   private String batchStatePath = null;
+  private JSONObject identifiers = new JSONObject();
+  private JSONObject metadata = new JSONObject();
 
   public Job(String id) {
     super(id);
@@ -82,9 +85,12 @@ public class Job extends QueueItem {
 
   @Override
   public void loadProperties(ZooKeeper client) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
+    data = optJsonProperty(client, ZKKey.JOB_CONFIGURATION);
     bid = stringProperty(client, ZKKey.JOB_BID);
     priority = intProperty(client, ZKKey.JOB_PRIORITY);
     spaceNeeded = longProperty(client, ZKKey.JOB_SPACE_NEEDED);
+    identifiers = optJsonProperty(client, ZKKey.JOB_IDENTIFIERS);
+    metadata = optJsonProperty(client, ZKKey.JOB_METADATA);
     setJobStatePath(client);
     setBatchStatePath(client);
   }
@@ -93,13 +99,107 @@ public class Job extends QueueItem {
     return BatchState.values();
   }
 
+  public static JSONObject createJobMetadata(String who, String what, String when, String where) {
+    JSONObject json = new JSONObject();
+    json.put(MerrittJsonKey.ErcWho.key(), who);
+    json.put(MerrittJsonKey.ErcWhat.key(), what);
+    json.put(MerrittJsonKey.ErcWhen.key(), when);
+    json.put(MerrittJsonKey.ErcWhere.key(), where);
+    return json;     
+  }
+
+  public String ercWho() {
+    return jsonStringProperty(metadata, MerrittJsonKey.ErcWho, "");
+  }
+
+  public String ercWhat() {
+    return jsonStringProperty(metadata, MerrittJsonKey.ErcWhat, "");
+  }
+
+  public String ercWhen() {
+    return jsonStringProperty(metadata, MerrittJsonKey.ErcWhen, "");
+  }
+
+  public String ercWhere() {
+    return jsonStringProperty(metadata, MerrittJsonKey.ErcWhere, "");
+  }
+
+  public static JSONObject createJobIdentifiers(String primary, String local) {
+    JSONObject json = new JSONObject();
+    json.put(MerrittJsonKey.PrimaryId.key(), primary);
+    JSONArray arr = new JSONArray();
+    for(String s: local.split(";")) {
+      if (!s.isEmpty()) {
+        arr.put(s);
+      }
+    }
+    json.put(MerrittJsonKey.LocalId.key(), arr);
+    return json;     
+  }
+
+  public String primaryId() {
+    return jsonStringProperty(identifiers, MerrittJsonKey.PrimaryId, "");
+  }
+
+  public String localId() {
+    JSONArray arr = (JSONArray)jsonDataProperty(identifiers, MerrittJsonKey.LocalId, new JSONArray());
+    String[] str = new String[arr.length()];
+    for(int i=0; i < arr.length(); i++) {
+      str[i] = arr.getString(i);
+    }
+    return String.join(";", str);
+  }
+
+  public static JSONObject createJobConfiguration(String profile, String submitter, String payloadUrl, String payloadType, String responseType) {
+    JSONObject json = new JSONObject();
+    json.put(MerrittJsonKey.ProfileName.key(), profile);
+    json.put(MerrittJsonKey.Submitter.key(), submitter);
+    json.put(MerrittJsonKey.JobPayloadUrl.key(), payloadUrl);
+    json.put(MerrittJsonKey.JobPayloadType.key(), payloadType);
+    json.put(MerrittJsonKey.JobResponseType.key(), responseType);
+    return json;     
+  }
+
+  public String profileName() {
+    return jsonStringProperty(data(), MerrittJsonKey.ProfileName, "");
+  }
+
+  public String submitter() {
+    return jsonStringProperty(data(), MerrittJsonKey.Submitter, "");
+  }
+
+  public String payloadUrl() {
+    return jsonStringProperty(data(), MerrittJsonKey.JobPayloadUrl, "");
+  }
+
+  public String payloadType() {
+    return jsonStringProperty(data(), MerrittJsonKey.JobPayloadType, "");
+  }
+
+  public String responseType() {
+    return jsonStringProperty(data(), MerrittJsonKey.JobResponseType, "");
+  }
+
   public static Job createJob(ZooKeeper client, String bid, JSONObject configuration) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
+    return createJob(client, bid, configuration, new JSONObject(), new JSONObject());
+  }
+  public static Job createJob(ZooKeeper client, String bid, JSONObject configuration, JSONObject identifiers) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
+    return createJob(client, bid, configuration, identifiers, new JSONObject());
+  }
+  public static Job createJob(ZooKeeper client, String bid, JSONObject configuration, JSONObject identifiers, JSONObject metadata) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
     String id = QueueItemHelper.createId(client, Job.prefixPath());
     Job job = new Job(id, bid, configuration);
     job.createData(client, ZKKey.JOB_BID, bid);
     job.createData(client, ZKKey.JOB_PRIORITY, job.priority);
     job.createData(client, ZKKey.JOB_SPACE_NEEDED, job.spaceNeeded);
     job.createData(client, ZKKey.JOB_CONFIGURATION, configuration);
+    
+    if (!identifiers.isEmpty()) {
+      job.setIdentifiers(client, identifiers);
+    }
+    if (!metadata.isEmpty()) {
+      job.setMetadata(client, metadata);
+    }
     job.setStatus(client, Job.initStatus());
     job.setBatchStatePath(client);
     job.setJobStatePath(client);
@@ -133,6 +233,22 @@ public class Job extends QueueItem {
     }
     this.spaceNeeded = spaceNeeded;
     setData(client, ZKKey.JOB_SPACE_NEEDED, spaceNeeded);
+  }
+
+  public void setIdentifiers(ZooKeeper client, JSONObject identifiers) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
+    if (this.identifiers.similar(identifiers)) {
+      return;
+    }
+    this.identifiers = identifiers;
+    createOrSetData(client, ZKKey.JOB_IDENTIFIERS, identifiers);
+  }
+
+  public void setMetadata(ZooKeeper client, JSONObject metadata) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
+    if (this.metadata.similar(metadata)) {
+      return;
+    }
+    this.metadata = metadata;
+    createOrSetData(client, ZKKey.JOB_METADATA, metadata);
   }
 
   public void setStatusWithRetry(ZooKeeper client, IngestState status) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {

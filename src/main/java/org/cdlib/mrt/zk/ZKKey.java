@@ -5,6 +5,10 @@ package org.cdlib.mrt.zk;
  * @see <a href="https://github.com/CDLUC3/mrt-zk/blob/main/design/data.md">ZooKeeper Node Design</a>
  */
 public enum ZKKey {
+  /** 
+   * Root path for a QueueItem
+   */
+  ROOT(""),
   /**
    * JSON node uses to store current state for a Job or a Batch
    * 
@@ -41,6 +45,10 @@ public enum ZKKey {
    * JSON node containing the primary id and local id for a job.
    */
   JOB_IDENTIFIERS("identifiers"),
+  /**
+   * JSON node containing the primary id and local id for a job.
+   */
+  JOB_METADATA("metadata"),
   /**
    * Integer node containing the priority assigned to the job.
    */

@@ -367,3 +367,90 @@ job_happy_path_with_delete:
 batch_happy_path_with_delete:
   input:
   output: null
+job_create_config:
+  input:
+  output:
+    /batches/bid0/states/batch-processing/jid0: null
+    /batches/bid0/submission: 
+      foo: bar
+    /batches/bid0/status: 
+      status: Pending
+      last_modified: now
+    /jobs/jid0/bid: bid0
+    /jobs/jid0/configuration:
+      profile_name: a
+      submitter: b
+      payload_url: c
+      payload_type: d
+      response_type: e
+    /jobs/jid0/priority: 5
+    /jobs/jid0/space_needed: 0
+    /jobs/jid0/status: 
+      last_successful_status: null
+      status: Pending
+      last_modified: now
+      retry_count: 0
+    /jobs/states/pending/05-jid0: null
+job_create_config_ident:
+  input:
+  output:
+    /batches/bid0/states/batch-processing/jid0: null
+    /batches/bid0/submission: 
+      foo: bar
+    /batches/bid0/status: 
+      status: Pending
+      last_modified: now
+    /jobs/jid0/bid: bid0
+    /jobs/jid0/configuration:
+      profile_name: a
+      submitter: b
+      payload_url: c
+      payload_type: d
+      response_type: e
+    /jobs/jid0/identifiers:
+      primary_id: f
+      local_id:
+      - g
+      - h
+    /jobs/jid0/priority: 5
+    /jobs/jid0/space_needed: 0
+    /jobs/jid0/status: 
+      last_successful_status: null
+      status: Pending
+      last_modified: now
+      retry_count: 0
+    /jobs/states/pending/05-jid0: null
+job_create_config_ident_metadata:
+  input:
+  output:
+    /batches/bid0/states/batch-processing/jid0: null
+    /batches/bid0/submission: 
+      foo: bar
+    /batches/bid0/status: 
+      status: Pending
+      last_modified: now
+    /jobs/jid0/bid: bid0
+    /jobs/jid0/configuration:
+      profile_name: a
+      submitter: b
+      payload_url: c
+      payload_type: d
+      response_type: e
+    /jobs/jid0/identifiers:
+      primary_id: f
+      local_id:
+      - g
+      - h
+    /jobs/jid0/metadata:
+      erc_who: i
+      erc_what: j
+      erc_when: k
+      erc_where: l
+    /jobs/jid0/priority: 5
+    /jobs/jid0/space_needed: 0
+    /jobs/jid0/status: 
+      last_successful_status: null
+      status: Pending
+      last_modified: now
+      retry_count: 0
+    /jobs/states/pending/05-jid0: null
