@@ -24,11 +24,12 @@
 | /batches/BID/states/STATE/JID | none | - | | | STATE = pending / held / processing / failed / completed<br/>Create watcher to watch for states/processing to be empty| 
 | /batches/BID/lock | none | - | Several states | - | **Ephemeral node** to lock a job, deleted by the thread that creates the node |
 | /jobs/JID/bid | string | batch_id | creation | none | |
-| /jobs/JID/configuration | json | batch_id<br/>profile_name<br/>submitter<br/>payload_url<br/>payload_type<br/>response_type<br/>working_dir<br/>local_id | creation | none | |
+| /jobs/JID/configuration | json | profile_name<br/>submitter<br/>payload_url<br/>payload_type<br/>response_type<br/>working_dir<br/>local_id | creation | none | |
 | /jobs/JID/status | json | status<br/>last_successful_status<br/>last_modification_date<br/>retry_count | creation | none | |
 | /jobs/JID/priority | int | - | creation | estimating | |
 | /jobs/JID/space_needed | long | - | creation | estimating | |
 | /jobs/JID/identifiers | json | primary_id<br/>local_id: [] | creation | processing | |
+| /jobs/JID/metadata | json | erc_what<br/>erc_who<br/>erc_when<br/>erc_where | creation | ? | |
 | /jobs/states/STATE/PP-JID | none | - | | | PP = priority <br/>STATE = pending / held / estimating / provisioning / downloading / processing / recording / notify / failed / completed |
 | /locks/queue/ingest | none | - | Admin | Admin | Previously file-system based|
 | /locks/queue/accessSmall | none | - | Admin | Admin | |
