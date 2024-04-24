@@ -30,6 +30,11 @@
 | /jobs/JID/space_needed | long | - | creation | estimating | |
 | /jobs/JID/identifiers | json | primary_id<br/>local_id: [] | creation | processing | |
 | /jobs/states/STATE/PP-JID | none | - | | | PP = priority <br/>STATE = pending / held / estimating / provisioning / downloading / processing / recording / notify / failed / completed |
+| /locks/queue/ingest | none | - | Admin | Admin | Previously file-system based|
+| /locks/queue/accessSmall | none | - | Admin | Admin | |
+| /locks/queue/accessLarge | none | - | Admin | Admin | |
+| /locks/arks/{ark} | none | - | Storage | Storage | current path: ? |
+| /locks/collections/{mnemonic} | none | - | Admin | Admin | |
 
 ### Job Transition
 
