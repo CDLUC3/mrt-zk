@@ -33,7 +33,8 @@
 | /locks/queue/ingest | none | - | Admin | Admin | Previously file-system based|
 | /locks/queue/accessSmall | none | - | Admin | Admin | |
 | /locks/queue/accessLarge | none | - | Admin | Admin | |
-| /locks/arks/{ark} | none | - | Storage | Storage | current path: ? |
+| /locks/storage/{ark} | none | - | Ingest | Ingest | current path: ? |
+| /locks/inventory/{ark} | none | - | Inventory | Inventory | current path: ? |
 | /locks/collections/{mnemonic} | none | - | Admin | Admin | |
 
 ### Job Transition
