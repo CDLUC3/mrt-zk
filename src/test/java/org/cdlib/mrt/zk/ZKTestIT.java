@@ -54,7 +54,12 @@ public class ZKTestIT {
       batch_happy_path_with_delete,
       job_create_config,
       job_create_config_ident,
-      job_create_config_ident_metadata;
+      job_create_config_ident_metadata,
+      lock_ingest,
+      lock_access,
+      lock_collection,
+      lock_store,
+      lock_inventory;
     }
 
     private ZooKeeper zk;
@@ -108,6 +113,7 @@ public class ZKTestIT {
     public void initPaths() throws KeeperException, InterruptedException {
       create("/jobs/states", null);
       create("/batches", null);
+      MerrittLocks.initLocks(zk);
     }
 
     public void clearPaths(String root) throws KeeperException, InterruptedException {
@@ -209,6 +215,12 @@ public class ZKTestIT {
 
     public boolean skipListing(String path, Object dp) throws KeeperException, InterruptedException {
       if (path.equals("/") || path.equals("/batches") || path.equals("/jobs") || path.equals("/jobs/states")) {
+        return true;
+      }
+      if (path.equals("/locks/inventory") || 
+          path.equals("/locks/collections") || 
+          path.equals("/locks/storage") || 
+          path.equals("/locks/queue")) {
         return true;
       }
       if (zk.getChildren(path, false).isEmpty()) {
@@ -1066,4 +1078,73 @@ public class ZKTestIT {
       assertEquals("k", jj.ercWhen());
       assertEquals("l", jj.ercWhere());
     }
+
+    @Test
+    public void lockIngestQueue() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
+      load(Tests.lock_ingest);
+      //ignore if lock does not exist
+      MerrittLocks.unlockIngestQueue(zk);
+
+      assertTrue(MerrittLocks.lockIngestQueue(zk));
+      assertFalse(MerrittLocks.lockIngestQueue(zk));
+      MerrittLocks.unlockIngestQueue(zk);
+      assertTrue(MerrittLocks.lockIngestQueue(zk));
+    }
+
+    @Test
+    public void lockAccessQueue() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
+      load(Tests.lock_access);
+      assertTrue(MerrittLocks.lockLargeAccessQueue(zk));
+      assertFalse(MerrittLocks.lockLargeAccessQueue(zk));
+      MerrittLocks.unlockLargeAccessQueue(zk);
+      assertTrue(MerrittLocks.lockLargeAccessQueue(zk));
+
+      assertTrue(MerrittLocks.lockSmallAccessQueue(zk));
+      assertFalse(MerrittLocks.lockSmallAccessQueue(zk));
+      MerrittLocks.unlockSmallAccessQueue(zk);
+      assertTrue(MerrittLocks.lockSmallAccessQueue(zk));
+    }
+
+    @Test
+    public void lockCollection() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
+      load(Tests.lock_collection);
+      assertTrue(MerrittLocks.lockCollection(zk, "foo"));
+      assertFalse(MerrittLocks.lockCollection(zk, "foo"));
+      MerrittLocks.unlockCollection(zk, "foo");
+      assertTrue(MerrittLocks.lockCollection(zk, "foo"));
+
+      assertTrue(MerrittLocks.lockCollection(zk, "bar"));
+      assertFalse(MerrittLocks.lockCollection(zk, "bar"));
+      MerrittLocks.unlockCollection(zk, "bar");
+      assertTrue(MerrittLocks.lockCollection(zk, "bar"));
+    }
+
+    @Test
+    public void lockStore() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
+      load(Tests.lock_store);
+      assertTrue(MerrittLocks.lockObjectStorage(zk, "ark:/aaa/111"));
+      assertFalse(MerrittLocks.lockObjectStorage(zk, "ark:/aaa/111"));
+      MerrittLocks.unlockObjectStorage(zk, "ark:/aaa/111");
+      assertTrue(MerrittLocks.lockObjectStorage(zk, "ark:/aaa/111"));
+
+      assertTrue(MerrittLocks.lockObjectStorage(zk, "ark:/bbb/222"));
+      assertFalse(MerrittLocks.lockObjectStorage(zk, "ark:/bbb/222"));
+      MerrittLocks.unlockObjectStorage(zk, "ark:/bbb/222");
+      assertTrue(MerrittLocks.lockObjectStorage(zk, "ark:/bbb/222"));
+    }
+
+    @Test
+    public void lockInventory() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
+      load(Tests.lock_inventory);
+      assertTrue(MerrittLocks.lockObjectInventory(zk, "ark:/aaa/111"));
+      assertFalse(MerrittLocks.lockObjectInventory(zk, "ark:/aaa/111"));
+      MerrittLocks.unlockObjectInventory(zk, "ark:/aaa/111");
+      assertTrue(MerrittLocks.lockObjectInventory(zk, "ark:/aaa/111"));
+
+      assertTrue(MerrittLocks.lockObjectInventory(zk, "ark:/bbb/222"));
+      assertFalse(MerrittLocks.lockObjectInventory(zk, "ark:/bbb/222"));
+      MerrittLocks.unlockObjectInventory(zk, "ark:/bbb/222");
+      assertTrue(MerrittLocks.lockObjectInventory(zk, "ark:/bbb/222"));
+    }
+
 }

@@ -454,3 +454,27 @@ job_create_config_ident_metadata:
       last_modified: now
       retry_count: 0
     /jobs/states/pending/05-jid0: null
+lock_ingest:
+  input:
+  output:
+    /locks/queue/ingest: null
+lock_access:
+  input:
+  output:
+    /locks/queue/accessLarge: null
+    /locks/queue/accessSmall: null
+lock_collection:
+  input:
+  output:
+    /locks/collections/bar: null
+    /locks/collections/foo: null
+lock_store:
+  input:
+  output:
+    /locks/storage/ark:_aaa_111: null
+    /locks/storage/ark:_bbb_222: null
+lock_inventory:
+  input:
+  output:
+    /locks/inventory/ark:_aaa_111: null
+    /locks/inventory/ark:_bbb_222: null
