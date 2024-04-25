@@ -48,7 +48,7 @@
 
 | Zookeeper Node Path | Node Data Type | Fields | Created By | Modified By | Comment |
 | - | - | - | - | - | - |
-| /access/???? | ??? | | Access | Access | |
+| /access/small/ID<br>/access/large/ID | json | token<br>delivery-node<br>cloud-content-byte<br>status<br>url<br>anticipated-availability-time| Access | Access | |
 
 ## Batch and Job State Transition
 
