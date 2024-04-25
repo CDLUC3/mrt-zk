@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":9,"i1":10,"i2":10,"i3":10,"i4":9,"i5":10,"i6":10,"i7":9,"i8":10,"i9":10,"i10":10,"i11":10,"i12":9,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10};
+var data = {"i0":9,"i1":10,"i2":10,"i3":10,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":9,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":9,"i25":10,"i26":10,"i27":10,"i28":10,"i29":10,"i30":10,"i31":10,"i32":10,"i33":10,"i34":10,"i35":10,"i36":10,"i37":10,"i38":10,"i39":10,"i40":10,"i41":10,"i42":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -174,6 +174,13 @@ extends <a href="QueueItem.html" title="class in org.cdlib.mrt.zk">QueueItem</a>
 <td class="colLast">&nbsp;</td>
 </tr>
 </table>
+<ul class="blockList">
+<li class="blockList"><a id="fields.inherited.from.class.org.cdlib.mrt.zk.QueueItem">
+<!--   -->
+</a>
+<h3>Fields inherited from class&nbsp;org.cdlib.mrt.zk.<a href="QueueItem.html" title="class in org.cdlib.mrt.zk">QueueItem</a></h3>
+<code><a href="QueueItem.html#data">data</a></code></li>
+</ul>
 </li>
 </ul>
 </section>
@@ -252,107 +259,214 @@ extends <a href="QueueItem.html" title="class in org.cdlib.mrt.zk">QueueItem</a>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i5" class="rowColor">
+<td class="colFirst"><code>static <a href="Job.html" title="class in org.cdlib.mrt.zk">Job</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createJob(org.apache.zookeeper.ZooKeeper,java.lang.String,org.json.JSONObject,org.json.JSONObject)">createJob</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client,
+         <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;bid,
+         org.json.JSONObject&nbsp;configuration,
+         org.json.JSONObject&nbsp;identifiers)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i6" class="altColor">
+<td class="colFirst"><code>static <a href="Job.html" title="class in org.cdlib.mrt.zk">Job</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createJob(org.apache.zookeeper.ZooKeeper,java.lang.String,org.json.JSONObject,org.json.JSONObject,org.json.JSONObject)">createJob</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client,
+         <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;bid,
+         org.json.JSONObject&nbsp;configuration,
+         org.json.JSONObject&nbsp;identifiers,
+         org.json.JSONObject&nbsp;metadata)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i7" class="rowColor">
+<td class="colFirst"><code>static org.json.JSONObject</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createJobConfiguration(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)">createJobConfiguration</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;profile,
+                      <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;submitter,
+                      <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;payloadUrl,
+                      <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;payloadType,
+                      <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;responseType)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i8" class="altColor">
+<td class="colFirst"><code>static org.json.JSONObject</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createJobIdentifiers(java.lang.String,java.lang.String)">createJobIdentifiers</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;primary,
+                    <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;local)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i9" class="rowColor">
+<td class="colFirst"><code>static org.json.JSONObject</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createJobMetadata(java.lang.String,java.lang.String,java.lang.String,java.lang.String)">createJobMetadata</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;who,
+                 <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;what,
+                 <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;when,
+                 <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;where)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#delete(org.apache.zookeeper.ZooKeeper)">delete</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#dir()">dir</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i12" class="altColor">
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#ercWhat()">ercWhat</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i13" class="rowColor">
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#ercWhen()">ercWhen</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i14" class="altColor">
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#ercWhere()">ercWhere</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i15" class="rowColor">
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#ercWho()">ercWho</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>static <a href="IngestState.html" title="interface in org.cdlib.mrt.zk">IngestState</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#initStatus()">initStatus</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#jobStatePath()">jobStatePath</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#loadProperties(org.apache.zookeeper.ZooKeeper)">loadProperties</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#loadStatus(org.apache.zookeeper.ZooKeeper,org.json.JSONObject)">loadStatus</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client,
           org.json.JSONObject&nbsp;js)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i20" class="altColor">
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#localId()">localId</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i21" class="rowColor">
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#payloadType()">payloadType</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i22" class="altColor">
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#payloadUrl()">payloadUrl</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i23" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#prefix()">prefix</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i24" class="altColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#prefixPath()">prefixPath</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i25" class="rowColor">
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#primaryId()">primaryId</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i26" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#priority()">priority</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i27" class="rowColor">
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#profileName()">profileName</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i28" class="altColor">
 <td class="colFirst"><code><a href="IngestState.html" title="interface in org.cdlib.mrt.zk">IngestState</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#resolveStatus(java.lang.String)">resolveStatus</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;s)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i29" class="rowColor">
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#responseType()">responseType</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i30" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#retryCount()">retryCount</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i31" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setBatchStatePath(org.apache.zookeeper.ZooKeeper)">setBatchStatePath</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i32" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setIdentifiers(org.apache.zookeeper.ZooKeeper,org.json.JSONObject)">setIdentifiers</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client,
+              org.json.JSONObject&nbsp;identifiers)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i33" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setJobStatePath(org.apache.zookeeper.ZooKeeper)">setJobStatePath</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i34" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setMetadata(org.apache.zookeeper.ZooKeeper,org.json.JSONObject)">setMetadata</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client,
+           org.json.JSONObject&nbsp;metadata)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i35" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setPriority(org.apache.zookeeper.ZooKeeper,int)">setPriority</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client,
            int&nbsp;priority)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i36" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setSpaceNeeded(org.apache.zookeeper.ZooKeeper,long)">setSpaceNeeded</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client,
               long&nbsp;spaceNeeded)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i37" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setStatusTrigger(org.apache.zookeeper.ZooKeeper)">setStatusTrigger</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i38" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setStatusWithRetry(org.apache.zookeeper.ZooKeeper,org.cdlib.mrt.zk.IngestState)">setStatusWithRetry</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client,
                   <a href="IngestState.html" title="interface in org.cdlib.mrt.zk">IngestState</a>&nbsp;status)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i22" class="altColor">
+<tr id="i39" class="rowColor">
 <td class="colFirst"><code>long</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#spaceNeeded()">spaceNeeded</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i23" class="rowColor">
+<tr id="i40" class="altColor">
 <td class="colFirst"><code><a href="IngestState.html" title="interface in org.cdlib.mrt.zk">IngestState</a>[]</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#states()">states</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i24" class="altColor">
+<tr id="i41" class="rowColor">
 <td class="colFirst"><code>org.json.JSONObject</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#statusObject(org.cdlib.mrt.zk.IngestState)">statusObject</a></span>&#8203;(<a href="IngestState.html" title="interface in org.cdlib.mrt.zk">IngestState</a>&nbsp;status)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i42" class="altColor">
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#submitter()">submitter</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 </table>
@@ -361,7 +475,7 @@ extends <a href="QueueItem.html" title="class in org.cdlib.mrt.zk">QueueItem</a>
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;org.cdlib.mrt.zk.<a href="QueueItem.html" title="class in org.cdlib.mrt.zk">QueueItem</a></h3>
-<code><a href="QueueItem.html#createData(org.apache.zookeeper.ZooKeeper,org.cdlib.mrt.zk.ZKKey,java.lang.Object)">createData</a>, <a href="QueueItem.html#data()">data</a>, <a href="QueueItem.html#id()">id</a>, <a href="QueueItem.html#intProperty(org.apache.zookeeper.ZooKeeper,org.cdlib.mrt.zk.ZKKey)">intProperty</a>, <a href="QueueItem.html#jsonProperty(org.apache.zookeeper.ZooKeeper,org.cdlib.mrt.zk.ZKKey)">jsonProperty</a>, <a href="QueueItem.html#load(org.apache.zookeeper.ZooKeeper)">load</a>, <a href="QueueItem.html#lock(org.apache.zookeeper.ZooKeeper)">lock</a>, <a href="QueueItem.html#longProperty(org.apache.zookeeper.ZooKeeper,org.cdlib.mrt.zk.ZKKey)">longProperty</a>, <a href="QueueItem.html#makePath(org.cdlib.mrt.zk.ZKKey)">makePath</a>, <a href="QueueItem.html#path()">path</a>, <a href="QueueItem.html#setData(org.apache.zookeeper.ZooKeeper,org.cdlib.mrt.zk.ZKKey,java.lang.Object)">setData</a>, <a href="QueueItem.html#setStatus(org.apache.zookeeper.ZooKeeper,org.cdlib.mrt.zk.IngestState)">setStatus</a>, <a href="QueueItem.html#status()">status</a>, <a href="QueueItem.html#stringProperty(org.apache.zookeeper.ZooKeeper,org.cdlib.mrt.zk.ZKKey)">stringProperty</a>, <a href="QueueItem.html#unlock(org.apache.zookeeper.ZooKeeper)">unlock</a></code></li>
+<code><a href="QueueItem.html#createData(org.apache.zookeeper.ZooKeeper,org.cdlib.mrt.zk.ZKKey,java.lang.Object)">createData</a>, <a href="QueueItem.html#createOrSetData(org.apache.zookeeper.ZooKeeper,org.cdlib.mrt.zk.ZKKey,java.lang.Object)">createOrSetData</a>, <a href="QueueItem.html#data()">data</a>, <a href="QueueItem.html#id()">id</a>, <a href="QueueItem.html#intProperty(org.apache.zookeeper.ZooKeeper,org.cdlib.mrt.zk.ZKKey)">intProperty</a>, <a href="QueueItem.html#jsonDataProperty(org.json.JSONObject,org.cdlib.mrt.zk.MerrittJsonKey,java.lang.Object)">jsonDataProperty</a>, <a href="QueueItem.html#jsonProperty(org.apache.zookeeper.ZooKeeper,org.cdlib.mrt.zk.ZKKey)">jsonProperty</a>, <a href="QueueItem.html#jsonStringProperty(org.json.JSONObject,org.cdlib.mrt.zk.MerrittJsonKey,java.lang.String)">jsonStringProperty</a>, <a href="QueueItem.html#load(org.apache.zookeeper.ZooKeeper)">load</a>, <a href="QueueItem.html#lock(org.apache.zookeeper.ZooKeeper)">lock</a>, <a href="QueueItem.html#longProperty(org.apache.zookeeper.ZooKeeper,org.cdlib.mrt.zk.ZKKey)">longProperty</a>, <a href="QueueItem.html#makePath(org.cdlib.mrt.zk.ZKKey)">makePath</a>, <a href="QueueItem.html#optJsonProperty(org.apache.zookeeper.ZooKeeper,org.cdlib.mrt.zk.ZKKey)">optJsonProperty</a>, <a href="QueueItem.html#optStringProperty(org.apache.zookeeper.ZooKeeper,org.cdlib.mrt.zk.ZKKey)">optStringProperty</a>, <a href="QueueItem.html#path()">path</a>, <a href="QueueItem.html#setData(org.apache.zookeeper.ZooKeeper,org.cdlib.mrt.zk.ZKKey,java.lang.Object)">setData</a>, <a href="QueueItem.html#setStatus(org.apache.zookeeper.ZooKeeper,org.cdlib.mrt.zk.IngestState)">setStatus</a>, <a href="QueueItem.html#status()">status</a>, <a href="QueueItem.html#stringProperty(org.apache.zookeeper.ZooKeeper,org.cdlib.mrt.zk.ZKKey)">stringProperty</a>, <a href="QueueItem.html#unlock(org.apache.zookeeper.ZooKeeper)">unlock</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
@@ -606,6 +720,140 @@ extends <a href="QueueItem.html" title="class in org.cdlib.mrt.zk">QueueItem</a>
 </dl>
 </li>
 </ul>
+<a id="createJobMetadata(java.lang.String,java.lang.String,java.lang.String,java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createJobMetadata</h4>
+<pre class="methodSignature">public static&nbsp;org.json.JSONObject&nbsp;createJobMetadata&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;who,
+                                                    <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;what,
+                                                    <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;when,
+                                                    <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;where)</pre>
+</li>
+</ul>
+<a id="ercWho()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ercWho</h4>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;ercWho()</pre>
+</li>
+</ul>
+<a id="ercWhat()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ercWhat</h4>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;ercWhat()</pre>
+</li>
+</ul>
+<a id="ercWhen()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ercWhen</h4>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;ercWhen()</pre>
+</li>
+</ul>
+<a id="ercWhere()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ercWhere</h4>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;ercWhere()</pre>
+</li>
+</ul>
+<a id="createJobIdentifiers(java.lang.String,java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createJobIdentifiers</h4>
+<pre class="methodSignature">public static&nbsp;org.json.JSONObject&nbsp;createJobIdentifiers&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;primary,
+                                                       <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;local)</pre>
+</li>
+</ul>
+<a id="primaryId()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>primaryId</h4>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;primaryId()</pre>
+</li>
+</ul>
+<a id="localId()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>localId</h4>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;localId()</pre>
+</li>
+</ul>
+<a id="createJobConfiguration(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createJobConfiguration</h4>
+<pre class="methodSignature">public static&nbsp;org.json.JSONObject&nbsp;createJobConfiguration&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;profile,
+                                                         <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;submitter,
+                                                         <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;payloadUrl,
+                                                         <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;payloadType,
+                                                         <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;responseType)</pre>
+</li>
+</ul>
+<a id="profileName()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>profileName</h4>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;profileName()</pre>
+</li>
+</ul>
+<a id="submitter()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>submitter</h4>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;submitter()</pre>
+</li>
+</ul>
+<a id="payloadUrl()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>payloadUrl</h4>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;payloadUrl()</pre>
+</li>
+</ul>
+<a id="payloadType()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>payloadType</h4>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;payloadType()</pre>
+</li>
+</ul>
+<a id="responseType()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>responseType</h4>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;responseType()</pre>
+</li>
+</ul>
 <a id="createJob(org.apache.zookeeper.ZooKeeper,java.lang.String,org.json.JSONObject)">
 <!--   -->
 </a>
@@ -615,6 +863,49 @@ extends <a href="QueueItem.html" title="class in org.cdlib.mrt.zk">QueueItem</a>
 <pre class="methodSignature">public static&nbsp;<a href="Job.html" title="class in org.cdlib.mrt.zk">Job</a>&nbsp;createJob&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client,
                             <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;bid,
                             org.json.JSONObject&nbsp;configuration)
+                     throws <a href="MerrittZKNodeInvalid.html" title="class in org.cdlib.mrt.zk">MerrittZKNodeInvalid</a>,
+                            org.apache.zookeeper.KeeperException,
+                            <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="MerrittZKNodeInvalid.html" title="class in org.cdlib.mrt.zk">MerrittZKNodeInvalid</a></code></dd>
+<dd><code>org.apache.zookeeper.KeeperException</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></code></dd>
+</dl>
+</li>
+</ul>
+<a id="createJob(org.apache.zookeeper.ZooKeeper,java.lang.String,org.json.JSONObject,org.json.JSONObject)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createJob</h4>
+<pre class="methodSignature">public static&nbsp;<a href="Job.html" title="class in org.cdlib.mrt.zk">Job</a>&nbsp;createJob&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client,
+                            <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;bid,
+                            org.json.JSONObject&nbsp;configuration,
+                            org.json.JSONObject&nbsp;identifiers)
+                     throws <a href="MerrittZKNodeInvalid.html" title="class in org.cdlib.mrt.zk">MerrittZKNodeInvalid</a>,
+                            org.apache.zookeeper.KeeperException,
+                            <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="MerrittZKNodeInvalid.html" title="class in org.cdlib.mrt.zk">MerrittZKNodeInvalid</a></code></dd>
+<dd><code>org.apache.zookeeper.KeeperException</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></code></dd>
+</dl>
+</li>
+</ul>
+<a id="createJob(org.apache.zookeeper.ZooKeeper,java.lang.String,org.json.JSONObject,org.json.JSONObject,org.json.JSONObject)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createJob</h4>
+<pre class="methodSignature">public static&nbsp;<a href="Job.html" title="class in org.cdlib.mrt.zk">Job</a>&nbsp;createJob&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client,
+                            <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;bid,
+                            org.json.JSONObject&nbsp;configuration,
+                            org.json.JSONObject&nbsp;identifiers,
+                            org.json.JSONObject&nbsp;metadata)
                      throws <a href="MerrittZKNodeInvalid.html" title="class in org.cdlib.mrt.zk">MerrittZKNodeInvalid</a>,
                             org.apache.zookeeper.KeeperException,
                             <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></pre>
@@ -686,6 +977,44 @@ extends <a href="QueueItem.html" title="class in org.cdlib.mrt.zk">QueueItem</a>
                     throws <a href="MerrittZKNodeInvalid.html" title="class in org.cdlib.mrt.zk">MerrittZKNodeInvalid</a>,
                            org.apache.zookeeper.KeeperException,
                            <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="MerrittZKNodeInvalid.html" title="class in org.cdlib.mrt.zk">MerrittZKNodeInvalid</a></code></dd>
+<dd><code>org.apache.zookeeper.KeeperException</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></code></dd>
+</dl>
+</li>
+</ul>
+<a id="setIdentifiers(org.apache.zookeeper.ZooKeeper,org.json.JSONObject)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setIdentifiers</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setIdentifiers&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client,
+                           org.json.JSONObject&nbsp;identifiers)
+                    throws <a href="MerrittZKNodeInvalid.html" title="class in org.cdlib.mrt.zk">MerrittZKNodeInvalid</a>,
+                           org.apache.zookeeper.KeeperException,
+                           <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="MerrittZKNodeInvalid.html" title="class in org.cdlib.mrt.zk">MerrittZKNodeInvalid</a></code></dd>
+<dd><code>org.apache.zookeeper.KeeperException</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></code></dd>
+</dl>
+</li>
+</ul>
+<a id="setMetadata(org.apache.zookeeper.ZooKeeper,org.json.JSONObject)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setMetadata</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setMetadata&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client,
+                        org.json.JSONObject&nbsp;metadata)
+                 throws <a href="MerrittZKNodeInvalid.html" title="class in org.cdlib.mrt.zk">MerrittZKNodeInvalid</a>,
+                        org.apache.zookeeper.KeeperException,
+                        <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="MerrittZKNodeInvalid.html" title="class in org.cdlib.mrt.zk">MerrittZKNodeInvalid</a></code></dd>

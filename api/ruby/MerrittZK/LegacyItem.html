@@ -78,6 +78,7 @@
     <li ><a href="#method-i-load">#load</a>
     <li ><a href="#method-i-payload_object">#payload_object</a>
     <li ><a href="#method-i-payload_text">#payload_text</a>
+    <li ><a href="#method-i-status_byte">#status_byte</a>
     <li ><a href="#method-i-status_name">#status_name</a>
     <li ><a href="#method-i-status_vals">#status_vals</a>
     <li ><a href="#method-i-time">#time</a>
@@ -99,6 +100,15 @@
   <section id="5Buntitled-5D" class="documentation-section">
 
 
+    <section class="constants-list">
+      <header>
+        <h3>Constants</h3>
+      </header>
+      <dl>
+        <dt id="DIR">DIR
+        <dd>
+      </dl>
+    </section>
 
     <section class="attribute-method-details" class="method-section">
       <header>
@@ -136,11 +146,12 @@
           
 
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 133</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 134</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">id</span>)
   <span class="ruby-ivar">@id</span> = <span class="ruby-identifier">id</span>
   <span class="ruby-ivar">@data</span> = {}
   <span class="ruby-ivar">@bytes</span> = []
+  <span class="ruby-ivar">@payload</span> = {}
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -168,9 +179,9 @@
           
 
           <div class="method-source-code" id="dir-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 125</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 126</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">dir</span>
-  <span class="ruby-string">&#39;/na&#39;</span>
+  <span class="ruby-constant">DIR</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -191,7 +202,7 @@
           
 
           <div class="method-source-code" id="is_json-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 151</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 158</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">is_json</span>
   <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>
@@ -214,12 +225,13 @@
           
 
           <div class="method-source-code" id="load-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 139</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 141</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">load</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-identifier">arr</span> = <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">get</span>(<span class="ruby-node">&quot;#{dir}/#{@id}&quot;</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">arr</span>.<span class="ruby-identifier">nil?</span>
   <span class="ruby-identifier">payload</span> = <span class="ruby-identifier">arr</span>[<span class="ruby-value">0</span>]
   <span class="ruby-ivar">@bytes</span> = <span class="ruby-identifier">payload</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> [] <span class="ruby-operator">:</span> <span class="ruby-identifier">payload</span>.<span class="ruby-identifier">bytes</span>
+  <span class="ruby-ivar">@payload</span> = <span class="ruby-identifier">payload_object</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -240,9 +252,9 @@
           
 
           <div class="method-source-code" id="payload_object-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 167</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 174</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">payload_object</span>
-  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@is_json</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_json</span>
     <span class="ruby-identifier">json</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">payload_text</span>)
   <span class="ruby-keyword">else</span>
     <span class="ruby-identifier">json</span> = {
@@ -251,8 +263,8 @@
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">json</span>[<span class="ruby-string">&#39;queueNode&#39;</span>] = <span class="ruby-identifier">dir</span>
   <span class="ruby-identifier">json</span>[<span class="ruby-string">&#39;id&#39;</span>] = <span class="ruby-ivar">@id</span>
-  <span class="ruby-identifier">json</span>[<span class="ruby-string">&#39;date&#39;</span>] = <span class="ruby-identifier">time</span>
-  <span class="ruby-identifier">json</span>[<span class="ruby-string">&#39;status&#39;</span>] = <span class="ruby-identifier">status</span>
+  <span class="ruby-identifier">json</span>[<span class="ruby-string">&#39;date&#39;</span>] = <span class="ruby-identifier">time</span>.<span class="ruby-identifier">to_s</span>
+  <span class="ruby-identifier">json</span>[<span class="ruby-string">&#39;status&#39;</span>] = <span class="ruby-identifier">status_name</span>
   <span class="ruby-identifier">json</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -274,10 +286,33 @@
           
 
           <div class="method-source-code" id="payload_text-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 162</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 169</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">payload_text</span>
   <span class="ruby-keyword">return</span> <span class="ruby-string">&quot;&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@bytes</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">10</span>
   <span class="ruby-ivar">@bytes</span>[<span class="ruby-value">9</span><span class="ruby-operator">..</span>].<span class="ruby-identifier">pack</span>(<span class="ruby-string">&#39;c*&#39;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-status_byte" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">status_byte</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="status_byte-source">
+            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 149</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">status_byte</span>
+  <span class="ruby-ivar">@bytes</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">?</span> <span class="ruby-value">0</span> <span class="ruby-operator">:</span> <span class="ruby-ivar">@bytes</span>[<span class="ruby-value">0</span>]
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -298,7 +333,7 @@
           
 
           <div class="method-source-code" id="status_name-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 146</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 153</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">status_name</span>
   <span class="ruby-keyword">return</span> <span class="ruby-string">&#39;NA&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">status_byte</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">status_vals</span>.<span class="ruby-identifier">length</span>
   <span class="ruby-identifier">status_vals</span>[<span class="ruby-identifier">status_byte</span>]
@@ -322,7 +357,7 @@
           
 
           <div class="method-source-code" id="status_vals-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 129</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 130</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">status_vals</span>
   []
 <span class="ruby-keyword">end</span></pre>
@@ -345,11 +380,11 @@
           
 
           <div class="method-source-code" id="time-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 155</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 162</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">time</span>
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@bytes</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">9</span>
-    <span class="ruby-comment"># https://stackoverflow.com/a/68855488/3846548</span>
-    <span class="ruby-identifier">t</span> = <span class="ruby-ivar">@bytes</span>[<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-value">8</span>].<span class="ruby-identifier">inject</span>(<span class="ruby-value">0</span>) {<span class="ruby-operator">|</span><span class="ruby-identifier">m</span>, <span class="ruby-identifier">b</span><span class="ruby-operator">|</span> (<span class="ruby-identifier">m</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value">8</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">b</span> }
+  <span class="ruby-comment"># https://stackoverflow.com/a/68855488/3846548</span>
+  <span class="ruby-identifier">t</span> = <span class="ruby-ivar">@bytes</span>[<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-value">8</span>].<span class="ruby-identifier">inject</span>(<span class="ruby-value">0</span>) {<span class="ruby-operator">|</span><span class="ruby-identifier">m</span>, <span class="ruby-identifier">b</span><span class="ruby-operator">|</span> (<span class="ruby-identifier">m</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value">8</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">b</span> }
   <span class="ruby-constant">Time</span>.<span class="ruby-identifier">at</span>(<span class="ruby-identifier">t</span><span class="ruby-operator">/</span><span class="ruby-value">1000</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
