@@ -105,6 +105,21 @@ The queue will track the last successful step so that the job can be resumed at 
 
 ---
 
+## Access Queue
+
+### Access Queue State Diagram
+
+```mermaid
+graph LR
+  START --> Pending
+  Pending --> Processing
+  Failed -.-> Processing
+  Processing --> Failed
+  Processing --> COMPLETED
+  Failed -.-> DELETED
+```
+
+---
 
 ## Design Questions
 
