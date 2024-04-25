@@ -49,3 +49,14 @@ batch_states:
   UpdateReporting:
     Completed: {success: true}
     Failed: {fail: true}
+access_states:
+  Pending:
+    Processing:
+  Processing:
+    Completed: {success: true}
+    Failed: {fail: true}
+  Completed:
+  Deleted:
+  Failed:
+    Processing:
+    Deleted:

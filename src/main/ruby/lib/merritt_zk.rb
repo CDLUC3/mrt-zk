@@ -4,9 +4,11 @@ require 'yaml'
 require_relative 'merritt_zk_state'
 require_relative 'merritt_zk_job_state'
 require_relative 'merritt_zk_batch_state'
+require_relative 'merritt_zk_access_state'
 require_relative 'merritt_zk_queue_item'
 require_relative 'merritt_zk_job'
 require_relative 'merritt_zk_batch'
+require_relative 'merritt_zk_access'
 
 ##
 # == Merritt Queue Design

@@ -33,6 +33,9 @@ class MyZooTest
     @zk.create('/jobs', data: nil)
     @zk.create('/jobs/states', data: nil)
     @zk.create('/batches', data: nil)
+    @zk.create('/access', data: nil)
+    @zk.create('/access/small', data: nil)
+    @zk.create('/access/large', data: nil)
   end
 
   def delete_all
@@ -54,6 +57,9 @@ class MyZooTest
     return true if path == '/'
     return true if path == '/batches'
     return true if path == '/jobs/states'
+    return true if path == '/access'
+    return true if path == '/access/small'
+    return true if path == '/access/large'
     if @zk.children(path).empty?
       # skip job states with no jobs
       return true if File.dirname(path) == '/jobs/states'

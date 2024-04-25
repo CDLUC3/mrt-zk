@@ -655,4 +655,28 @@ RSpec.describe 'ZK input/ouput tests' do
     end
 
   end
+
+  describe 'Test Access Assembly Creation' do
+    it :access_happy_path do |x|
+      q = 'small'
+      a = MerrittZK::Access.create_assembly(@zk, q, {token: 'abc'})
+      @remap['qid0'] = a.id
+      aa = MerrittZK::Access.acquire_pending_assembly(@zk, q)
+      expect(a.id).to eq(aa.id)  
+      expect(aa.status.status).to eq(:Pending)
+      aa.set_status(@zk, aa.status.state_change(:Processing))
+      expect(aa.status.status).to eq(:Processing)
+      aa.unlock(@zk)
+  
+      aaa = MerrittZK::Access.new(q, a.id)
+      aaa.load(@zk)
+      expect(a.id).to eq(aaa.id)  
+  
+      aaa.set_status(@zk, aaa.status.success)
+  
+      expect(aaa.status.status).to eq(:Completed)
+      expect(aaa.status.deletable?).to be(true)
+    end
+  end
+
 end

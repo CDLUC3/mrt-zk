@@ -478,3 +478,12 @@ lock_inventory:
   output:
     /locks/inventory/ark:_aaa_111: null
     /locks/inventory/ark:_bbb_222: null
+access_happy_path:
+  input:
+  output:
+    /access/small/qid0/token: 
+      token: abc
+    /access/small/qid0/status:
+      status: Completed
+      last_modified: now
+
