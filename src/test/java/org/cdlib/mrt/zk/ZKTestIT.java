@@ -59,7 +59,8 @@ public class ZKTestIT {
       lock_access,
       lock_collection,
       lock_store,
-      lock_inventory;
+      lock_inventory,
+      access_happy_path;
     }
 
     private ZooKeeper zk;
@@ -113,6 +114,9 @@ public class ZKTestIT {
     public void initPaths() throws KeeperException, InterruptedException {
       create("/jobs/states", null);
       create("/batches", null);
+      create("/access", null);
+      create("/access/small", null);
+      create("/access/large", null);
       MerrittLocks.initLocks(zk);
     }
 
@@ -214,13 +218,21 @@ public class ZKTestIT {
     }
 
     public boolean skipListing(String path, Object dp) throws KeeperException, InterruptedException {
-      if (path.equals("/") || path.equals("/batches") || path.equals("/jobs") || path.equals("/jobs/states")) {
+      if (path.equals("/") || 
+          path.equals("/batches") || 
+          path.equals("/jobs") || 
+          path.equals("/jobs/states")) {
         return true;
       }
       if (path.equals("/locks/inventory") || 
           path.equals("/locks/collections") || 
           path.equals("/locks/storage") || 
           path.equals("/locks/queue")) {
+        return true;
+      }
+      if (path.equals("/access") || 
+          path.equals("/access/small") || 
+          path.equals("/access/large")) {
         return true;
       }
       if (zk.getChildren(path, false).isEmpty()) {
@@ -1147,4 +1159,31 @@ public class ZKTestIT {
       assertTrue(MerrittLocks.lockObjectInventory(zk, "ark:/bbb/222"));
     }
 
+    public JSONObject token(String val) {
+      JSONObject json = new JSONObject();
+      json.put("token", val);
+      return json;
+    }
+
+
+    @Test
+    public void accessHappyPath() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
+      load(Tests.access_happy_path);
+      String q = "small";
+      Access a = Access.createAssembly(zk, q, token("abc"));
+      remap.put("qid0", a.id());
+      Access aa = Access.acquirePendingAssembly(zk, q);
+      assertEquals(a.id(), aa.id());
+      assertEquals(aa.status(), AccessState.Pending);
+      aa.setStatus(zk, AccessState.Processing);
+      assertEquals(aa.status(), AccessState.Processing);
+      aa.unlock(zk);
+
+      Access aaa = new Access(q, a.id());
+      aaa.load(zk);
+      assertEquals(a.id(), aaa.id());
+      aaa.setStatus(zk, aaa.status().success());
+      assertEquals(aaa.status(), AccessState.Completed);
+      assertTrue(aaa.status().isDeletable());
+    }
 }

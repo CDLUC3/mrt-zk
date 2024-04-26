@@ -97,11 +97,29 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </a>
 <h2 class="title">A</h2>
 <dl>
+<dt><a href="org/cdlib/mrt/zk/Access.html" title="class in org.cdlib.mrt.zk"><span class="typeNameLink">Access</span></a> - Class in <a href="org/cdlib/mrt/zk/package-summary.html">org.cdlib.mrt.zk</a></dt>
+<dd>
+<div class="block">Class to manage a Merritt Access Assembly Request.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Access.html#%3Cinit%3E(java.lang.String,java.lang.String)">Access(String, String)</a></span> - Constructor for class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Access.html" title="class in org.cdlib.mrt.zk">Access</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Access.html#%3Cinit%3E(java.lang.String,java.lang.String,org.json.JSONObject)">Access(String, String, JSONObject)</a></span> - Constructor for class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Access.html" title="class in org.cdlib.mrt.zk">Access</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/ZKKey.html#ACCESS_TOKEN">ACCESS_TOKEN</a></span> - org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/ZKKey.html" title="enum in org.cdlib.mrt.zk">ZKKey</a></dt>
+<dd>
+<div class="block">Access assembly token data</div>
+</dd>
+<dt><a href="org/cdlib/mrt/zk/AccessState.html" title="enum in org.cdlib.mrt.zk"><span class="typeNameLink">AccessState</span></a> - Enum in <a href="org/cdlib/mrt/zk/package-summary.html">org.cdlib.mrt.zk</a></dt>
+<dd>
+<div class="block">Access Assembly State Transitions</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/QueueItemHelper.html#acl">acl</a></span> - Static variable in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/QueueItemHelper.html" title="class in org.cdlib.mrt.zk">QueueItemHelper</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Batch.html#acquireCompletedBatch(org.apache.zookeeper.ZooKeeper)">acquireCompletedBatch(ZooKeeper)</a></span> - Static method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Batch.html" title="class in org.cdlib.mrt.zk">Batch</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Job.html#acquireJob(org.apache.zookeeper.ZooKeeper,org.cdlib.mrt.zk.IngestState)">acquireJob(ZooKeeper, IngestState)</a></span> - Static method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Job.html" title="class in org.cdlib.mrt.zk">Job</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Access.html#acquirePendingAssembly(org.apache.zookeeper.ZooKeeper,java.lang.String)">acquirePendingAssembly(ZooKeeper, String)</a></span> - Static method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Access.html" title="class in org.cdlib.mrt.zk">Access</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Batch.html#acquirePendingBatch(org.apache.zookeeper.ZooKeeper)">acquirePendingBatch(ZooKeeper)</a></span> - Static method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Batch.html" title="class in org.cdlib.mrt.zk">Batch</a></dt>
 <dd>&nbsp;</dd>
@@ -149,6 +167,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </a>
 <h2 class="title">C</h2>
 <dl>
+<dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/AccessState.html#Completed">Completed</a></span> - org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/AccessState.html" title="enum in org.cdlib.mrt.zk">AccessState</a></dt>
+<dd>
+<div class="block">All jobs COMPLETED</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/BatchState.html#Completed">Completed</a></span> - org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/BatchState.html" title="enum in org.cdlib.mrt.zk">BatchState</a></dt>
 <dd>
 <div class="block">All jobs COMPLETED</div>
@@ -158,6 +180,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Storage and inventory are complete, cleanup job folder</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/QueueItemHelper.html#create(org.apache.zookeeper.ZooKeeper,java.lang.String,byte%5B%5D)">create(ZooKeeper, String, byte[])</a></span> - Static method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/QueueItemHelper.html" title="class in org.cdlib.mrt.zk">QueueItemHelper</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Access.html#createAssembly(org.apache.zookeeper.ZooKeeper,java.lang.String,org.json.JSONObject)">createAssembly(ZooKeeper, String, JSONObject)</a></span> - Static method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Access.html" title="class in org.cdlib.mrt.zk">Access</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Batch.html#createBatch(org.apache.zookeeper.ZooKeeper,org.json.JSONObject)">createBatch(ZooKeeper, JSONObject)</a></span> - Static method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Batch.html" title="class in org.cdlib.mrt.zk">Batch</a></dt>
 <dd>&nbsp;</dd>
@@ -193,6 +217,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/QueueItem.html#data()">data()</a></span> - Method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/QueueItem.html" title="class in org.cdlib.mrt.zk">QueueItem</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Access.html#delete(org.apache.zookeeper.ZooKeeper)">delete(ZooKeeper)</a></span> - Method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Access.html" title="class in org.cdlib.mrt.zk">Access</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Batch.html#delete(org.apache.zookeeper.ZooKeeper)">delete(ZooKeeper)</a></span> - Method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Batch.html" title="class in org.cdlib.mrt.zk">Batch</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Job.html#delete(org.apache.zookeeper.ZooKeeper)">delete(ZooKeeper)</a></span> - Method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Job.html" title="class in org.cdlib.mrt.zk">Job</a></dt>
@@ -203,15 +229,23 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/QueueItemHelper.html#deleteAll(org.apache.zookeeper.ZooKeeper,java.lang.String)">deleteAll(ZooKeeper, String)</a></span> - Static method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/QueueItemHelper.html" title="class in org.cdlib.mrt.zk">QueueItemHelper</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/AccessState.html#Deleted">Deleted</a></span> - org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/AccessState.html" title="enum in org.cdlib.mrt.zk">AccessState</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/BatchState.html#Deleted">Deleted</a></span> - org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/BatchState.html" title="enum in org.cdlib.mrt.zk">BatchState</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/JobState.html#Deleted">Deleted</a></span> - org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/JobState.html" title="enum in org.cdlib.mrt.zk">JobState</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Access.html#dir()">dir()</a></span> - Method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Access.html" title="class in org.cdlib.mrt.zk">Access</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Batch.html#dir()">dir()</a></span> - Method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Batch.html" title="class in org.cdlib.mrt.zk">Batch</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Job.html#dir()">dir()</a></span> - Method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Job.html" title="class in org.cdlib.mrt.zk">Job</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/QueueItem.html#dir()">dir()</a></span> - Method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/QueueItem.html" title="class in org.cdlib.mrt.zk">QueueItem</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Access.html#dir(java.lang.String)">dir(String)</a></span> - Static method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Access.html" title="class in org.cdlib.mrt.zk">Access</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Access.html#DIR">DIR</a></span> - Static variable in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Access.html" title="class in org.cdlib.mrt.zk">Access</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Batch.html#DIR">DIR</a></span> - Static variable in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Batch.html" title="class in org.cdlib.mrt.zk">Batch</a></dt>
 <dd>&nbsp;</dd>
@@ -259,6 +293,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dl>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/IngestState.html#fail()">fail()</a></span> - Method in interface org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/IngestState.html" title="interface in org.cdlib.mrt.zk">IngestState</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/AccessState.html#Failed">Failed</a></span> - org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/AccessState.html" title="enum in org.cdlib.mrt.zk">AccessState</a></dt>
+<dd>
+<div class="block">At least one job FAILED</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/BatchState.html#Failed">Failed</a></span> - org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/BatchState.html" title="enum in org.cdlib.mrt.zk">BatchState</a></dt>
 <dd>
 <div class="block">At least one job FAILED</div>
@@ -298,6 +336,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Common interface for Ingest Queue State Enums</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/MerrittLocks.html#initLocks(org.apache.zookeeper.ZooKeeper)">initLocks(ZooKeeper)</a></span> - Static method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/MerrittLocks.html" title="class in org.cdlib.mrt.zk">MerrittLocks</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Access.html#initStatus()">initStatus()</a></span> - Static method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Access.html" title="class in org.cdlib.mrt.zk">Access</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Batch.html#initStatus()">initStatus()</a></span> - Static method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Batch.html" title="class in org.cdlib.mrt.zk">Batch</a></dt>
 <dd>&nbsp;</dd>
@@ -389,6 +429,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Batch.html#loadHasFailure(org.apache.zookeeper.ZooKeeper)">loadHasFailure(ZooKeeper)</a></span> - Method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Batch.html" title="class in org.cdlib.mrt.zk">Batch</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Access.html#loadProperties(org.apache.zookeeper.ZooKeeper)">loadProperties(ZooKeeper)</a></span> - Method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Access.html" title="class in org.cdlib.mrt.zk">Access</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Batch.html#loadProperties(org.apache.zookeeper.ZooKeeper)">loadProperties(ZooKeeper)</a></span> - Method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Batch.html" title="class in org.cdlib.mrt.zk">Batch</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Job.html#loadProperties(org.apache.zookeeper.ZooKeeper)">loadProperties(ZooKeeper)</a></span> - Method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Job.html" title="class in org.cdlib.mrt.zk">Job</a></dt>
@@ -477,6 +519,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dl>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/IngestState.html#name()">name()</a></span> - Method in interface org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/IngestState.html" title="interface in org.cdlib.mrt.zk">IngestState</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/AccessState.html#nextStates()">nextStates()</a></span> - Method in enum org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/AccessState.html" title="enum in org.cdlib.mrt.zk">AccessState</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/BatchState.html#nextStates()">nextStates()</a></span> - Method in enum org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/BatchState.html" title="enum in org.cdlib.mrt.zk">BatchState</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/IngestState.html#nextStates()">nextStates()</a></span> - Method in interface org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/IngestState.html" title="interface in org.cdlib.mrt.zk">IngestState</a></dt>
@@ -517,6 +561,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Job.html#payloadUrl()">payloadUrl()</a></span> - Method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Job.html" title="class in org.cdlib.mrt.zk">Job</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/AccessState.html#Pending">Pending</a></span> - org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/AccessState.html" title="enum in org.cdlib.mrt.zk">AccessState</a></dt>
+<dd>
+<div class="block">Assembly is ready to be processed</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/BatchState.html#Pending">Pending</a></span> - org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/BatchState.html" title="enum in org.cdlib.mrt.zk">BatchState</a></dt>
 <dd>
 <div class="block">Batch is ready to be processed</div>
@@ -525,11 +573,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Job is waiting to be acquired by the queue</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Access.html#prefix()">prefix()</a></span> - Method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Access.html" title="class in org.cdlib.mrt.zk">Access</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Batch.html#prefix()">prefix()</a></span> - Method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Batch.html" title="class in org.cdlib.mrt.zk">Batch</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Job.html#prefix()">prefix()</a></span> - Method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Job.html" title="class in org.cdlib.mrt.zk">Job</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/QueueItem.html#prefix()">prefix()</a></span> - Method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/QueueItem.html" title="class in org.cdlib.mrt.zk">QueueItem</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Access.html#PREFIX">PREFIX</a></span> - Static variable in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Access.html" title="class in org.cdlib.mrt.zk">Access</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Batch.html#PREFIX">PREFIX</a></span> - Static variable in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Batch.html" title="class in org.cdlib.mrt.zk">Batch</a></dt>
 <dd>&nbsp;</dd>
@@ -539,12 +591,18 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Job.html#prefixPath()">prefixPath()</a></span> - Static method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Job.html" title="class in org.cdlib.mrt.zk">Job</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Access.html#prefixPath(java.lang.String)">prefixPath(String)</a></span> - Static method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Access.html" title="class in org.cdlib.mrt.zk">Access</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Job.html#primaryId()">primaryId()</a></span> - Method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Job.html" title="class in org.cdlib.mrt.zk">Job</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/MerrittJsonKey.html#PrimaryId">PrimaryId</a></span> - org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/MerrittJsonKey.html" title="enum in org.cdlib.mrt.zk">MerrittJsonKey</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Job.html#priority()">priority()</a></span> - Method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Job.html" title="class in org.cdlib.mrt.zk">Job</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/AccessState.html#Processing">Processing</a></span> - org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/AccessState.html" title="enum in org.cdlib.mrt.zk">AccessState</a></dt>
+<dd>
+<div class="block">Payload is analyzed.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/BatchState.html#Processing">Processing</a></span> - org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/BatchState.html" title="enum in org.cdlib.mrt.zk">BatchState</a></dt>
 <dd>
 <div class="block">Payload is analyzed.</div>
@@ -595,6 +653,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">All jobs have COMPLETED or FAILED, a summary e-mail is sent to the depositor.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Access.html#resolveStatus(java.lang.String)">resolveStatus(String)</a></span> - Method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Access.html" title="class in org.cdlib.mrt.zk">Access</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Batch.html#resolveStatus(java.lang.String)">resolveStatus(String)</a></span> - Method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Batch.html" title="class in org.cdlib.mrt.zk">Batch</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Job.html#resolveStatus(java.lang.String)">resolveStatus(String)</a></span> - Method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Job.html" title="class in org.cdlib.mrt.zk">Job</a></dt>
@@ -647,6 +707,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Job.html#spaceNeeded()">spaceNeeded()</a></span> - Method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Job.html" title="class in org.cdlib.mrt.zk">Job</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/AccessState.html#stateChange(org.cdlib.mrt.zk.IngestState)">stateChange(IngestState)</a></span> - Method in enum org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/AccessState.html" title="enum in org.cdlib.mrt.zk">AccessState</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/BatchState.html#stateChange(org.cdlib.mrt.zk.IngestState)">stateChange(IngestState)</a></span> - Method in enum org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/BatchState.html" title="enum in org.cdlib.mrt.zk">BatchState</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/IngestState.html#stateChange(org.cdlib.mrt.zk.IngestState)">stateChange(IngestState)</a></span> - Method in interface org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/IngestState.html" title="interface in org.cdlib.mrt.zk">IngestState</a></dt>
@@ -654,6 +716,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/JobState.html#stateChange(org.cdlib.mrt.zk.IngestState)">stateChange(IngestState)</a></span> - Method in enum org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/JobState.html" title="enum in org.cdlib.mrt.zk">JobState</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/IngestState.html#stateChangeAllowed(org.cdlib.mrt.zk.IngestState)">stateChangeAllowed(IngestState)</a></span> - Method in interface org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/IngestState.html" title="interface in org.cdlib.mrt.zk">IngestState</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Access.html#states()">states()</a></span> - Method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Access.html" title="class in org.cdlib.mrt.zk">Access</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/Batch.html#states()">states()</a></span> - Method in class org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/Batch.html" title="class in org.cdlib.mrt.zk">Batch</a></dt>
 <dd>&nbsp;</dd>
@@ -719,6 +783,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </a>
 <h2 class="title">V</h2>
 <dl>
+<dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/AccessState.html#valueOf(java.lang.String)">valueOf(String)</a></span> - Static method in enum org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/AccessState.html" title="enum in org.cdlib.mrt.zk">AccessState</a></dt>
+<dd>
+<div class="block">Returns the enum constant of this type with the specified name.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/BatchState.html#valueOf(java.lang.String)">valueOf(String)</a></span> - Static method in enum org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/BatchState.html" title="enum in org.cdlib.mrt.zk">BatchState</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this type with the specified name.</div>
@@ -734,6 +802,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/ZKKey.html#valueOf(java.lang.String)">valueOf(String)</a></span> - Static method in enum org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/ZKKey.html" title="enum in org.cdlib.mrt.zk">ZKKey</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this type with the specified name.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/AccessState.html#values()">values()</a></span> - Static method in enum org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/AccessState.html" title="enum in org.cdlib.mrt.zk">AccessState</a></dt>
+<dd>
+<div class="block">Returns an array containing the constants of this enum type, in
+the order they are declared.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/cdlib/mrt/zk/BatchState.html#values()">values()</a></span> - Static method in enum org.cdlib.mrt.zk.<a href="org/cdlib/mrt/zk/BatchState.html" title="enum in org.cdlib.mrt.zk">BatchState</a></dt>
 <dd>

@@ -33,6 +33,7 @@ public class StateTest {
 
       assertTrue(IngestState.statesAsJson(JobState.values()).similar(jy.getJSONObject("job_states")));
       assertTrue(IngestState.statesAsJson(BatchState.values()).similar(jy.getJSONObject("batch_states")));
+      assertTrue(IngestState.statesAsJson(AccessState.values()).similar(jy.getJSONObject("access_states")));
     }
 
     @Test
@@ -41,6 +42,8 @@ public class StateTest {
       assertEquals(state, BatchState.Pending);
       JobState jstate = JobState.values()[0];
       assertEquals(jstate, JobState.Pending);
+      AccessState astate = AccessState.values()[0];
+      assertEquals(astate, AccessState.Pending);
     }
 
     @Test

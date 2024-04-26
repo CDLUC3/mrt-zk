@@ -61,7 +61,11 @@ public enum ZKKey {
   /**
    * String node containing the batch id for the job
    */
-  JOB_BID("bid");
+  JOB_BID("bid"),
+  /**
+   * Access assembly token data
+   */
+  ACCESS_TOKEN("token");
 
   private String key;
 

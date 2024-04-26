@@ -182,6 +182,28 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
    batch.setStatus(zk, batch.status().success()));
    //Admin thread will perform batch.delete(zk);
  }
+ </pre>
+ 
+ <h3>Create Assemble Request</h3>
+ 
+ <pre>
+ ZooKeeper zk = new ZooKeeper("localhost:8084", 100, null);
+ JSONObject tokenData = new JSONObject("...");
+ String queueName = "small";
+ Access access = Access.createAssembly(zk, queueName, tokenData);
+ </pre>
+ 
+ <h3>Consumer Daemon Acquires Assembly Request</h3>
+ 
+ <pre>
+ // An ephemeral lock is created when the batch is acquired
+ // The ephemeral lock will be released when the ZooKeeper connection is closed
+ String queueName = "small";
+ try(ZooKeeper zk = new ZooKeeper("localhost:8084", 100, null)) {
+   Access access = Batch.acquirePendingAssembly(zk, queueName);
+   //Do stuff
+   access.setStatus(zk, AccessState.Processing);
+ }
  </pre></div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
@@ -215,28 +237,34 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
+<th class="colFirst" scope="row"><a href="Access.html" title="class in org.cdlib.mrt.zk">Access</a></th>
+<td class="colLast">
+<div class="block">Class to manage a Merritt Access Assembly Request.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="Batch.html" title="class in org.cdlib.mrt.zk">Batch</a></th>
 <td class="colLast">
 <div class="block">Class to manage a Merritt Ingest Batch in the Batch Queue.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colFirst" scope="row"><a href="Job.html" title="class in org.cdlib.mrt.zk">Job</a></th>
 <td class="colLast">
 <div class="block">Class to manage a Merritt Ingest Job in the Job Queue.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="MerrittLocks.html" title="class in org.cdlib.mrt.zk">MerrittLocks</a></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colFirst" scope="row"><a href="QueueItem.html" title="class in org.cdlib.mrt.zk">QueueItem</a></th>
 <td class="colLast">
 <div class="block">Base Class for Common functions for Merritt Ingest Batches and Merritt Ingest Jobs.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="QueueItemHelper.html" title="class in org.cdlib.mrt.zk">QueueItemHelper</a></th>
 <td class="colLast">
 <div class="block">The static methods in this class also provides a simplified interface for common ZooKeeper API calls.</div>
@@ -254,24 +282,30 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
+<th class="colFirst" scope="row"><a href="AccessState.html" title="enum in org.cdlib.mrt.zk">AccessState</a></th>
+<td class="colLast">
+<div class="block">Access Assembly State Transitions</div>
+</td>
+</tr>
+<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="BatchState.html" title="enum in org.cdlib.mrt.zk">BatchState</a></th>
 <td class="colLast">
 <div class="block">Batch State Transitions</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colFirst" scope="row"><a href="JobState.html" title="enum in org.cdlib.mrt.zk">JobState</a></th>
 <td class="colLast">
 <div class="block">Job State Transitions</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="MerrittJsonKey.html" title="enum in org.cdlib.mrt.zk">MerrittJsonKey</a></th>
 <td class="colLast">
 <div class="block">Lookup key names for properties stored as JSON within ZooKeeper nodes.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colFirst" scope="row"><a href="ZKKey.html" title="enum in org.cdlib.mrt.zk">ZKKey</a></th>
 <td class="colLast">
 <div class="block">Defines relative pathnames to ZooKeeper nodes for a Batch or a Job.</div>
