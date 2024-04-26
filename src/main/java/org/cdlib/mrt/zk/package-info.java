@@ -49,7 +49,7 @@
  * // The ephemeral lock will be released when the ZooKeeper connection is closed
  * try(ZooKeeper zk = new ZooKeeper("localhost:8084", 100, null)) {
  *   Batch batch = Batch.acquirePendingBatch(zk)
- *   JSONObject jobConfig = new JSONObject("...");
+ *   JSONObject jobConfig = Job.createJobConfiguration(...);
  *   Job j = Job.createJob(zk, batch.id(), jobConfig);
  * }
  * </pre>
@@ -89,6 +89,7 @@
  * <pre>
  * ZooKeeper zk = new ZooKeeper("localhost:8084", 100, null);
  * JSONObject tokenData = new JSONObject("...");
+ * TODO: Create the following?: JSONObject tokenData = Access.createTokenData(...)
  * Access access = Access.createAssembly(zk, Access.Queues.small, tokenData);
  * </pre>
  * 
