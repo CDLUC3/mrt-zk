@@ -10,17 +10,30 @@ import org.apache.zookeeper.ZooKeeper;
  * Base Class for Common functions for Merritt Ingest Batches and Merritt Ingest Jobs.
  */
 abstract public class QueueItem {
+  /**
+   * Standardized path names for Merritt Zookeeper nodes
+   */
   public static enum ZkPaths {
     Access("/access"),
     Batch("/batches"),
     Job("/jobs"),
-    Locks("/locks");
+    Locks("/locks"),
+    LocksQueue("/locks/queue"),
+    LocksQueueIngest("/locks/queue/ingest"),
+    LocksQueueAccessSmall("/locks/queue/accessSmall"),
+    LocksQueueAccessLarge("/locks/queue/accessLarge"),
+    LocksStorage("/locks/storage"),
+    LocksInventory("/locks/inventory"),
+    LocksCollections("/locks/collections");
     public String path;
     ZkPaths(String path) {
       this.path = path;
     }
   }
 
+  /**
+   * Standardized prefix names for Merritt Zookeeper sequential nodes
+   */
   public static enum ZkPrefixes {
     Access("qid"),
     Batch("bid"),

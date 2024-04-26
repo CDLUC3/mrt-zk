@@ -12,7 +12,10 @@ import org.json.JSONObject;
  * @see <a href="https://github.com/CDLUC3/mrt-zk/blob/main/design/transition.md">State Transition Design</a>
  */
 public class Access extends QueueItem {
-  public enum Queues {small, large;}
+  /**
+   * Access Assembly Queue names
+   */
+  public static enum Queues {small, large;}
 
   private Queues queueName;
 
