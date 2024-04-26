@@ -36,6 +36,7 @@ class MyZooTest
     @zk.create('/access', data: nil)
     @zk.create('/access/small', data: nil)
     @zk.create('/access/large', data: nil)
+    MerrittZK::Locks.init_locks(@zk)
   end
 
   def delete_all
@@ -60,6 +61,10 @@ class MyZooTest
     return true if path == '/access'
     return true if path == '/access/small'
     return true if path == '/access/large'
+    return true if path == '/locks/queue'
+    return true if path == '/locks/storage'
+    return true if path == '/locks/inventory'
+    return true if path == '/locks/collections'
     if @zk.children(path).empty?
       # skip job states with no jobs
       return true if File.dirname(path) == '/jobs/states'
@@ -129,14 +134,16 @@ class MyZooTest
     curzk.keys.each do |k|
       next if jout.key?(k) && curzk[k] == jout[k]
       puts "#{k}:"
-      puts "\t#{curzk[k]}"
-      puts "\t#{jout[k]}"
+      puts "\tcur zk: [#{curzk[k]}]"
+      puts "\tcur zk: nil" if curzk[k].nil?
+      puts "\tyaml out: [#{jout[k]}]"
+      puts "\tyaml out: nil" if jout[k].nil?
     end
     (jout.keys - curzk.keys).each do |k|
-      puts "#{k}: missing from curzk"
+      puts "#{k}: missing from cur zk"
     end
     (curzk.keys - jout.keys).each do |k|
-      puts "#{k}: missing from jout"
+      puts "#{k}: missing from yaml out"
     end
     puts "---"
     false
