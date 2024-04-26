@@ -1169,17 +1169,16 @@ public class ZKTestIT {
     @Test
     public void accessHappyPath() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
       load(Tests.access_happy_path);
-      String q = "small";
-      Access a = Access.createAssembly(zk, q, token("abc"));
+      Access a = Access.createAssembly(zk, Access.Queues.small, token("abc"));
       remap.put("qid0", a.id());
-      Access aa = Access.acquirePendingAssembly(zk, q);
+      Access aa = Access.acquirePendingAssembly(zk, Access.Queues.small);
       assertEquals(a.id(), aa.id());
       assertEquals(aa.status(), AccessState.Pending);
       aa.setStatus(zk, AccessState.Processing);
       assertEquals(aa.status(), AccessState.Processing);
       aa.unlock(zk);
 
-      Access aaa = new Access(q, a.id());
+      Access aaa = new Access(Access.Queues.small, a.id());
       aaa.load(zk);
       assertEquals(a.id(), aaa.id());
       aaa.setStatus(zk, aaa.status().success());

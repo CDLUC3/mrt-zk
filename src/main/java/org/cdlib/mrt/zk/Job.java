@@ -13,8 +13,6 @@ import org.json.JSONObject;
  * @see <a href="https://github.com/CDLUC3/mrt-zk/blob/main/design/transition.md">State Transition Design</a>
  */
 public class Job extends QueueItem {
-  public static final String DIR = "/jobs";
-  public static final String PREFIX = "jid";
   private String bid;
   private int retryCount = 0;
   private int priority = 5;
@@ -63,15 +61,15 @@ public class Job extends QueueItem {
   }
 
   public String dir() {
-    return Job.DIR;
+    return QueueItem.ZkPaths.Job.path;
   }
 
   public String prefix() {
-    return Job.PREFIX;
+    return QueueItem.ZkPrefixes.Job.prefix;
   }
 
   public static String prefixPath() {
-    return String.format("%s/%s", Job.DIR, Job.PREFIX);
+    return String.format("%s/%s", QueueItem.ZkPaths.Job.path, QueueItem.ZkPrefixes.Job.prefix);
   };
 
   public static IngestState initStatus() {
@@ -271,7 +269,7 @@ public class Job extends QueueItem {
   }
 
   public void setBatchStatePath(ZooKeeper client) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
-    String bs = String.format("%s/%s/states/%s/%s", Batch.DIR, bid, batchStateSubpath(), id());
+    String bs = String.format("%s/%s/states/%s/%s", QueueItem.ZkPaths.Batch.path, bid, batchStateSubpath(), id());
     if (bs == batchStatePath) {
       return;
     }
@@ -290,7 +288,7 @@ public class Job extends QueueItem {
   }
 
   public void setJobStatePath(ZooKeeper client) throws MerrittZKNodeInvalid, InterruptedException, KeeperException {
-    String js = String.format("%s/states/%s/%02d-%s", Job.DIR, status().name().toLowerCase(), priority, id());
+    String js = String.format("%s/states/%s/%02d-%s", QueueItem.ZkPaths.Job.path, status().name().toLowerCase(), priority, id());
     if (js == jobStatePath) {
       return;
     }
@@ -317,7 +315,7 @@ public class Job extends QueueItem {
   }
 
   public static Job acquireJob(ZooKeeper client, IngestState state) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
-    String p = String.format("%s/states/%s", Job.DIR, state.name().toLowerCase());
+    String p = String.format("%s/states/%s", QueueItem.ZkPaths.Job.path, state.name().toLowerCase());
     if (!QueueItemHelper.exists(client, p)) {
       return null;
     }

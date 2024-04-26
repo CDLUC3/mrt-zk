@@ -10,6 +10,27 @@ import org.apache.zookeeper.ZooKeeper;
  * Base Class for Common functions for Merritt Ingest Batches and Merritt Ingest Jobs.
  */
 abstract public class QueueItem {
+  public static enum ZkPaths {
+    Access("/access"),
+    Batch("/batches"),
+    Job("/jobs"),
+    Locks("/locks");
+    public String path;
+    ZkPaths(String path) {
+      this.path = path;
+    }
+  }
+
+  public static enum ZkPrefixes {
+    Access("qid"),
+    Batch("bid"),
+    Job("jid");
+    public String prefix;
+    ZkPrefixes(String prefix) {
+      this.prefix = prefix;
+    }
+  }
+
   private String id;
   protected JSONObject data;
   private IngestState status;
@@ -33,11 +54,45 @@ abstract public class QueueItem {
 
   public Object jsonDataProperty(JSONObject obj, MerrittJsonKey key, Object dval) {
     String k = key.key();
-    return obj.has(k) ? obj.get(k) : dval;
+    if (obj == null) {
+      return dval;
+    } else if (obj.has(k)) {
+      return obj.get(k);
+    } else {
+      return dval;
+    }
   }
   public String jsonStringProperty(JSONObject obj, MerrittJsonKey key, String dval) {
     String k = key.key();
-    return obj.has(k) ? obj.getString(k) : dval;
+    if (obj == null) {
+      return dval;
+    } else if (obj.has(k)) {
+      return obj.getString(k);
+    } else {
+      return dval;
+    }
+  }
+
+  public int jsonIntProperty(JSONObject obj, MerrittJsonKey key, int dval) {
+    String k = key.key();
+    if (obj == null) {
+      return dval;
+    } else if (obj.has(k)) {
+      return obj.getInt(k);
+    } else {
+      return dval;
+    }
+  }
+
+  public long jsonLongProperty(JSONObject obj, MerrittJsonKey key, long dval) {
+    String k = key.key();
+    if (obj == null) {
+      return dval;
+    } else if (obj.has(k)) {
+      return obj.getLong(k);
+    } else {
+      return dval;
+    }
   }
 
   abstract public IngestState[] states();

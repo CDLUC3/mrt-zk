@@ -11,8 +11,6 @@ import org.json.JSONObject;
  * @see <a href="https://github.com/CDLUC3/mrt-zk/blob/main/design/transition.md">State Transition Design</a>
  */
 public class Batch extends QueueItem {
-  public static final String DIR = "/batches";
-  public static final String PREFIX = "bid";
   private boolean hasFailure = false;
 
   /**
@@ -32,19 +30,20 @@ public class Batch extends QueueItem {
 
   /**
    * Indicate that a batch contains a failed job in the Job Queue.
+   * @return true if a failed job exists for the batch
    */
   public boolean hasFailure() {
     return this.hasFailure;
   }
 
   public String dir() {
-    return Batch.DIR;
+    return QueueItem.ZkPaths.Batch.path;
   }
   public String prefix() {
-    return Batch.PREFIX;
+    return QueueItem.ZkPrefixes.Batch.prefix;
   }
   public static String prefixPath() {
-    return String.format("%s/%s", Batch.DIR, Batch.PREFIX);
+    return String.format("%s/%s", QueueItem.ZkPaths.Batch.path, QueueItem.ZkPrefixes.Batch.prefix);
   };
   public static IngestState initStatus() {
     return BatchState.Pending;
@@ -100,10 +99,10 @@ public class Batch extends QueueItem {
   }
 
   public static Batch acquirePendingBatch(ZooKeeper client) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
-    List<String> batches = client.getChildren(Batch.DIR, false);
+    List<String> batches = client.getChildren(QueueItem.ZkPaths.Batch.path, false);
     batches.sort(String::compareTo);
     for(String cp: batches) {
-      String p = String.format("%s/%s/states", Batch.DIR, cp);
+      String p = String.format("%s/%s/states", QueueItem.ZkPaths.Batch.path, cp);
       if (!QueueItemHelper.exists(client, p)) {
         Batch b = new Batch(cp);
         if (b.lock(client)) {
@@ -116,10 +115,10 @@ public class Batch extends QueueItem {
     return null;
   }
   public static Batch acquireCompletedBatch(ZooKeeper client) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
-    List<String> batches = client.getChildren(Batch.DIR, false);
+    List<String> batches = client.getChildren(QueueItem.ZkPaths.Batch.path, false);
     batches.sort(String::compareTo);
     for(String cp: batches) {
-      String p = String.format("%s/%s/states/batch-processing", Batch.DIR, cp);
+      String p = String.format("%s/%s/states/batch-processing", QueueItem.ZkPaths.Batch.path, cp);
       if (QueueItemHelper.exists(client, p)) {
         if (client.getChildren(p, false).isEmpty()) {
           Batch b = new Batch(cp);

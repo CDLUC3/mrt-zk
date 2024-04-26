@@ -40,8 +40,8 @@
 | /locks/queue/ingest | none | - | Admin | Admin | Previously file-system based|
 | /locks/queue/accessSmall | none | - | Admin | Admin | |
 | /locks/queue/accessLarge | none | - | Admin | Admin | |
-| /locks/storage/{ark} | none | - | Ingest | Ingest | current path: ? |
-| /locks/inventory/{ark} | none | - | Inventory | Inventory | current path: ? |
+| /locks/storage/{ark} | none | - | Ingest | Ingest | slashes are replaced with _ |
+| /locks/inventory/{ark} | none | - | Inventory | Inventory | slashes are replaced with _ |
 | /locks/collections/{mnemonic} | none | - | Admin | Admin | |
 
 ## Access Queue

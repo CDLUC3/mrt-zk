@@ -84,13 +84,12 @@
  * }
  * </pre>
  * 
-* <h3>Create Assemble Request</h3>
+* <h3>Create Assembly Request</h3>
  * 
  * <pre>
  * ZooKeeper zk = new ZooKeeper("localhost:8084", 100, null);
  * JSONObject tokenData = new JSONObject("...");
- * String queueName = "small";
- * Access access = Access.createAssembly(zk, queueName, tokenData);
+ * Access access = Access.createAssembly(zk, Access.Queues.small, tokenData);
  * </pre>
  * 
  * <h3>Consumer Daemon Acquires Assembly Request</h3>
@@ -98,9 +97,8 @@
  * <pre>
  * // An ephemeral lock is created when the batch is acquired
  * // The ephemeral lock will be released when the ZooKeeper connection is closed
- * String queueName = "small";
  * try(ZooKeeper zk = new ZooKeeper("localhost:8084", 100, null)) {
- *   Access access = Batch.acquirePendingAssembly(zk, queueName);
+ *   Access access = Batch.acquirePendingAssembly(zk, Access.Queues.small);
  *   //Do stuff
  *   access.setStatus(zk, AccessState.Processing);
  * }
