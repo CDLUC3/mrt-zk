@@ -176,11 +176,11 @@ public class StateTest {
       assertNull(state.success());
 
       state = state.stateChange(JobState.Estimating);
-      assertNull(state.fail());
+      assertNotNull(state.fail());
       assertNotNull(state);
 
       assertEquals(state, JobState.Estimating);      
-      assertNull(state.fail());
+      assertNotNull(state.fail());
       state = state.success();
       assertNotNull(state);
 
@@ -241,11 +241,11 @@ public class StateTest {
       assertNull(state.success());
 
       state = state.stateChange(JobState.Estimating);
-      assertNull(state.fail());
+      assertNotNull(state.fail());
       assertNotNull(state);
 
       assertEquals(state, JobState.Estimating);      
-      assertNull(state.fail());
+      assertNotNull(state.fail());
       state = state.success();
       assertNotNull(state);
 

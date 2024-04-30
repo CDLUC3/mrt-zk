@@ -32,10 +32,13 @@ public enum JobState implements IngestState {
    */
   Estimating {
     public List<IngestState> nextStates() {
-      return Arrays.asList(JobState.Provisioning);
+      return Arrays.asList(JobState.Provisioning, JobState.Failed);
     }
     public JobState success() {
       return JobState.Provisioning;
+    }
+    public JobState fail() {
+      return JobState.Failed;
     }
   },
   /**
