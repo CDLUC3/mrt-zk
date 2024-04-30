@@ -12,7 +12,7 @@ module MerrittZK
       @status = nil
     end
 
-    attr_reader :id, :status
+    attr_reader :id, :status, :data
 
     def status_name
       status.name

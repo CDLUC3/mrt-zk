@@ -159,7 +159,7 @@ module MerrittZK
       jobs = []
       zk.children(@@dir).sort.each do |cp|
         next if cp == 'states'
-        jobs.append(Job.new(cp).load(zk))
+        jobs.append(Job.new(cp).load(zk).data)
       end
       jobs
     end
