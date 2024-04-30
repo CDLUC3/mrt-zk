@@ -109,6 +109,7 @@ end
 if ARGV.include?("-m1")
   LIST.each do |p|
     zk.rm_rf('/migration')
+    zk.create('/migration', data: nil)
     zk.create('/migration/m1', data: nil)
   end
 end
