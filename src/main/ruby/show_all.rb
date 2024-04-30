@@ -106,6 +106,20 @@ if ARGV.include?("-clear")
   end
 end
 
+if ARGV.include?("-m1")
+  LIST.each do |p|
+    zk.rm_rf('/migration')
+    zk.create('/migration/m1', data: nil)
+  end
+end
+
+if ARGV.include?("-m0")
+  LIST.each do |p|
+    zk.rm_rf('/migration')
+  end
+end
+
+
 puts "===> MIGRATED"
 
 show(zk, %w{/batches /jobs /locks /access /migration})
