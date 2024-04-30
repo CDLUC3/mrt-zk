@@ -70,6 +70,8 @@ module MerrittZK
       @batch_state_path = bs 
       unless zk.exists?(@batch_state_path)
         p = File.dirname(@batch_state_path)
+        pp = File.dirname(p)
+        zk.create(pp, data: nil) unless zk.exists?(pp)
         zk.create(p, data: nil) unless zk.exists?(p)
         zk.create(@batch_state_path, data: nil)
       end

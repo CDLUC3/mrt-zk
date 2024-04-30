@@ -130,7 +130,7 @@ RSpec.describe 'state transition tests' do
       expect(@job_state.success).to be_nil
 
       state = @job_state.state_change(:Estimating)
-      expect(state.fail).to be_nil
+      expect(state.fail).to_not be_nil
       state = state.success
       expect(state).to_not be_nil
 

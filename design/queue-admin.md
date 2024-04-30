@@ -30,6 +30,16 @@ Migrate Queue Administration Tasks from Ingest to the Merritt Admin Tool
 - This is not recommended
 - Conceptually, this could allow the remaining set of admin functions to be performed entirely from Lambda
 
+## Migration Levels
+- m0: no migration
+- m0r: retire immediately
+- m1: support legacy queues
+- m2: support mrt-zk migration (ingest and inventory)
+- m2r: retire with the introduction of mrt-zk (ingest and inventory)
+- m3: support mrt-zk migration (access and store)
+- m4: profiles accessible to lambda
+- m5: refactor collection creation
+
 ## Existing Ingest Admin Endpoints
 
 |service|admin endpoint|future loc|feature needed | comment|
