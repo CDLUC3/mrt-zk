@@ -60,7 +60,8 @@ public class ZKTestIT {
       lock_collection,
       lock_store,
       lock_inventory,
-      access_happy_path;
+      access_happy_path,
+      find_batch_by_uuid;
     }
 
     private ZooKeeper zk;
@@ -1192,4 +1193,16 @@ public class ZKTestIT {
       assertEquals(aaa.status(), AccessState.Completed);
       assertTrue(aaa.status().isDeletable());
     }
+
+    @Test
+    public void findByUuid() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
+      load(Tests.create_batch);
+      Batch b = Batch.createBatch(zk, fooBar());
+      remap.put("bid0", b.id());
+      Batch bb = Batch.findByUuid(zk, "bid-uuid");
+      assertEquals(b.id(), bb.id());
+      Batch bbb = Batch.findByUuid(zk, "bid-uuidXX");
+      assertNull(bbb);
+    }
+
 }

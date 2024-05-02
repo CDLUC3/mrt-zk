@@ -21,7 +21,7 @@ module MerrittZK
 
     def load_status(zk, js)
       super(zk, js)
-      @retry_count = js.fetch('retry_count', 0)
+      @retry_count = js.fetch(:retry_count, 0)
     end
 
     def load_properties(zk)
@@ -209,47 +209,47 @@ module MerrittZK
     end
 
     def submitter
-      @payload.fetch('submitter', '')
+      @payload.fetch(:submitter, '')
     end
 
     def creator
-      @payload.fetch('creator', '')
+      @payload.fetch(:creator, '')
     end
 
     def profile
-      @payload.fetch('profile', '')
+      @payload.fetch(:profile, '')
     end
 
     def response_form
-      @payload.fetch('responseForm', '')
+      @payload.fetch(:responseForm, '')
     end
 
     def filename
-      @payload.fetch('filename', '')
+      @payload.fetch(:filename, '')
     end
 
     def udpate
-      @payload.fetch('update', false)
+      @payload.fetch(:update, false)
     end
 
     def type
-      @payload.fetch('type', '')
+      @payload.fetch(:type, '')
     end
 
     def title
-      @payload.fetch('title', '')
+      @payload.fetch(:title, '')
     end
 
     def bid
-      @payload.fetch('bid', '')
+      @payload.fetch(:bid, '')
     end
 
     def priority
-      @payload.fetch('priority', 0)
+      @payload.fetch(:priority, 0)
     end
 
     def title
-      @payload.fetch('space_needed', 0)
+      @payload.fetch(:space_needed, 0)
     end
 
     def self.list_jobs(zk)

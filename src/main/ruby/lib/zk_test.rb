@@ -117,6 +117,7 @@ class MyZooTest
 
   def output(name)
     s = tests.fetch(name, {}).fetch(:output, {})
+    return {} if s.nil?
     JSON.parse(s.to_json)
   end
 
@@ -131,7 +132,9 @@ class MyZooTest
     end
     curzk = JSON.parse(s)
     jout = output(name)
+
     return true if curzk == jout
+
     puts "---"
     curzk.keys.each do |k|
       next if jout.key?(k) && curzk[k] == jout[k]

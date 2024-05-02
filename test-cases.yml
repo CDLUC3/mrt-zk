@@ -528,4 +528,14 @@ access_happy_path:
     /access/small/qid0/status:
       status: Completed
       last_modified: now
+find_batch_by_uuid:
+  input:
+  output:
+    /batch-uuids/bid-uuid: bid0
+    /batches/bid0/submission: 
+      foo: bar
+      batchID: bid-uuid
+    /batches/bid0/status: 
+      status: Pending
+      last_modified: now
 

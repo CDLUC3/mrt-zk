@@ -743,4 +743,16 @@ RSpec.describe 'ZK input/ouput tests' do
     end
   end
 
+  describe 'Find Batch by UUID' do
+    it :find_batch_by_uuid do |x|
+      b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
+      @remap['bid0'] = b.id
+
+      bb = MerrittZK::Batch.find_batch_by_uuid(@zk, 'bid-uuid')
+      expect(bb.id).to eq(b.id)
+
+      bbb = MerrittZK::Batch.find_batch_by_uuid(@zk, 'bid-uuidx')
+      expect(bbb).to be_nil
+    end
+  end
 end

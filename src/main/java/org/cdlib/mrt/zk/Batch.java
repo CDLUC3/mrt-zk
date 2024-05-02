@@ -77,13 +77,16 @@ public class Batch extends QueueItem {
     return BatchState.values();
   }
 
+  public static String batchUuidPath(String uuid) {
+    return String.format("%s/%s", ZkPaths.BatchUuids.path, uuid);
+  }
+
   public static Batch createBatch(ZooKeeper client, JSONObject submission) throws KeeperException, InterruptedException, MerrittZKNodeInvalid {
     String id = QueueItemHelper.createId(client, Batch.prefixPath());
     Batch batch = new Batch(id, submission);
     String uuid = jsonStringProperty(submission, MerrittJsonKey.BatchId, "");
     if (!uuid.isEmpty()) {
-      String path = String.format("%s/%s", ZkPaths.BatchUuids.path, uuid);
-      QueueItemHelper.create(client, path, batch.id().getBytes());
+      QueueItemHelper.create(client, batchUuidPath(uuid), batch.id().getBytes());
     }
     batch.createData(client, ZKKey.BATCH_SUBMISSION, submission);
     batch.setStatus(client, Batch.initStatus()); 
@@ -105,8 +108,7 @@ public class Batch extends QueueItem {
     }
 
     if (!batchUuid().isEmpty()) {
-      String path = String.format("%s/%s", ZkPaths.BatchUuids.path, batchUuid());
-      QueueItemHelper.delete(client, path);
+      QueueItemHelper.delete(client, batchUuidPath(batchUuid()));
     }
 
     QueueItemHelper.deleteAll(client, path());
@@ -146,6 +148,20 @@ public class Batch extends QueueItem {
     }  
     return null;
   }  
+
+  public static Batch findByUuid(ZooKeeper client, String uuid) throws KeeperException, InterruptedException, MerrittZKNodeInvalid {
+    if (uuid.isEmpty()) {
+      return null;
+    }
+    String p = batchUuidPath(uuid);
+    if (!QueueItemHelper.exists(client, p)) {
+      return null;
+    }
+    String bid = QueueItemHelper.pathToString(client, p);
+    Batch b = new Batch(bid);
+    b.load(client);
+    return b;
+  }
 
   public static void main(String[] argv){
     System.out.println("Batch States");

@@ -67,7 +67,7 @@ if ARGV.include?("-migrate")
 
   batches = {}
   MerrittZK::LegacyIngestJob.list_jobs(zk).each do |j|
-    buuid = j.fetch('batchID', '')
+    buuid = j.fetch(:batchID, '')
     b = batches[buuid]
     if b.nil?
       batch = MerrittZK::Batch.create_batch(zk, {migrated: true, batchID: buuid})

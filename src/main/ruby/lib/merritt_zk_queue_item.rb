@@ -30,7 +30,7 @@ module MerrittZK
     end
 
     def load_status(zk, js)
-      s = js.fetch('status', 'na').to_sym
+      s = js.fetch(:status, 'na').to_sym
       @status = states.fetch(s, nil)
     end
 
@@ -48,7 +48,7 @@ module MerrittZK
     def json_property(zk, key)
       s = string_property(zk, key)
       begin
-        JSON.parse(s)
+        JSON.parse(s, symbolize_names: true)
       rescue
         raise MerrittZKNodeInvalid.new("Node Object for (#{p}) does not contain valid json: #{s}")
       end
@@ -173,16 +173,16 @@ module MerrittZK
 
     def payload_object
       if is_json
-        json = JSON.parse(payload_text)
+        json = JSON.parse(payload_text, symbolize_names: true)
       else
         json = {
           payload: payload_text
         }
       end
-      json['queueNode'] = dir
-      json['id'] = @id
-      json['date'] = time.to_s
-      json['status'] = status_name
+      json[:queueNode] = dir
+      json[:id] = @id
+      json[:date] = time.to_s
+      json[:status] = status_name
       json
     end
 

@@ -48,11 +48,20 @@ module MerrittZK
       "#{@@dir}/#{@id}"
     end
 
+    def self.batch_uuid_path(uuid)
+      "#{BATCH_UUIDS}/#{uuid}"
+    end
+
+    def batch_uuid
+      return "" if @data.nil?
+      @data.fetch(:batchID, "")
+    end
+
     def self.create_batch(zk, submission)
       id = QueueItem.create_id(zk, prefix_path)
       batch = Batch.new(id, data: submission)
       uuid = submission.fetch(:batchID, '')
-      zk.create("#{BATCH_UUIDS}/#{uuid}", id) unless uuid.empty?
+      zk.create(self.batch_uuid_path(uuid), id) unless uuid.empty?
       batch.set_data(zk, "submission", submission)
       batch.set_status(zk, @@init_status)
       batch
@@ -91,6 +100,17 @@ module MerrittZK
       nil
     end
 
+    def self.find_batch_by_uuid(zk, uuid)
+      return if uuid.empty?
+      p = self.batch_uuid_path(uuid)
+      return unless zk.exists?(p)
+      arr = zk.get(p)
+      return if arr.nil?
+      bid = arr[0]
+      return if bid.empty?
+      Batch.new(bid)
+    end
+
     def delete(zk)
       raise MerrittZK::MerrittStateError.new("Delete invalid #{path}") unless @status.deletable?
       ['batch-processing', 'batch-failed', 'batch-completed'].each do |state|
@@ -100,6 +120,9 @@ module MerrittZK
           MerrittZK::Job.new(cp).load(zk).delete(zk)
         end
       end
+
+      load(zk) if @data.nil?
+      zk.delete(Batch.batch_uuid_path(batch_uuid)) unless batch_uuid.empty?
 
       unless path.nil? || path.empty?
         # puts "DELETE #{path}"
