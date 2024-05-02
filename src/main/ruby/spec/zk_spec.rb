@@ -255,6 +255,14 @@ RSpec.describe 'ZK input/ouput tests' do
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Completed)
       expect(jj.status.deletable?).to be(true)
+
+      arr = bb.get_processing_jobs(@zk)
+      expect(arr.length).to eq(2)
+      arr = bb.get_completed_jobs(@zk)
+      expect(arr.length).to eq(1)
+      expect(arr[0].id).to eq(@remap['jid1'])
+      arr = bb.get_failed_jobs(@zk)
+      expect(arr.length).to eq(0)
     end
 
     it :batch_happy_path do |x|
@@ -408,6 +416,14 @@ RSpec.describe 'ZK input/ouput tests' do
       bbbb = MerrittZK::Batch.new(bbb.id).load(@zk)
       expect(bbbb.status.status).to eq(:Failed)
       expect(bbbb.has_failure).to be(true)
+
+      arr = bbbb.get_processing_jobs(@zk)
+      expect(arr.length).to eq(0)
+      arr = bbbb.get_completed_jobs(@zk)
+      expect(arr.length).to eq(0)
+      arr = bbbb.get_failed_jobs(@zk)
+      expect(arr.length).to eq(1)
+      expect(arr[0].id).to eq(@remap['jid1'])
 
       bbbb.set_status(@zk, MerrittZK::BatchState.Deleted)
       expect(bbbb.status.status).to eq(:Deleted)

@@ -1,5 +1,6 @@
 package org.cdlib.mrt.zk;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.zookeeper.KeeperException;
@@ -51,7 +52,7 @@ public class Batch extends QueueItem {
 
   public void loadHasFailure(ZooKeeper client) throws KeeperException, InterruptedException {
     this.hasFailure = false;
-    String p = String.format("%s/states/batch-failed", path());
+    String p = String.format("%s/states/%s", path(), BatchJobStates.Failed.path);
     if (QueueItemHelper.exists(client, p)) {
       if (!client.getChildren(p, false).isEmpty()) {
         this.hasFailure = true;
@@ -94,7 +95,7 @@ public class Batch extends QueueItem {
   }
 
   public void delete(ZooKeeper client) throws MerrittStateError, MerrittZKNodeInvalid, KeeperException, InterruptedException {
-    String[] dirs = {"batch-processing", "batch-failed", "batch-completed"};
+    String[] dirs = {BatchJobStates.Processing.path, BatchJobStates.Failed.path, BatchJobStates.Completed.path};
     if (!this.status().isDeletable()) {
       throw new MerrittStateError(String.format("Delete invalid for %s", path()));
     }
@@ -134,7 +135,7 @@ public class Batch extends QueueItem {
     List<String> batches = client.getChildren(QueueItem.ZkPaths.Batch.path, false);
     batches.sort(String::compareTo);
     for(String cp: batches) {
-      String p = String.format("%s/%s/states/batch-processing", QueueItem.ZkPaths.Batch.path, cp);
+      String p = String.format("%s/%s/states/%s", QueueItem.ZkPaths.Batch.path, cp, BatchJobStates.Processing.path);
       if (QueueItemHelper.exists(client, p)) {
         if (client.getChildren(p, false).isEmpty()) {
           Batch b = new Batch(cp);
@@ -148,6 +149,28 @@ public class Batch extends QueueItem {
     }  
     return null;
   }  
+
+  public List<Job> getProcessingJobs(ZooKeeper client) throws KeeperException, InterruptedException {
+    return getJobs(client, BatchJobStates.Processing);
+  }
+
+  public List<Job> getCompletedJobs(ZooKeeper client) throws KeeperException, InterruptedException {
+    return getJobs(client, BatchJobStates.Completed);
+  }
+  public List<Job> getFailedJobs(ZooKeeper client) throws KeeperException, InterruptedException {
+    return getJobs(client, BatchJobStates.Failed);
+  }
+  public List<Job> getJobs(ZooKeeper client, BatchJobStates state) throws KeeperException, InterruptedException {
+    ArrayList<Job> jobs = new ArrayList<>();
+    String p = String.format("%s/states/%s", path(), state.path);
+    if (QueueItemHelper.exists(client, p)) {
+      for(String cp: client.getChildren(p, false)) {
+        jobs.add(new Job(cp, id()));
+      }
+    }
+    System.out.println("TBTBTB "+ state.path + " " + jobs.size());
+    return jobs;
+  }
 
   public static Batch findByUuid(ZooKeeper client, String uuid) throws KeeperException, InterruptedException, MerrittZKNodeInvalid {
     if (uuid.isEmpty()) {

@@ -261,11 +261,11 @@ public class Job extends QueueItem {
 
   public String batchStateSubpath() {
     if (this.status() == JobState.Failed) {
-      return "batch-failed";
+      return BatchJobStates.Failed.path;
     } else if (this.status() == JobState.Completed) {
-      return "batch-completed";
+      return BatchJobStates.Completed.path;
     }
-    return "batch-processing";
+    return BatchJobStates.Processing.path;
   }
 
   public void setBatchStatePath(ZooKeeper client) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {

@@ -19,6 +19,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.zookeeper.KeeperException;
@@ -580,6 +581,13 @@ public class ZKTestIT {
       jj.unlock(zk);
       assertEquals(jj.status(), JobState.Completed);
       assertTrue(jj.status().isDeletable());
+
+      List<Job> jobs = bb.getProcessingJobs(zk);
+      assertEquals(jobs.size(), 2);
+      jobs = bb.getCompletedJobs(zk);
+      assertEquals(jobs.size(), 1);
+      jobs = bb.getFailedJobs(zk);
+      assertEquals(jobs.size(), 0);
     }
 
     @Test
@@ -745,9 +753,17 @@ public class ZKTestIT {
       assertEquals(bbbb.status(), BatchState.Failed);
       assertTrue(bbbb.hasFailure());
 
+      List<Job> jobs = bb.getProcessingJobs(zk);
+      assertEquals(jobs.size(), 0);
+      jobs = bb.getCompletedJobs(zk);
+      assertEquals(jobs.size(), 0);
+      jobs = bb.getFailedJobs(zk);
+      assertEquals(jobs.size(), 1);
+
       bbbb.setStatus(zk, BatchState.Deleted);
       assertEquals(bbbb.status(), BatchState.Deleted);
       assertTrue(bbbb.status().isDeletable());
+      System.out.println(222);
     }
 
     @Test

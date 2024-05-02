@@ -100,6 +100,29 @@ module MerrittZK
       nil
     end
 
+    def get_completed_jobs(zk)
+      get_jobs(zk, 'batch-completed')
+    end
+
+    def get_failed_jobs(zk)
+      get_jobs(zk, 'batch-failed')
+    end
+
+    def get_processing_jobs(zk)
+      get_jobs(zk, 'batch-processing')
+    end
+
+    def get_jobs(zk, state)
+      jobs = []
+      p = "#{path}/states/#{state}"
+      if (zk.exists?(p))
+        zk.children(p).each do |cp|
+          jobs << Job.new(cp, bid: id)
+        end
+      end
+      jobs
+    end
+
     def self.find_batch_by_uuid(zk, uuid)
       return if uuid.empty?
       p = self.batch_uuid_path(uuid)

@@ -35,6 +35,18 @@ abstract public class QueueItem {
     }
   }
 
+    /**
+   * Standardized path names for Merritt Zookeeper nodes
+   */
+  public static enum BatchJobStates {
+    Processing("batch-processing"),
+    Completed("batch-completed"),
+    Failed("batch-failed");
+    public String path;
+    BatchJobStates(String path) {
+      this.path = path;
+    }
+  }
   /**
    * Standardized prefix names for Merritt Zookeeper sequential nodes
    */
