@@ -1,9 +1,12 @@
-source "https://rubygems.org"
-gem 'zookeeper'
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
 gem 'zk'
+gem 'zookeeper'
 
 group :test do
   gem 'colorize'
-  gem 'rspec'
   gem 'rdoc'
+  gem 'rspec'
+  gem 'rubocop'
 end

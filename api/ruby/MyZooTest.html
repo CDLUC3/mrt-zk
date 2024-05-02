@@ -162,7 +162,7 @@
           
 
           <div class="method-source-code" id="delete_all-source">
-            <pre><span class="ruby-comment"># File lib/zk_test.rb, line 42</span>
+            <pre><span class="ruby-comment"># File lib/zk_test.rb, line 43</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">delete_all</span>
   <span class="ruby-ivar">@zk</span>.<span class="ruby-identifier">children</span>(<span class="ruby-string">&#39;/&#39;</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">cp</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">cp</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;zookeeper&#39;</span>
@@ -193,6 +193,7 @@
   <span class="ruby-ivar">@zk</span>.<span class="ruby-identifier">create</span>(<span class="ruby-string">&#39;/jobs&#39;</span>, <span class="ruby-value">data:</span> <span class="ruby-keyword">nil</span>)
   <span class="ruby-ivar">@zk</span>.<span class="ruby-identifier">create</span>(<span class="ruby-string">&#39;/jobs/states&#39;</span>, <span class="ruby-value">data:</span> <span class="ruby-keyword">nil</span>)
   <span class="ruby-ivar">@zk</span>.<span class="ruby-identifier">create</span>(<span class="ruby-string">&#39;/batches&#39;</span>, <span class="ruby-value">data:</span> <span class="ruby-keyword">nil</span>)
+  <span class="ruby-ivar">@zk</span>.<span class="ruby-identifier">create</span>(<span class="ruby-string">&#39;/batch-uuids&#39;</span>, <span class="ruby-value">data:</span> <span class="ruby-keyword">nil</span>)
   <span class="ruby-ivar">@zk</span>.<span class="ruby-identifier">create</span>(<span class="ruby-string">&#39;/access&#39;</span>, <span class="ruby-value">data:</span> <span class="ruby-keyword">nil</span>)
   <span class="ruby-ivar">@zk</span>.<span class="ruby-identifier">create</span>(<span class="ruby-string">&#39;/access/small&#39;</span>, <span class="ruby-value">data:</span> <span class="ruby-keyword">nil</span>)
   <span class="ruby-ivar">@zk</span>.<span class="ruby-identifier">create</span>(<span class="ruby-string">&#39;/access/large&#39;</span>, <span class="ruby-value">data:</span> <span class="ruby-keyword">nil</span>)
@@ -217,7 +218,7 @@
           
 
           <div class="method-source-code" id="input-source">
-            <pre><span class="ruby-comment"># File lib/zk_test.rb, line 112</span>
+            <pre><span class="ruby-comment"># File lib/zk_test.rb, line 114</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">input</span>(<span class="ruby-identifier">name</span>)
   <span class="ruby-identifier">tests</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">name</span>, {}).<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:input</span>, {})
 <span class="ruby-keyword">end</span></pre>
@@ -240,7 +241,7 @@
           
 
           <div class="method-source-code" id="list-source">
-            <pre><span class="ruby-comment"># File lib/zk_test.rb, line 79</span>
+            <pre><span class="ruby-comment"># File lib/zk_test.rb, line 81</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">list</span>(<span class="ruby-value">obj:</span> {}, <span class="ruby-value">path:</span> <span class="ruby-string">&#39;/&#39;</span>)
   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">path</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;/zookeeper&#39;</span>
     <span class="ruby-identifier">data</span> = <span class="ruby-ivar">@zk</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">path</span>)[<span class="ruby-value">0</span>]
@@ -278,7 +279,7 @@
           
 
           <div class="method-source-code" id="list_all-source">
-            <pre><span class="ruby-comment"># File lib/zk_test.rb, line 49</span>
+            <pre><span class="ruby-comment"># File lib/zk_test.rb, line 50</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">list_all</span>
   <span class="ruby-identifier">puts</span> <span class="ruby-string">&#39;-----&#39;</span>
   <span class="ruby-identifier">puts</span> <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">pretty_generate</span>(<span class="ruby-identifier">list</span>)
@@ -304,7 +305,7 @@
           
 
           <div class="method-source-code" id="load_test-source">
-            <pre><span class="ruby-comment"># File lib/zk_test.rb, line 121</span>
+            <pre><span class="ruby-comment"># File lib/zk_test.rb, line 124</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">load_test</span>(<span class="ruby-identifier">name</span>)
   <span class="ruby-identifier">set_config</span>(<span class="ruby-identifier">input</span>(<span class="ruby-identifier">name</span>))
 <span class="ruby-keyword">end</span></pre>
@@ -351,9 +352,10 @@
           
 
           <div class="method-source-code" id="output-source">
-            <pre><span class="ruby-comment"># File lib/zk_test.rb, line 116</span>
+            <pre><span class="ruby-comment"># File lib/zk_test.rb, line 118</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">output</span>(<span class="ruby-identifier">name</span>)
   <span class="ruby-identifier">s</span> = <span class="ruby-identifier">tests</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">name</span>, {}).<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:output</span>, {})
+  <span class="ruby-keyword">return</span> {} <span class="ruby-keyword">if</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">nil?</span>
   <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">s</span>.<span class="ruby-identifier">to_json</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -375,7 +377,7 @@
           
 
           <div class="method-source-code" id="serialize-source">
-            <pre><span class="ruby-comment"># File lib/zk_test.rb, line 98</span>
+            <pre><span class="ruby-comment"># File lib/zk_test.rb, line 100</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">serialize</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">v</span>.<span class="ruby-identifier">nil?</span>
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">v</span>.<span class="ruby-identifier">to_json</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">v</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>)
@@ -400,7 +402,7 @@
           
 
           <div class="method-source-code" id="set_config-source">
-            <pre><span class="ruby-comment"># File lib/zk_test.rb, line 104</span>
+            <pre><span class="ruby-comment"># File lib/zk_test.rb, line 106</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_config</span>(<span class="ruby-identifier">data</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">nil?</span>
   <span class="ruby-identifier">data</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
@@ -427,11 +429,12 @@
           
 
           <div class="method-source-code" id="skip_listing-source">
-            <pre><span class="ruby-comment"># File lib/zk_test.rb, line 56</span>
+            <pre><span class="ruby-comment"># File lib/zk_test.rb, line 57</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">skip_listing</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">data</span>)
   <span class="ruby-comment"># skip root path</span>
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">path</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;/&#39;</span>
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">path</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;/batches&#39;</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">path</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;/batch-uuids&#39;</span>
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">path</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;/jobs/states&#39;</span>
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">path</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;/access&#39;</span>
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">path</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;/access/small&#39;</span>
@@ -492,7 +495,7 @@
           
 
           <div class="method-source-code" id="verify_output-source">
-            <pre><span class="ruby-comment"># File lib/zk_test.rb, line 125</span>
+            <pre><span class="ruby-comment"># File lib/zk_test.rb, line 128</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">verify_output</span>(<span class="ruby-identifier">name</span>, <span class="ruby-value">remap:</span> {})
   <span class="ruby-identifier">s</span> = <span class="ruby-identifier">list</span>.<span class="ruby-identifier">to_json</span>
   <span class="ruby-identifier">remap</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
@@ -500,7 +503,9 @@
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">curzk</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">s</span>)
   <span class="ruby-identifier">jout</span> = <span class="ruby-identifier">output</span>(<span class="ruby-identifier">name</span>)
+
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">curzk</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">jout</span>
+
   <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;---&quot;</span>
   <span class="ruby-identifier">curzk</span>.<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">jout</span>.<span class="ruby-identifier">key?</span>(<span class="ruby-identifier">k</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">curzk</span>[<span class="ruby-identifier">k</span>] <span class="ruby-operator">==</span> <span class="ruby-identifier">jout</span>[<span class="ruby-identifier">k</span>]
