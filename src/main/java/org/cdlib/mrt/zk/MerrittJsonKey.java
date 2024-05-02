@@ -28,7 +28,8 @@ public enum MerrittJsonKey {
   AccessCloudContentByte("cloud-content-byte"),
   AccessTokenStatus("status"),
   AccessUrl("url"),
-  AccessAnticipatedAvailabilityTime("anticipated-availability-time");
+  AccessAnticipatedAvailabilityTime("anticipated-availability-time"),
+  BatchId("batchID");
 
   private String key;
   MerrittJsonKey(String s) {

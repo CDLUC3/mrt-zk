@@ -5,6 +5,7 @@ require 'yaml'
 module MerrittZK
 
   class Batch < QueueItem
+    BATCH_UUIDS = '/batch-uuids'
     @@dir = '/batches'
     @@prefix = 'bid'
     @@init_status = BatchState.init
@@ -50,6 +51,8 @@ module MerrittZK
     def self.create_batch(zk, submission)
       id = QueueItem.create_id(zk, prefix_path)
       batch = Batch.new(id, data: submission)
+      uuid = submission.fetch(:batchID, '')
+      zk.create("#{BATCH_UUIDS}/#{uuid}", id) unless uuid.empty?
       batch.set_data(zk, "submission", submission)
       batch.set_status(zk, @@init_status)
       batch

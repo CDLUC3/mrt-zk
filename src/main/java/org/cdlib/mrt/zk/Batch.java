@@ -63,6 +63,10 @@ public class Batch extends QueueItem {
     return BatchState.valueOf(s);
   }
 
+  public String batchUuid() {
+    return jsonStringProperty(data(), MerrittJsonKey.BatchId, "");
+  }
+
   @Override
   public void loadProperties(ZooKeeper client) throws KeeperException, InterruptedException, MerrittZKNodeInvalid {
     data = optJsonProperty(client, ZKKey.BATCH_SUBMISSION);
@@ -76,6 +80,11 @@ public class Batch extends QueueItem {
   public static Batch createBatch(ZooKeeper client, JSONObject submission) throws KeeperException, InterruptedException, MerrittZKNodeInvalid {
     String id = QueueItemHelper.createId(client, Batch.prefixPath());
     Batch batch = new Batch(id, submission);
+    String uuid = jsonStringProperty(submission, MerrittJsonKey.BatchId, "");
+    if (!uuid.isEmpty()) {
+      String path = String.format("%s/%s", ZkPaths.BatchUuids.path, uuid);
+      QueueItemHelper.create(client, path, batch.id().getBytes());
+    }
     batch.createData(client, ZKKey.BATCH_SUBMISSION, submission);
     batch.setStatus(client, Batch.initStatus()); 
     return batch;
@@ -93,6 +102,11 @@ public class Batch extends QueueItem {
           new Job(cp, id()).load(client).delete(client);
         }
       }
+    }
+
+    if (!batchUuid().isEmpty()) {
+      String path = String.format("%s/%s", ZkPaths.BatchUuids.path, batchUuid());
+      QueueItemHelper.delete(client, path);
     }
 
     QueueItemHelper.deleteAll(client, path());

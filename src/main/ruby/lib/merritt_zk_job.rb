@@ -79,7 +79,7 @@ module MerrittZK
 
     def set_job_state_path(zk)
       js = sprintf('%s/states/%s/%02d-%s', @@dir, status.name.downcase, priority, id)
-      bs = sprintf('%s/%s/states/%s/%s', Batch.dir, @bid, batch_state_subpath, id)
+      # bs = sprintf('%s/%s/states/%s/%s', Batch.dir, @bid, batch_state_subpath, id)
       return if js == @job_state_path
       if @job_state_path
         zk.delete(@job_state_path)

@@ -28,16 +28,20 @@ ephemeral_node_destroyed:
 create_batch:
   input:
   output:
+    /batch-uuids/bid-uuid: bid0
     /batches/bid0/submission: 
       foo: bar
+      batchID: bid-uuid
     /batches/bid0/status: 
       status: Pending
       last_modified: now
 create_and_load_batch:
   input:
   output:
+    /batch-uuids/bid-uuid: bid0
     /batches/bid0/submission: 
       foo: bar
+      batchID: bid-uuid
     /batches/bid0/status: 
       status: Pending
       last_modified: now
@@ -47,24 +51,30 @@ load_non_existent_batch:
 batch_with_lock_unlock:
   input:
   output:
+    /batch-uuids/bid-uuid: bid0
     /batches/bid0/submission: 
       foo: bar
+      batchID: bid-uuid
     /batches/bid0/status: 
       status: Pending
       last_modified: now
 batch_with_ephemeral_released_lock:
   input:
   output:
+    /batch-uuids/bid-uuid: bid0
     /batches/bid0/submission: 
       foo: bar
+      batchID: bid-uuid
     /batches/bid0/status: 
       status: Pending
       last_modified: now
 batch_with_unreleased_lock:
   input:
   output:
+    /batch-uuids/bid-uuid: bid0
     /batches/bid0/submission: 
       foo: bar
+      batchID: bid-uuid
     /batches/bid0/status: 
       status: Pending
       last_modified: now
@@ -72,16 +82,21 @@ batch_with_unreleased_lock:
 modify_batch_state:
   input:
   output:
+    /batch-uuids/bid-uuid: bid0
     /batches/bid0/submission: 
       foo: bar
+      batchID: bid-uuid
     /batches/bid0/status: 
       status: Processing
       last_modified: now
 batch_acquire:
   input:
   output:
+    /batch-uuids/bid-uuid: bid0
+    /batch-uuids/bid-uuid2: bid1
     /batches/bid0/submission: 
       foo: bar
+      batchID: bid-uuid
     /batches/bid0/states: null 
     /batches/bid0/status: 
       status: Pending
@@ -89,6 +104,7 @@ batch_acquire:
     /batches/bid0/lock: null 
     /batches/bid1/submission: 
       foo: bar2
+      batchID: bid-uuid2
     /batches/bid1/states: null 
     /batches/bid1/status: 
       status: Pending
@@ -97,10 +113,12 @@ batch_acquire:
 create_job:
   input:
   output:
+    /batch-uuids/bid-uuid: bid0
     /batches/bid0/lock: null
     /batches/bid0/states/batch-processing/jid0: null
     /batches/bid0/submission: 
       foo: bar
+      batchID: bid-uuid
     /batches/bid0/status: 
       status: Pending
       last_modified: now
@@ -118,10 +136,12 @@ create_job:
 create_job_state_change:
   input:
   output:
+    /batch-uuids/bid-uuid: bid0
     /batches/bid0/lock: null
     /batches/bid0/states/batch-processing/jid0: null
     /batches/bid0/submission: 
       foo: bar
+      batchID: bid-uuid
     /batches/bid0/status: 
       status: Pending
       last_modified: now
@@ -139,10 +159,12 @@ create_job_state_change:
 load_job_state_change:
   input:
   output:
+    /batch-uuids/bid-uuid: bid0
     /batches/bid0/lock: null
     /batches/bid0/states/batch-processing/jid0: null
     /batches/bid0/submission: 
       foo: bar
+      batchID: bid-uuid
     /batches/bid0/status: 
       status: Pending
       last_modified: now
@@ -160,9 +182,11 @@ load_job_state_change:
 acquire_pending_job:
   input:
   output:
+    /batch-uuids/bid-uuid: bid0
     /batches/bid0/states/batch-processing/jid0: null
     /batches/bid0/submission: 
       foo: bar
+      batchID: bid-uuid
     /batches/bid0/status: 
       status: Pending
       last_modified: now
@@ -181,11 +205,13 @@ acquire_pending_job:
 acquire_lowest_priority_job:
   input:
   output:
+    /batch-uuids/bid-uuid: bid0
     /batches/bid0/states/batch-processing/jid0: null
     /batches/bid0/states/batch-processing/jid1: null
     /batches/bid0/states/batch-processing/jid2: null
     /batches/bid0/submission: 
       foo: bar
+      batchID: bid-uuid
     /batches/bid0/status: 
       status: Pending
       last_modified: now
@@ -226,11 +252,13 @@ acquire_lowest_priority_job:
 job_happy_path:
   input:
   output:
+    /batch-uuids/bid-uuid: bid0
     /batches/bid0/states/batch-processing/jid0: null
     /batches/bid0/states/batch-completed/jid1: null
     /batches/bid0/states/batch-processing/jid2: null
     /batches/bid0/submission: 
       foo: bar
+      batchID: bid-uuid
     /batches/bid0/status: 
       status: Pending
       last_modified: now
@@ -270,10 +298,12 @@ job_happy_path:
 batch_happy_path:
   input:
   output:
+    /batch-uuids/bid-uuid: bid0
     /batches/bid0/states/batch-completed/jid1: null
     /batches/bid0/states/batch-processing: null
     /batches/bid0/submission: 
       foo: bar
+      batchID: bid-uuid
     /batches/bid0/status: 
       status: Completed
       last_modified: now
@@ -291,10 +321,12 @@ batch_happy_path:
 batch_failure:
   input:
   output:
+    /batch-uuids/bid-uuid: bid0
     /batches/bid0/states/batch-failed/jid1: null
     /batches/bid0/states/batch-processing: null
     /batches/bid0/submission: 
       foo: bar
+      batchID: bid-uuid
     /batches/bid0/status: 
       status: Deleted
       last_modified: now
@@ -312,11 +344,13 @@ batch_failure:
 batch_recovery:
   input:
   output:
+    /batch-uuids/bid-uuid: bid0
     /batches/bid0/states/batch-completed/jid1: null
     /batches/bid0/states/batch-processing: null
     /batches/bid0/states/batch-failed: null
     /batches/bid0/submission: 
       foo: bar
+      batchID: bid-uuid
     /batches/bid0/status: 
       status: Completed
       last_modified: now
@@ -334,11 +368,13 @@ batch_recovery:
 job_happy_path_with_delete:
   input:
   output:
+    /batch-uuids/bid-uuid: bid0
     /batches/bid0/states/batch-processing/jid0: null
     /batches/bid0/states/batch-completed: null
     /batches/bid0/states/batch-processing/jid2: null
     /batches/bid0/submission: 
       foo: bar
+      batchID: bid-uuid
     /batches/bid0/status: 
       status: Pending
       last_modified: now
@@ -366,13 +402,15 @@ job_happy_path_with_delete:
     /jobs/states/pending/05-jid2: null
 batch_happy_path_with_delete:
   input:
-  output: null
+  output: 
 job_create_config:
   input:
   output:
+    /batch-uuids/bid-uuid: bid0
     /batches/bid0/states/batch-processing/jid0: null
     /batches/bid0/submission: 
       foo: bar
+      batchID: bid-uuid
     /batches/bid0/status: 
       status: Pending
       last_modified: now
@@ -394,9 +432,11 @@ job_create_config:
 job_create_config_ident:
   input:
   output:
+    /batch-uuids/bid-uuid: bid0
     /batches/bid0/states/batch-processing/jid0: null
     /batches/bid0/submission: 
       foo: bar
+      batchID: bid-uuid
     /batches/bid0/status: 
       status: Pending
       last_modified: now
@@ -423,9 +463,11 @@ job_create_config_ident:
 job_create_config_ident_metadata:
   input:
   output:
+    /batch-uuids/bid-uuid: bid0
     /batches/bid0/states/batch-processing/jid0: null
     /batches/bid0/submission: 
       foo: bar
+      batchID: bid-uuid
     /batches/bid0/status: 
       status: Pending
       last_modified: now

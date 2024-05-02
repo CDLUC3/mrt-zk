@@ -112,11 +112,12 @@ public class ZKTestIT {
     }
 
     public void initPaths() throws KeeperException, InterruptedException {
-      create("/jobs/states", null);
-      create("/batches", null);
-      create("/access", null);
-      create("/access/small", null);
-      create("/access/large", null);
+      create(QueueItem.ZkPaths.JobStates.path, null);
+      create(QueueItem.ZkPaths.Batch.path, null);
+      create(QueueItem.ZkPaths.BatchUuids.path, null);
+      create(QueueItem.ZkPaths.Access.path, null);
+      create(QueueItem.ZkPaths.AccessSmall.path, null);
+      create(QueueItem.ZkPaths.AccessLarge.path, null);
       MerrittLocks.initLocks(zk);
     }
 
@@ -219,24 +220,25 @@ public class ZKTestIT {
 
     public boolean skipListing(String path, Object dp) throws KeeperException, InterruptedException {
       if (path.equals("/") || 
-          path.equals("/batches") || 
-          path.equals("/jobs") || 
-          path.equals("/jobs/states")) {
+          path.equals(QueueItem.ZkPaths.Batch.path) || 
+          path.equals(QueueItem.ZkPaths.BatchUuids.path) || 
+          path.equals(QueueItem.ZkPaths.Job.path) || 
+          path.equals(QueueItem.ZkPaths.JobStates.path)) {
         return true;
       }
-      if (path.equals("/locks/inventory") || 
-          path.equals("/locks/collections") || 
-          path.equals("/locks/storage") || 
-          path.equals("/locks/queue")) {
+      if (path.equals(QueueItem.ZkPaths.LocksInventory.path) || 
+          path.equals(QueueItem.ZkPaths.LocksCollections.path) || 
+          path.equals(QueueItem.ZkPaths.LocksStorage.path) || 
+          path.equals(QueueItem.ZkPaths.LocksQueue.path)) {
         return true;
       }
-      if (path.equals("/access") || 
-          path.equals("/access/small") || 
-          path.equals("/access/large")) {
+      if (path.equals(QueueItem.ZkPaths.Access.path) || 
+          path.equals(QueueItem.ZkPaths.AccessSmall.path) || 
+          path.equals(QueueItem.ZkPaths.AccessLarge.path)) {
         return true;
       }
       if (zk.getChildren(path, false).isEmpty()) {
-        if (Paths.get(path).getParent().toString().equals("/jobs/states")) {
+        if (Paths.get(path).getParent().toString().equals(QueueItem.ZkPaths.JobStates.path)) {
           return true;
         }
         return false;
@@ -317,8 +319,13 @@ public class ZKTestIT {
     }
 
     public JSONObject fooBar(String suffix) {
+      return fooBar(suffix, "bid-uuid");
+    }
+
+    public JSONObject fooBar(String suffix, String uuid) {
       JSONObject json = new JSONObject();
       json.put("foo", "bar" + suffix);
+      json.put(MerrittJsonKey.BatchId.key(), uuid);
       return json;
     }
 
@@ -392,7 +399,7 @@ public class ZKTestIT {
       load(Tests.batch_acquire);
       Batch b = Batch.createBatch(zk, fooBar());
       remap.put("bid0", b.id());
-      Batch b2 = Batch.createBatch(zk, fooBar("2"));
+      Batch b2 = Batch.createBatch(zk, fooBar("2", "bid-uuid2"));
       remap.put("bid1", b2.id());
       assertNotNull(Batch.acquirePendingBatch(zk));
       assertNotNull(Batch.acquirePendingBatch(zk));

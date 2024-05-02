@@ -33,6 +33,7 @@ class MyZooTest
     @zk.create('/jobs', data: nil)
     @zk.create('/jobs/states', data: nil)
     @zk.create('/batches', data: nil)
+    @zk.create('/batch-uuids', data: nil)
     @zk.create('/access', data: nil)
     @zk.create('/access/small', data: nil)
     @zk.create('/access/large', data: nil)
@@ -57,6 +58,7 @@ class MyZooTest
     # skip root path
     return true if path == '/'
     return true if path == '/batches'
+    return true if path == '/batch-uuids'
     return true if path == '/jobs/states'
     return true if path == '/access'
     return true if path == '/access/small'

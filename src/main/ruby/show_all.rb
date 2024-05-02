@@ -13,7 +13,7 @@ def get_payload(p, d)
     d.bytes[8..].pack('c*')
   else
     begin
-      return JSON.parse(d)
+      return JSON.parse(d, symbolize_names: true)
     rescue
     end
     d
@@ -50,7 +50,7 @@ end
 # export ZKCONN=`get_ssm_value_by_name inventory/zoo/queueService`
 zk = ZK.new(ENV.fetch("ZKCONN", "localhost:8084"))
 LIST = %w{
-  /batches /jobs /jobs/states /access /access/small /access/large 
+  /batches /batch-uuids /jobs /jobs/states /access /access/small /access/large 
   /locks /locks/queue /locks/storage /locks/inventory /locks/collection
   /migration /migration/m1
 }
@@ -67,10 +67,10 @@ if ARGV.include?("-migrate")
 
   batches = {}
   MerrittZK::LegacyIngestJob.list_jobs(zk).each do |j|
-    buuid = j[:batchID]
+    buuid = j.fetch('batchID', '')
     b = batches[buuid]
     if b.nil?
-      batch = MerrittZK::Batch.create_batch(zk, {migrated: true})
+      batch = MerrittZK::Batch.create_batch(zk, {migrated: true, batchID: buuid})
       b = batch.id
       batches[buuid] = b
     end
@@ -123,5 +123,5 @@ end
 
 puts "===> MIGRATED"
 
-show(zk, %w{/batches /jobs /locks /access /migration})
+show(zk, %w{/batches /batch-uuids /jobs /locks /access /migration})
 

@@ -15,8 +15,12 @@ abstract public class QueueItem {
    */
   public static enum ZkPaths {
     Access("/access"),
+    AccessSmall("/access/small"),
+    AccessLarge("/access/large"),
     Batch("/batches"),
+    BatchUuids("/batch-uuids"),
     Job("/jobs"),
+    JobStates("/jobs/states"),
     Locks("/locks"),
     LocksQueue("/locks/queue"),
     LocksQueueIngest("/locks/queue/ingest"),
@@ -65,7 +69,7 @@ abstract public class QueueItem {
     return data;
   }
 
-  public Object jsonDataProperty(JSONObject obj, MerrittJsonKey key, Object dval) {
+  public static Object jsonDataProperty(JSONObject obj, MerrittJsonKey key, Object dval) {
     String k = key.key();
     if (obj == null) {
       return dval;
@@ -75,7 +79,7 @@ abstract public class QueueItem {
       return dval;
     }
   }
-  public String jsonStringProperty(JSONObject obj, MerrittJsonKey key, String dval) {
+  public static String jsonStringProperty(JSONObject obj, MerrittJsonKey key, String dval) {
     String k = key.key();
     if (obj == null) {
       return dval;
@@ -86,7 +90,7 @@ abstract public class QueueItem {
     }
   }
 
-  public int jsonIntProperty(JSONObject obj, MerrittJsonKey key, int dval) {
+  public static int jsonIntProperty(JSONObject obj, MerrittJsonKey key, int dval) {
     String k = key.key();
     if (obj == null) {
       return dval;
@@ -97,7 +101,7 @@ abstract public class QueueItem {
     }
   }
 
-  public long jsonLongProperty(JSONObject obj, MerrittJsonKey key, long dval) {
+  public static long jsonLongProperty(JSONObject obj, MerrittJsonKey key, long dval) {
     String k = key.key();
     if (obj == null) {
       return dval;

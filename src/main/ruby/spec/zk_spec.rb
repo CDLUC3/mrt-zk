@@ -23,9 +23,7 @@ RSpec.describe 'ZK input/ouput tests' do
   after(:each) do |x|
     # Note that the IT test name matches a key in the test-cases.yml file
     unless @zkt.output(x.description.to_sym).nil?
-      unless @zkt.output(x.description.to_sym).empty?
-        expect(@zkt.verify_output(x.description.to_sym, remap: @remap)).to be(true)
-      end
+      expect(@zkt.verify_output(x.description.to_sym, remap: @remap)).to be(true)
     end
   end
 
@@ -53,14 +51,21 @@ RSpec.describe 'ZK input/ouput tests' do
     end
   end
 
+  def make_batch_json(s = 'bar', u = 'bid-uuid')
+    {
+      foo: s,
+      batchID: u
+    }
+  end
+
   describe 'Test Batch Creation' do
     it :create_batch do |x|
-      b = MerrittZK::Batch.create_batch(@zk, {foo: 'bar'})
+      b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
     end
 
     it :create_and_load_batch do |x|
-      b = MerrittZK::Batch.create_batch(@zk, {foo: 'bar'})
+      b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       b2 = MerrittZK::Batch.new(b.id).load(@zk)
       expect(b2.status.status).to eq(:Pending)
@@ -75,14 +80,14 @@ RSpec.describe 'ZK input/ouput tests' do
 
   describe 'Test Batch Locking' do
     it :batch_with_lock_unlock do |x|
-      b = MerrittZK::Batch.create_batch(@zk, {foo: 'bar'})
+      b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       b.lock(@zk)
       b.unlock(@zk)
     end
   
     it :batch_with_ephemeral_released_lock do |x|
-      b = MerrittZK::Batch.create_batch(@zk, {foo: 'bar'})
+      b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       tzk = @zkt.zk_new
       b.lock(tzk)
@@ -90,14 +95,14 @@ RSpec.describe 'ZK input/ouput tests' do
     end
   
     it :batch_with_unreleased_lock do |x|
-      b = MerrittZK::Batch.create_batch(@zk, {foo: 'bar'})
+      b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       b.lock(@zk)
     end
 
     it :batch_acquire do |x|
-      b = MerrittZK::Batch.create_batch(@zk, {foo: 'bar'})
-      b2 = MerrittZK::Batch.create_batch(@zk, {foo: 'bar2'})
+      b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
+      b2 = MerrittZK::Batch.create_batch(@zk, make_batch_json('bar2', 'bid-uuid2'))
       @remap['bid0'] = b.id
       @remap['bid1'] = b2.id
       bb = MerrittZK::Batch.acquire_pending_batch(@zk)
@@ -108,7 +113,7 @@ RSpec.describe 'ZK input/ouput tests' do
 
   describe 'Test Batch State Changes' do
     it :modify_batch_state do |x|
-      b = MerrittZK::Batch.create_batch(@zk, {foo: 'bar'})
+      b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       b.set_status(@zk, b.status.state_change(:Processing))
     end
@@ -116,7 +121,7 @@ RSpec.describe 'ZK input/ouput tests' do
 
   describe 'Test Job Creation' do
     it :create_job do |x|
-      b = MerrittZK::Batch.create_batch(@zk, {foo: 'bar'})
+      b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       bb = MerrittZK::Batch.acquire_pending_batch(@zk)
       expect(b.id).to eq(bb.id)
@@ -126,7 +131,7 @@ RSpec.describe 'ZK input/ouput tests' do
     end
 
     it :create_job_state_change do |x|
-      b = MerrittZK::Batch.create_batch(@zk, {foo: 'bar'})
+      b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       bb = MerrittZK::Batch.acquire_pending_batch(@zk)
       expect(b.id).to eq(bb.id)
@@ -137,7 +142,7 @@ RSpec.describe 'ZK input/ouput tests' do
     end
 
     it :load_job_state_change do |x|
-      b = MerrittZK::Batch.create_batch(@zk, {foo: 'bar'})
+      b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       bb = MerrittZK::Batch.acquire_pending_batch(@zk)
       expect(b.id).to eq(bb.id)
@@ -149,7 +154,7 @@ RSpec.describe 'ZK input/ouput tests' do
     end
 
     it :acquire_pending_job do |x|
-      b = MerrittZK::Batch.create_batch(@zk, {foo: 'bar'})
+      b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       bb = MerrittZK::Batch.acquire_pending_batch(@zk)
       expect(b.id).to eq(bb.id)
@@ -163,7 +168,7 @@ RSpec.describe 'ZK input/ouput tests' do
     end
 
     it :acquire_lowest_priority_job do |x|
-      b = MerrittZK::Batch.create_batch(@zk, {foo: 'bar'})
+      b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       bb = MerrittZK::Batch.acquire_pending_batch(@zk)
       expect(b.id).to eq(bb.id)
@@ -186,7 +191,7 @@ RSpec.describe 'ZK input/ouput tests' do
     end
 
     it :job_happy_path do |x|
-      b = MerrittZK::Batch.create_batch(@zk, {foo: 'bar'})
+      b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       bb = MerrittZK::Batch.acquire_pending_batch(@zk)
       expect(b.id).to eq(bb.id)
@@ -253,7 +258,7 @@ RSpec.describe 'ZK input/ouput tests' do
     end
 
     it :batch_happy_path do |x|
-      b = MerrittZK::Batch.create_batch(@zk, {foo: 'bar'})
+      b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       bb = MerrittZK::Batch.acquire_pending_batch(@zk)
       expect(b.id).to eq(bb.id)
@@ -330,7 +335,7 @@ RSpec.describe 'ZK input/ouput tests' do
     end
 
     it :batch_failure do |x|
-      b = MerrittZK::Batch.create_batch(@zk, {foo: 'bar'})
+      b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       bb = MerrittZK::Batch.acquire_pending_batch(@zk)
       expect(b.id).to eq(bb.id)
@@ -410,7 +415,7 @@ RSpec.describe 'ZK input/ouput tests' do
     end
 
     it :batch_recovery do |x|
-      b = MerrittZK::Batch.create_batch(@zk, {foo: 'bar'})
+      b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       bb = MerrittZK::Batch.acquire_pending_batch(@zk)
       expect(b.id).to eq(bb.id)
@@ -503,7 +508,7 @@ RSpec.describe 'ZK input/ouput tests' do
     end
 
     it :job_happy_path_with_delete do |x|
-      b = MerrittZK::Batch.create_batch(@zk, {foo: 'bar'})
+      b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       bb = MerrittZK::Batch.acquire_pending_batch(@zk)
       expect(b.id).to eq(bb.id)
@@ -576,7 +581,7 @@ RSpec.describe 'ZK input/ouput tests' do
     end
 
     it :batch_happy_path_with_delete do |x|
-      b = MerrittZK::Batch.create_batch(@zk, {foo: 'bar'})
+      b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       bb = MerrittZK::Batch.acquire_pending_batch(@zk)
       expect(b.id).to eq(bb.id)
