@@ -266,6 +266,10 @@ RSpec.describe 'ZK input/ouput tests' do
       expect(arr[0].id).to eq(@remap['jid1'])
       arr = bb.get_failed_jobs(@zk)
       expect(arr.length).to eq(0)
+
+      # Only for Ruby interface
+      arr = MerrittZK::Job.list_jobs(@zk)
+      expect(arr.length).to eq(3)
     end
 
     it :batch_happy_path do |_x|
