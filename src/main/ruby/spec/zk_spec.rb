@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'zk'
 require 'json'
 require 'yaml'
@@ -15,7 +17,7 @@ RSpec.describe 'ZK input/ouput tests' do
   before(:each) do |x|
     @zkt.delete_all
     @zkt.init
-    @remap = {'now': /\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d .\d\d\d\d/}
+    @remap = { now: /\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d .\d\d\d\d/ }
     # Note that the IT test name matches a key in the test-cases.yml file
     @zkt.load_test(x.description.to_sym)
   end
@@ -30,23 +32,24 @@ RSpec.describe 'ZK input/ouput tests' do
   describe 'Test read/write from ZK' do
     # Note that the IT test name matches a key in the test-cases.yml file
     it :test_read_write_from_zk do |x|
+      # no action
     end
 
-    it :test_sequential_node_mapping do |x|
-      @remap['/foo0'] = @zk.create("/foo", data: nil, mode: :persistent_sequential)
-      @remap['/foo1'] = @zk.create("/foo", data: nil, mode: :persistent_sequential)
-      @remap['/foo2'] = @zk.create("/foo", data: nil, mode: :persistent_sequential)
-    end  
+    it :test_sequential_node_mapping do |_x|
+      @remap['/foo0'] = @zk.create('/foo', data: nil, mode: :persistent_sequential)
+      @remap['/foo1'] = @zk.create('/foo', data: nil, mode: :persistent_sequential)
+      @remap['/foo2'] = @zk.create('/foo', data: nil, mode: :persistent_sequential)
+    end
   end
 
   describe 'Test ephemeral node behavior' do
-    it :ephemeral_node_remaining do |x|
-      @zk.create("/foo", data: nil, mode: :ephemeral)
+    it :ephemeral_node_remaining do |_x|
+      @zk.create('/foo', data: nil, mode: :ephemeral)
     end
-  
-    it :ephemeral_node_destroyed do |x|
+
+    it :ephemeral_node_destroyed do |_x|
       tzk = @zkt.zk_new
-      tzk.create("/foo", data: nil, mode: :ephemeral)
+      tzk.create('/foo', data: nil, mode: :ephemeral)
       tzk.close
     end
   end
@@ -59,60 +62,60 @@ RSpec.describe 'ZK input/ouput tests' do
   end
 
   describe 'Test Batch Creation' do
-    it :create_batch do |x|
+    it :create_batch do |_x|
       b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
     end
 
-    it :create_and_load_batch do |x|
+    it :create_and_load_batch do |_x|
       b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       b2 = MerrittZK::Batch.new(b.id).load(@zk)
       expect(b2.status.status).to eq(:Pending)
     end
 
-    it :load_non_existent_batch do |x|
-      expect {
+    it :load_non_existent_batch do |_x|
+      expect do
         MerrittZK::Batch.new(111).load(@zk)
-      }.to raise_error(MerrittZK::MerrittZKNodeInvalid, /.*/)
+      end.to raise_error(MerrittZK::MerrittZKNodeInvalid, /.*/)
     end
   end
 
   describe 'Test Batch Locking' do
-    it :batch_with_lock_unlock do |x|
+    it :batch_with_lock_unlock do |_x|
       b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       b.lock(@zk)
       b.unlock(@zk)
     end
-  
-    it :batch_with_ephemeral_released_lock do |x|
+
+    it :batch_with_ephemeral_released_lock do |_x|
       b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       tzk = @zkt.zk_new
       b.lock(tzk)
       tzk.close
     end
-  
-    it :batch_with_unreleased_lock do |x|
+
+    it :batch_with_unreleased_lock do |_x|
       b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       b.lock(@zk)
     end
 
-    it :batch_acquire do |x|
+    it :batch_acquire do |_x|
       b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       b2 = MerrittZK::Batch.create_batch(@zk, make_batch_json('bar2', 'bid-uuid2'))
       @remap['bid0'] = b.id
       @remap['bid1'] = b2.id
-      bb = MerrittZK::Batch.acquire_pending_batch(@zk)
-      bb2 = MerrittZK::Batch.acquire_pending_batch(@zk)
+      MerrittZK::Batch.acquire_pending_batch(@zk)
+      MerrittZK::Batch.acquire_pending_batch(@zk)
       expect(MerrittZK::Batch.acquire_pending_batch(@zk)).to be_nil
     end
   end
 
   describe 'Test Batch State Changes' do
-    it :modify_batch_state do |x|
+    it :modify_batch_state do |_x|
       b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       b.set_status(@zk, b.status.state_change(:Processing))
@@ -120,138 +123,138 @@ RSpec.describe 'ZK input/ouput tests' do
   end
 
   describe 'Test Job Creation' do
-    it :create_job do |x|
+    it :create_job do |_x|
       b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       bb = MerrittZK::Batch.acquire_pending_batch(@zk)
       expect(b.id).to eq(bb.id)
-      j = MerrittZK::Job.create_job(@zk, bb.id, {job: 'quack'})
+      j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack' })
       @remap['jid0'] = j.id
       expect(j.bid).to eq(bb.id)
     end
 
-    it :create_job_state_change do |x|
+    it :create_job_state_change do |_x|
       b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       bb = MerrittZK::Batch.acquire_pending_batch(@zk)
       expect(b.id).to eq(bb.id)
-      j = MerrittZK::Job.create_job(@zk, bb.id, {job: 'quack'})
+      j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack' })
       @remap['jid0'] = j.id
       expect(j.bid).to eq(bb.id)
       j.set_status(@zk, j.status.state_change(:Estimating))
     end
 
-    it :load_job_state_change do |x|
+    it :load_job_state_change do |_x|
       b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       bb = MerrittZK::Batch.acquire_pending_batch(@zk)
       expect(b.id).to eq(bb.id)
-      j = MerrittZK::Job.create_job(@zk, bb.id, {job: 'quack'})
+      j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack' })
       @remap['jid0'] = j.id
       expect(j.bid).to eq(bb.id)
       jj = MerrittZK::Job.new(j.id).load(@zk)
       jj.set_status(@zk, jj.status.state_change(:Estimating))
     end
 
-    it :acquire_pending_job do |x|
+    it :acquire_pending_job do |_x|
       b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       bb = MerrittZK::Batch.acquire_pending_batch(@zk)
       expect(b.id).to eq(bb.id)
-      j = MerrittZK::Job.create_job(@zk, bb.id, {job: 'quack'})
+      j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack' })
       @remap['jid0'] = j.id
       expect(j.bid).to eq(bb.id)
       bb.unlock(@zk)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Pending)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Pending)
       jj.set_status(@zk, jj.status.state_change(:Estimating))
     end
 
-    it :acquire_lowest_priority_job do |x|
+    it :acquire_lowest_priority_job do |_x|
       b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       bb = MerrittZK::Batch.acquire_pending_batch(@zk)
       expect(b.id).to eq(bb.id)
 
-      j = MerrittZK::Job.create_job(@zk, bb.id, {job: 'quack1'})
+      j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack1' })
       @remap['jid0'] = j.id
-      
-      j = MerrittZK::Job.create_job(@zk, bb.id, {job: 'quack2'})
+
+      j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack2' })
       @remap['jid1'] = j.id
       j.set_priority(@zk, 2)
-      
-      j = MerrittZK::Job.create_job(@zk, bb.id, {job: 'quack3'})
+
+      j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack3' })
       @remap['jid2'] = j.id
-      
+
       bb.unlock(@zk)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Pending)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Pending)
       expect(jj.id).to eq(@remap['jid1'])
       jj.set_status(@zk, jj.status.state_change(:Estimating))
     end
 
-    it :job_happy_path do |x|
+    it :job_happy_path do |_x|
       b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       bb = MerrittZK::Batch.acquire_pending_batch(@zk)
       expect(b.id).to eq(bb.id)
 
-      j = MerrittZK::Job.create_job(@zk, bb.id, {job: 'quack1'})
+      j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack1' })
       @remap['jid0'] = j.id
-      
-      j = MerrittZK::Job.create_job(@zk, bb.id, {job: 'quack2'})
+
+      j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack2' })
       @remap['jid1'] = j.id
       j.set_priority(@zk, 2)
-      
-      j = MerrittZK::Job.create_job(@zk, bb.id, {job: 'quack3'})
+
+      j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack3' })
       @remap['jid2'] = j.id
-      
+
       bb.unlock(@zk)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Pending)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Pending)
       expect(jj.id).to eq(@remap['jid1'])
       jj.set_status(@zk, jj.status.state_change(:Estimating))
       jj.unlock(@zk)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Estimating)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Estimating)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Provisioning)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Provisioning)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Provisioning)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Downloading)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Downloading)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Downloading)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Processing)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Processing)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Processing)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Recording)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Recording)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Recording)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Notify)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Notify)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Notify)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Completed)
       expect(jj.status.deletable?).to be(true)
@@ -265,65 +268,65 @@ RSpec.describe 'ZK input/ouput tests' do
       expect(arr.length).to eq(0)
     end
 
-    it :batch_happy_path do |x|
+    it :batch_happy_path do |_x|
       b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       bb = MerrittZK::Batch.acquire_pending_batch(@zk)
       expect(b.id).to eq(bb.id)
 
-      j = MerrittZK::Job.create_job(@zk, bb.id, {job: 'quack2'})
+      j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack2' })
       @remap['jid1'] = j.id
       j.set_priority(@zk, 2)
-      
+
       bb.unlock(@zk)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Pending)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Pending)
       expect(jj.id).to eq(@remap['jid1'])
       jj.set_status(@zk, jj.status.state_change(:Estimating))
       jj.unlock(@zk)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Estimating)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Estimating)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Provisioning)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Provisioning)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Provisioning)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Downloading)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Downloading)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Downloading)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Processing)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Processing)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Processing)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Recording)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Recording)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Recording)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Notify)
 
       bbb = MerrittZK::Batch.acquire_complete_batch(@zk)
       expect(bbb).to be_nil
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Notify)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Notify)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Completed)
 
@@ -342,65 +345,65 @@ RSpec.describe 'ZK input/ouput tests' do
       expect(bbbb.has_failure).to be(false)
     end
 
-    it :batch_failure do |x|
+    it :batch_failure do |_x|
       b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       bb = MerrittZK::Batch.acquire_pending_batch(@zk)
       expect(b.id).to eq(bb.id)
 
-      j = MerrittZK::Job.create_job(@zk, bb.id, {job: 'quack2'})
+      j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack2' })
       @remap['jid1'] = j.id
       j.set_priority(@zk, 2)
-      
+
       bb.unlock(@zk)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Pending)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Pending)
       expect(jj.id).to eq(@remap['jid1'])
       jj.set_status(@zk, jj.status.state_change(:Estimating))
       jj.unlock(@zk)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Estimating)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Estimating)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Provisioning)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Provisioning)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Provisioning)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Downloading)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Downloading)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Downloading)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Processing)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Processing)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Processing)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Recording)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Recording)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Recording)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Notify)
 
       bbb = MerrittZK::Batch.acquire_complete_batch(@zk)
       expect(bbb).to be_nil
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Notify)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Notify)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.fail())
+      jj.set_status(@zk, jj.status.fail)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Failed)
 
@@ -425,70 +428,70 @@ RSpec.describe 'ZK input/ouput tests' do
       expect(arr.length).to eq(1)
       expect(arr[0].id).to eq(@remap['jid1'])
 
-      bbbb.set_status(@zk, MerrittZK::BatchState.Deleted)
+      bbbb.set_status(@zk, MerrittZK::BatchState::Deleted)
       expect(bbbb.status.status).to eq(:Deleted)
       expect(bbbb.status.deletable?).to be(true)
     end
 
-    it :batch_recovery do |x|
+    it :batch_recovery do |_x|
       b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       bb = MerrittZK::Batch.acquire_pending_batch(@zk)
       expect(b.id).to eq(bb.id)
 
-      j = MerrittZK::Job.create_job(@zk, bb.id, {job: 'quack2'})
+      j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack2' })
       @remap['jid1'] = j.id
       j.set_priority(@zk, 2)
-      
+
       bb.unlock(@zk)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Pending)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Pending)
       expect(jj.id).to eq(@remap['jid1'])
       jj.set_status(@zk, jj.status.state_change(:Estimating))
       jj.unlock(@zk)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Estimating)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Estimating)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Provisioning)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Provisioning)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Provisioning)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Downloading)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Downloading)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Downloading)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Processing)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Processing)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Processing)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Recording)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Recording)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Recording)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Notify)
 
       bbb = MerrittZK::Batch.acquire_complete_batch(@zk)
       expect(bbb).to be_nil
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Notify)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Notify)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.fail())
+      jj.set_status(@zk, jj.status.fail)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Failed)
 
@@ -502,12 +505,12 @@ RSpec.describe 'ZK input/ouput tests' do
       expect(bbb.status.status).to eq(:Failed)
 
       jjj = MerrittZK::Job.new(jj.id).load(@zk)
-      jjj.set_status(@zk, MerrittZK::JobState.Notify, job_retry: true)
+      jjj.set_status(@zk, MerrittZK::JobState::Notify, job_retry: true)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Notify)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Notify)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Completed)
 
@@ -515,7 +518,7 @@ RSpec.describe 'ZK input/ouput tests' do
       expect(bbbb.status.status).to eq(:Failed)
       expect(bbbb.has_failure).to be(false)
 
-      bbbb.set_status(@zk, MerrittZK::BatchState.UpdateReporting)
+      bbbb.set_status(@zk, MerrittZK::BatchState::UpdateReporting)
       expect(bbbb.status.deletable?).to be(false)
 
       bbbb.set_status(@zk, bbbb.status.success)
@@ -523,138 +526,138 @@ RSpec.describe 'ZK input/ouput tests' do
       expect(bbbb.status.deletable?).to be(true)
     end
 
-    it :job_happy_path_with_delete do |x|
+    it :job_happy_path_with_delete do |_x|
       b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       bb = MerrittZK::Batch.acquire_pending_batch(@zk)
       expect(b.id).to eq(bb.id)
-  
-      j = MerrittZK::Job.create_job(@zk, bb.id, {job: 'quack1'})
+
+      j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack1' })
       @remap['jid0'] = j.id
-      
-      j = MerrittZK::Job.create_job(@zk, bb.id, {job: 'quack2'})
+
+      j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack2' })
       @remap['jid1'] = j.id
       j.set_priority(@zk, 2)
-      
-      j = MerrittZK::Job.create_job(@zk, bb.id, {job: 'quack3'})
+
+      j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack3' })
       @remap['jid2'] = j.id
-      
+
       bb.unlock(@zk)
-  
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Pending)
+
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Pending)
       expect(jj.id).to eq(@remap['jid1'])
       jj.set_status(@zk, jj.status.state_change(:Estimating))
       jj.unlock(@zk)
-  
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Estimating)
+
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Estimating)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Provisioning)
-  
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Provisioning)
+
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Provisioning)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Downloading)
-  
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Downloading)
+
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Downloading)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Processing)
-  
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Processing)
+
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Processing)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Recording)
-  
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Recording)
+
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Recording)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Notify)
-  
-      expect {
+
+      expect do
         jj.delete(@zk)
-      }.to raise_error(MerrittZK::MerrittStateError, /.*/)
- 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Notify)
+      end.to raise_error(MerrittZK::MerrittStateError, /.*/)
+
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Notify)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Completed)
       expect(jj.status.deletable?).to be(true)
-  
+
       jj.delete(@zk)
     end
 
-    it :batch_happy_path_with_delete do |x|
+    it :batch_happy_path_with_delete do |_x|
       b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
       bb = MerrittZK::Batch.acquire_pending_batch(@zk)
       expect(b.id).to eq(bb.id)
 
-      j = MerrittZK::Job.create_job(@zk, bb.id, {job: 'quack2'})
+      j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack2' })
       @remap['jid1'] = j.id
       j.set_priority(@zk, 2)
-      
+
       bb.unlock(@zk)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Pending)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Pending)
       expect(jj.id).to eq(@remap['jid1'])
       jj.set_status(@zk, jj.status.state_change(:Estimating))
       jj.unlock(@zk)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Estimating)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Estimating)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Provisioning)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Provisioning)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Provisioning)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Downloading)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Downloading)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Downloading)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Processing)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Processing)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Processing)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Recording)
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Recording)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Recording)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Notify)
 
       bbb = MerrittZK::Batch.acquire_complete_batch(@zk)
       expect(bbb).to be_nil
 
-      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState.Notify)
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Notify)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.success())
+      jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Completed)
 
@@ -674,11 +677,10 @@ RSpec.describe 'ZK input/ouput tests' do
 
       bbbb.delete(@zk)
     end
-
   end
 
   describe 'Lock tests' do
-    it :lock_ingest do |x|
+    it :lock_ingest do |_x|
       MerrittZK::Locks.unlock_ingest_queue(@zk)
 
       expect(MerrittZK::Locks.lock_ingest_queue(@zk)).to be(true)
@@ -687,7 +689,7 @@ RSpec.describe 'ZK input/ouput tests' do
       expect(MerrittZK::Locks.lock_ingest_queue(@zk)).to be(true)
     end
 
-    it :lock_access do |x|
+    it :lock_access do |_x|
       expect(MerrittZK::Locks.lock_large_access_queue(@zk)).to be(true)
       expect(MerrittZK::Locks.lock_large_access_queue(@zk)).to be(false)
       MerrittZK::Locks.unlock_large_access_queue(@zk)
@@ -699,7 +701,7 @@ RSpec.describe 'ZK input/ouput tests' do
       expect(MerrittZK::Locks.lock_small_access_queue(@zk)).to be(true)
     end
 
-    it :lock_collection do |x|
+    it :lock_collection do |_x|
       expect(MerrittZK::Locks.lock_collection(@zk, 'foo')).to be(true)
       expect(MerrittZK::Locks.lock_collection(@zk, 'foo')).to be(false)
       MerrittZK::Locks.unlock_collection(@zk, 'foo')
@@ -711,7 +713,7 @@ RSpec.describe 'ZK input/ouput tests' do
       expect(MerrittZK::Locks.lock_collection(@zk, 'bar')).to be(true)
     end
 
-    it :lock_store do |x|
+    it :lock_store do |_x|
       expect(MerrittZK::Locks.lock_object_storage(@zk, 'ark:/aaa/111')).to be(true)
       expect(MerrittZK::Locks.lock_object_storage(@zk, 'ark:/aaa/111')).to be(false)
       MerrittZK::Locks.unlock_object_storage(@zk, 'ark:/aaa/111')
@@ -723,7 +725,7 @@ RSpec.describe 'ZK input/ouput tests' do
       expect(MerrittZK::Locks.lock_object_storage(@zk, 'ark:/bbb/222')).to be(true)
     end
 
-    it :lock_inventory do |x|
+    it :lock_inventory do |_x|
       expect(MerrittZK::Locks.lock_object_inventory(@zk, 'ark:/aaa/111')).to be(true)
       expect(MerrittZK::Locks.lock_object_inventory(@zk, 'ark:/aaa/111')).to be(false)
       MerrittZK::Locks.unlock_object_inventory(@zk, 'ark:/aaa/111')
@@ -735,32 +737,32 @@ RSpec.describe 'ZK input/ouput tests' do
       expect(MerrittZK::Locks.lock_object_inventory(@zk, 'ark:/bbb/222')).to be(true)
     end
   end
-  
+
   describe 'Test Access Assembly Creation' do
-    it :access_happy_path do |x|
+    it :access_happy_path do |_x|
       q = 'small'
-      a = MerrittZK::Access.create_assembly(@zk, q, {token: 'abc'})
+      a = MerrittZK::Access.create_assembly(@zk, q, { token: 'abc' })
       @remap['qid0'] = a.id
       aa = MerrittZK::Access.acquire_pending_assembly(@zk, q)
-      expect(a.id).to eq(aa.id)  
+      expect(a.id).to eq(aa.id)
       expect(aa.status.status).to eq(:Pending)
       aa.set_status(@zk, aa.status.state_change(:Processing))
       expect(aa.status.status).to eq(:Processing)
       aa.unlock(@zk)
-  
+
       aaa = MerrittZK::Access.new(q, a.id)
       aaa.load(@zk)
-      expect(a.id).to eq(aaa.id)  
-  
+      expect(a.id).to eq(aaa.id)
+
       aaa.set_status(@zk, aaa.status.success)
-  
+
       expect(aaa.status.status).to eq(:Completed)
       expect(aaa.status.deletable?).to be(true)
     end
   end
 
   describe 'Find Batch by UUID' do
-    it :find_batch_by_uuid do |x|
+    it :find_batch_by_uuid do |_x|
       b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
       @remap['bid0'] = b.id
 

@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 require 'zk'
 require 'json'
 require 'yaml'
 
 module MerrittZK
-
+  ##
+  # Merritt Batch Queue Items
   class Batch < QueueItem
     BATCH_UUIDS = '/batch-uuids'
-    @@dir = '/batches'
-    @@prefix = 'bid'
-    @@init_status = BatchState.init
+    DIR = '/batches'
+    PREFIX = 'bid'
 
     def initialize(id, data: nil)
       super(id, data: data)
@@ -20,11 +22,10 @@ module MerrittZK
     def load_has_failure(zk)
       @has_failure = false
       p = "#{path}/states/batch-failed"
-      if zk.exists?(p)
-        unless zk.children(p).empty?
-          @has_failure = true
-        end
-      end
+      return unless zk.exists?(p)
+      return if zk.children(p).empty?
+
+      @has_failure = true
     end
 
     def load_properties(zk)
@@ -37,15 +38,15 @@ module MerrittZK
     end
 
     def self.dir
-      "#{@@dir}"
+      DIR.to_s
     end
 
     def self.prefix_path
-      "#{@@dir}/#{@@prefix}"
+      "#{DIR}/#{PREFIX}"
     end
 
     def path
-      "#{@@dir}/#{@id}"
+      "#{DIR}/#{@id}"
     end
 
     def self.batch_uuid_path(uuid)
@@ -53,23 +54,25 @@ module MerrittZK
     end
 
     def batch_uuid
-      return "" if @data.nil?
-      @data.fetch(:batchID, "")
+      return '' if @data.nil?
+
+      @data.fetch(:batchID, '')
     end
 
     def self.create_batch(zk, submission)
       id = QueueItem.create_id(zk, prefix_path)
       batch = Batch.new(id, data: submission)
       uuid = submission.fetch(:batchID, '')
-      zk.create(self.batch_uuid_path(uuid), id) unless uuid.empty?
-      batch.set_data(zk, "submission", submission)
-      batch.set_status(zk, @@init_status)
+      zk.create(batch_uuid_path(uuid), id) unless uuid.empty?
+      batch.set_data(zk, 'submission', submission)
+      batch.set_status(zk, BatchState.init)
       batch
     end
 
     def self.acquire_pending_batch(zk)
-      zk.children(@@dir).sort.each do |cp|
-        next if zk.exists?("#{@@dir}/#{cp}/states")
+      zk.children(DIR).sort.each do |cp|
+        next if zk.exists?("#{DIR}/#{cp}/states")
+
         b = Batch.new(cp)
         b.load(zk)
         begin
@@ -77,24 +80,27 @@ module MerrittZK
             b.set_data(zk, 'states', nil)
             return b
           end
-        rescue  ZK::Exceptions::NodeExists => e
+        rescue ZK::Exceptions::NodeExists
+          # no action
         end
       end
       nil
     end
 
     def self.acquire_complete_batch(zk)
-      zk.children(@@dir).sort.each do |cp|
-        next unless zk.exists?("#{@@dir}/#{cp}/states/batch-processing")
-        next unless zk.children("#{@@dir}/#{cp}/states/batch-processing").empty?
+      zk.children(DIR).sort.each do |cp|
+        next unless zk.exists?("#{DIR}/#{cp}/states/batch-processing")
+        next unless zk.children("#{DIR}/#{cp}/states/batch-processing").empty?
+
         b = Batch.new(cp)
         b.load(zk)
         begin
           if b.lock(zk)
-            b.set_status(zk, BatchState.Reporting)
+            b.set_status(zk, BatchState::Reporting)
             return b
           end
-        rescue  ZK::Exceptions::NodeExists => e
+        rescue ZK::Exceptions::NodeExists
+          # no action
         end
       end
       nil
@@ -115,7 +121,7 @@ module MerrittZK
     def get_jobs(zk, state)
       jobs = []
       p = "#{path}/states/#{state}"
-      if (zk.exists?(p))
+      if zk.exists?(p)
         zk.children(p).each do |cp|
           jobs << Job.new(cp, bid: id)
         end
@@ -125,20 +131,26 @@ module MerrittZK
 
     def self.find_batch_by_uuid(zk, uuid)
       return if uuid.empty?
-      p = self.batch_uuid_path(uuid)
+
+      p = batch_uuid_path(uuid)
       return unless zk.exists?(p)
+
       arr = zk.get(p)
       return if arr.nil?
+
       bid = arr[0]
       return if bid.empty?
+
       Batch.new(bid)
     end
 
     def delete(zk)
-      raise MerrittZK::MerrittStateError.new("Delete invalid #{path}") unless @status.deletable?
-      ['batch-processing', 'batch-failed', 'batch-completed'].each do |state|
+      raise MerrittZK::MerrittStateError, "Delete invalid #{path}" unless @status.deletable?
+
+      %w[batch-processing batch-failed batch-completed].each do |state|
         p = "#{path}/states/#{state}"
         next unless zk.exists?(p)
+
         zk.children(p).each do |cp|
           MerrittZK::Job.new(cp).load(zk).delete(zk)
         end
@@ -147,12 +159,10 @@ module MerrittZK
       load(zk) if @data.nil?
       zk.delete(Batch.batch_uuid_path(batch_uuid)) unless batch_uuid.empty?
 
-      unless path.nil? || path.empty?
-        # puts "DELETE #{path}"
-        zk.rm_rf(path)
-      end
+      return if path.nil? || path.empty?
+
+      # puts "DELETE #{path}"
+      zk.rm_rf(path)
     end
-
   end
-
 end

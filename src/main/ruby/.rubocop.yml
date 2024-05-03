@@ -40,7 +40,14 @@ Layout/MultilineHashKeyLineBreaks:
 Layout/MultilineHashBraceLayout:
   EnforcedStyle: new_line
 
+# Special overrides for mrt-zk
 Naming/MethodParameterName:
+  Enabled: false
+Style/FormatStringToken:
+  Enabled: false
+Style/HashSyntax:
+  Enabled: false
+Naming/AccessorMethodName: 
   Enabled: false
 
 AllCops:

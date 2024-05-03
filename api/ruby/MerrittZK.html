@@ -113,7 +113,7 @@
 </li><li>
 <p>Graceful resumption of processing in progress</p>
 </li><li>
-<p>Allow processing to be resumed on any ingest host.  The previous implementation managed state in memory which prevented this capability</p>
+<p>Allow processing to be resumed on any ingest host. The previous implementation managed state in memory which prevented this capability</p>
 </li><li>
 <p>Accurate notification of ingest completion (including inventory recording)</p>
 </li><li>
@@ -122,9 +122,7 @@
 
 <h2 id="module-MerrittZK-label-Batch+Queue+vs+Job+Queue"><a href="MerrittZK/Batch.html"><code>Batch</code></a> Queue vs <a href="MerrittZK/Job.html"><code>Job</code></a> Queue<span><a href="#module-MerrittZK-label-Batch+Queue+vs+Job+Queue">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
-<p>The work of the Merritt Ingest Service takes place at a <em>Job</em> level. Merritt Depositors initiate submissions at a <em>Batch</em> level.</p>
-
-<p>The primary function of the <em>Batch Queue</em> is to provide notification to a depositor once all jobs for a batch have completed.</p>
+<p>The work of the Merritt Ingest Service takes place at a <em>Job</em> level. Merritt Depositors initiate submissions at a <em>Batch</em> level. The primary function of the <em>Batch Queue</em> is to provide notification to a depositor once all jobs for a batch have completed.</p>
 
 <h2 id="module-MerrittZK-label-Use+of+ZooKeeper">Use of ZooKeeper<span><a href="#module-MerrittZK-label-Use+of+ZooKeeper">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
@@ -162,7 +160,7 @@ zk.close</pre>
 <h3 id="module-MerrittZK-label-Consumer+Daemon+Acquires+Pending+Job+and+Moves+Job+to+Estimating">Consumer Daemon Acquires Pending <a href="MerrittZK/Job.html"><code>Job</code></a> and Moves <a href="MerrittZK/Job.html"><code>Job</code></a> to Estimating<span><a href="#module-MerrittZK-label-Consumer+Daemon+Acquires+Pending+Job+and+Moves+Job+to+Estimating">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
 <pre class="ruby"><span class="ruby-identifier">zk</span> = <span class="ruby-constant">ZK</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;localhost:8084&#39;</span>)
-<span class="ruby-identifier">jj</span> = <span class="ruby-constant">MerrittZK</span><span class="ruby-operator">::</span><span class="ruby-constant">Job</span>.<span class="ruby-identifier">acquire_job</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-constant">MerrittZK</span><span class="ruby-operator">::</span><span class="ruby-constant">JobState</span>.<span class="ruby-constant">Pending</span>)
+<span class="ruby-identifier">jj</span> = <span class="ruby-constant">MerrittZK</span><span class="ruby-operator">::</span><span class="ruby-constant">Job</span>.<span class="ruby-identifier">acquire_job</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-constant">MerrittZK</span><span class="ruby-operator">::</span><span class="ruby-constant">JobState</span><span class="ruby-operator">::</span><span class="ruby-constant">Pending</span>)
 <span class="ruby-identifier">jj</span>.<span class="ruby-identifier">set_status</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">jj</span>.<span class="ruby-identifier">status</span>.<span class="ruby-identifier">state_change</span>(<span class="ruby-value">:Estimating</span>))
 <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">close</span>
 </pre>
@@ -170,7 +168,7 @@ zk.close</pre>
 <h3 id="module-MerrittZK-label-Consumer+Daemon+Acquires+Estimating+Job+and+Updates+Priority">Consumer Daemon Acquires Estimating <a href="MerrittZK/Job.html"><code>Job</code></a> and Updates Priority<span><a href="#module-MerrittZK-label-Consumer+Daemon+Acquires+Estimating+Job+and+Updates+Priority">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
 <pre class="ruby"><span class="ruby-identifier">zk</span> = <span class="ruby-constant">ZK</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;localhost:8084&#39;</span>)
-<span class="ruby-identifier">jj</span> = <span class="ruby-constant">MerrittZK</span><span class="ruby-operator">::</span><span class="ruby-constant">Job</span>.<span class="ruby-identifier">acquire_job</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-constant">MerrittZK</span><span class="ruby-operator">::</span><span class="ruby-constant">JobState</span>.<span class="ruby-constant">Estimating</span>)
+<span class="ruby-identifier">jj</span> = <span class="ruby-constant">MerrittZK</span><span class="ruby-operator">::</span><span class="ruby-constant">Job</span>.<span class="ruby-identifier">acquire_job</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-constant">MerrittZK</span><span class="ruby-operator">::</span><span class="ruby-constant">JobState</span><span class="ruby-operator">::</span><span class="ruby-constant">Estimating</span>)
 <span class="ruby-identifier">jj</span>.<span class="ruby-identifier">set_priority</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-value">3</span>)
 <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">close</span>
 </pre>

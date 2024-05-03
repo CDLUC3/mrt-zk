@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 require 'zk'
 require 'json'
 require 'yaml'
 
 module MerrittZK
-
+  ##
+  # Base class for Merritt Queue Items that follow similar conventions
   class QueueItem
-
     def initialize(id, data: nil)
       @id = id
       @data = data
@@ -23,13 +25,14 @@ module MerrittZK
     end
 
     def load(zk)
-      raise MerrittZKNodeInvalid.new("Missing Node #{path}") unless zk.exists?(path)
+      raise MerrittZKNodeInvalid, "Missing Node #{path}" unless zk.exists?(path)
+
       load_status(zk, json_property(zk, 'status'))
       load_properties(zk)
       self
     end
 
-    def load_status(zk, js)
+    def load_status(_zk, js)
       s = js.fetch(:status, 'na').to_sym
       @status = states.fetch(s, nil)
     end
@@ -41,7 +44,8 @@ module MerrittZK
     def string_property(zk, key)
       p = "#{path}/#{key}"
       arr = zk.get(p)
-      raise MerrittZKNodeInvalid.new("Node Object for (#{p}) missing") if arr.nil?
+      raise MerrittZKNodeInvalid, "Node Object for (#{p}) missing" if arr.nil?
+
       arr[0]
     end
 
@@ -49,8 +53,8 @@ module MerrittZK
       s = string_property(zk, key)
       begin
         JSON.parse(s, symbolize_names: true)
-      rescue
-        raise MerrittZKNodeInvalid.new("Node Object for (#{p}) does not contain valid json: #{s}")
+      rescue StandardError
+        raise MerrittZKNodeInvalid, "Node Object for (#{p}) does not contain valid json: #{s}"
       end
     end
 
@@ -69,7 +73,7 @@ module MerrittZK
     end
 
     def path
-      "na"
+      'na'
     end
 
     def status_path
@@ -81,6 +85,7 @@ module MerrittZK
       return v.to_s if v.is_a?(Integer)
       return v unless v.is_a?(Hash)
       return nil if v.empty?
+
       v.to_json
     end
 
@@ -91,13 +96,14 @@ module MerrittZK
 
     def status_object(status)
       {
-        status: status.name, 
+        status: status.name,
         last_modified: Time.now.to_s
       }
     end
 
     def set_status(zk, status)
       return if status == @status
+
       data = QueueItem.serialize(status_object(status))
       if @status.nil?
         zk.create(status_path, data)
@@ -115,12 +121,16 @@ module MerrittZK
       zk.delete("#{path}/lock")
     end
 
-    def data_prop(prop, defval)
+    def data_prop(_prop, defval)
       return defval if @data.nil?
+
       @data.fetch(defval, '')
     end
   end
 
+  ##
+  # Base class for Legacy Merritt ZooKeeper Queue Items.
+  # This class will be removed after the migration is successfully completed
   class LegacyItem
     DIR = '/na'
     def dir
@@ -141,6 +151,7 @@ module MerrittZK
     def load(zk)
       arr = zk.get("#{dir}/#{@id}")
       return if arr.nil?
+
       payload = arr[0]
       @bytes = payload.nil? ? [] : payload.bytes
       @payload = payload_object
@@ -152,33 +163,36 @@ module MerrittZK
 
     def status_name
       return 'NA' if status_byte > status_vals.length
+
       status_vals[status_byte]
     end
 
-    def is_json
+    def json?
       true
     end
-  
+
     def time
       return nil if @bytes.length < 9
+
       # https://stackoverflow.com/a/68855488/3846548
-      t = @bytes[1..8].inject(0) {|m, b| (m << 8) + b }
-      Time.at(t/1000)
+      t = @bytes[1..8].inject(0) { |m, b| (m << 8) + b }
+      Time.at(t / 1000)
     end
-  
+
     def payload_text
-      return "" if @bytes.length < 10
+      return '' if @bytes.length < 10
+
       @bytes[9..].pack('c*')
     end
 
     def payload_object
-      if is_json
-        json = JSON.parse(payload_text, symbolize_names: true)
-      else
-        json = {
-          payload: payload_text
-        }
-      end
+      json = if json?
+               JSON.parse(payload_text, symbolize_names: true)
+             else
+               {
+                 payload: payload_text
+               }
+             end
       json[:queueNode] = dir
       json[:id] = @id
       json[:date] = time.to_s
@@ -187,7 +201,5 @@ module MerrittZK
     end
 
     attr_reader :id
-
   end
-
 end

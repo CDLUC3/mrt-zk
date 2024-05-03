@@ -1,10 +1,13 @@
+# frozen_string_literal: true
+
 require 'zk'
 require 'json'
 require 'yaml'
 
 module MerrittZK
-
-  class Locks 
+  ##
+  # Helper class for setting and releasing Merritt ZooKeeper locks
+  class Locks
     LOCKS = '/locks'
     LOCKS_QUEUE = '/locks/queue'
     LOCKS_QUEUE_INGEST = '/locks/queue/ingest'
@@ -19,79 +22,75 @@ module MerrittZK
     end
 
     def self.init_locks(zk)
-      self.create_if_needed(zk, LOCKS)
-      self.create_if_needed(zk, LOCKS_QUEUE)
-      self.create_if_needed(zk, LOCKS_STORAGE)
-      self.create_if_needed(zk, LOCKS_INVENTORY)
-      self.create_if_needed(zk, LOCKS_COLLECTION)
+      create_if_needed(zk, LOCKS)
+      create_if_needed(zk, LOCKS_QUEUE)
+      create_if_needed(zk, LOCKS_STORAGE)
+      create_if_needed(zk, LOCKS_INVENTORY)
+      create_if_needed(zk, LOCKS_COLLECTION)
     end
 
     def self.create_lock(zk, path)
-      begin
-        zk.create(path, data: nil)
-        true
-      rescue
-        false
-      end
+      zk.create(path, data: nil)
+      true
+    rescue StandardError
+      false
     end
 
     def self.create_ephemeral_lock(zk, path)
-      begin
-        zk.create(path, data: nil, mode: :ephemeral)
-        true
-      rescue
-        false
-      end
+      zk.create(path, data: nil, mode: :ephemeral)
+      true
+    rescue StandardError
+      false
     end
 
     def self.lock_ingest_queue(zk)
-      return self.create_lock(zk, LOCKS_QUEUE_INGEST)
+      create_lock(zk, LOCKS_QUEUE_INGEST)
     end
-  
+
     def self.unlock_ingest_queue(zk)
       zk.delete(LOCKS_QUEUE_INGEST)
-      rescue
+    rescue StandardError
+      # no action
     end
-  
+
     def self.lock_large_access_queue(zk)
-      return self.create_lock(zk, LOCKS_QUEUE_ACCESS_LARGE)
+      create_lock(zk, LOCKS_QUEUE_ACCESS_LARGE)
     end
-  
+
     def self.unlock_large_access_queue(zk)
-      return zk.delete(LOCKS_QUEUE_ACCESS_LARGE)
+      zk.delete(LOCKS_QUEUE_ACCESS_LARGE)
     end
-  
+
     def self.lock_small_access_queue(zk)
-      return self.create_lock(zk, LOCKS_QUEUE_ACCESS_SMALL)
+      create_lock(zk, LOCKS_QUEUE_ACCESS_SMALL)
     end
-  
+
     def self.unlock_small_access_queue(zk)
-      return zk.delete(LOCKS_QUEUE_ACCESS_SMALL)
+      zk.delete(LOCKS_QUEUE_ACCESS_SMALL)
     end
-  
+
     def self.lock_collection(zk, mnemonic)
-      return self.create_lock(zk, "#{LOCKS_COLLECTION}/#{mnemonic}")
+      create_lock(zk, "#{LOCKS_COLLECTION}/#{mnemonic}")
     end
-  
+
     def self.unlock_collection(zk, mnemonic)
-      return zk.delete("#{LOCKS_COLLECTION}/#{mnemonic}")
+      zk.delete("#{LOCKS_COLLECTION}/#{mnemonic}")
     end
-  
+
     def self.lock_object_storage(zk, ark)
-      return self.create_ephemeral_lock(zk, "#{LOCKS_STORAGE}/#{ark.gsub(/\//, '_')}")
+      create_ephemeral_lock(zk, "#{LOCKS_STORAGE}/#{ark.gsub('/', '_')}")
     end
-  
+
     def self.unlock_object_storage(zk, ark)
-      return zk.delete("#{LOCKS_STORAGE}/#{ark.gsub(/\//, '_')}")
+      zk.delete("#{LOCKS_STORAGE}/#{ark.gsub('/', '_')}")
     end
-  
+
     def self.lock_object_inventory(zk, ark)
-      return self.create_ephemeral_lock(zk, "#{LOCKS_INVENTORY}/#{ark.gsub(/\//, '_')}")
+      create_ephemeral_lock(zk, "#{LOCKS_INVENTORY}/#{ark.gsub('/', '_')}")
     end
-  
+
     def self.unlock_object_inventory(zk, ark)
-      return zk.delete("#{LOCKS_INVENTORY}/#{ark.gsub(/\//, '_')}")
+      zk.delete("#{LOCKS_INVENTORY}/#{ark.gsub('/', '_')}")
     end
   end
-
 end

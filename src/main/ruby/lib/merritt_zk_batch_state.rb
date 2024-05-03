@@ -1,70 +1,50 @@
+# frozen_string_literal: true
+
 require 'zk'
 require 'json'
 require 'yaml'
 
 module MerrittZK
+  ##
+  # States for a Merritt Ingest Batch
   class BatchState < IngestState
-    @@states = {}
-    @@state_list = []
+    @states = {}
+    @state_list = []
 
     IngestState.state_yaml.fetch(:batch_states, {}).each do |k, v|
-      @@states[k] = BatchState.new(k, v)
-      @@state_list.append(@@states[k])
+      @states[k] = BatchState.new(k, v)
+      @state_list.append(@states[k])
     end
+
+    Pending = @states[:Pending]
+    Held = @states[:Held]
+    Processing = @states[:Processing]
+    Reporting = @states[:Reporting]
+    UpdateReporting = @states[:UpdateReporting]
+    Failed = @states[:Failed]
+    Deleted = @states[:Deleted]
+    Completed = @states[:Completed]
 
     private_class_method :new
 
-    def self.states
-      @@states
+    class << self
+      attr_reader :states
     end
 
     def self.init
-      self.Pending
-    end
-
-    def self.Pending
-      @@states[:Pending]
-    end
-
-    def self.Held
-      @@states[:Held]
-    end
-
-    def self.Processing
-      @@states[:Processing]
-    end
-
-    def self.Reporting
-      @@states[:Reporting]
-    end
-
-    def self.UpdateReporting
-      @@states[:UpdateReporting]
-    end
-
-    def self.Failed
-      @@states[:Failed]
-    end
-
-    def self.Deleted
-      @@states[:Deleted]
-    end
-
-    def self.Completed
-      @@states[:Completed]
+      Pending
     end
 
     def state_change(state)
-      state_lookup(@@states, state)
+      state_lookup(BatchState.states, state)
     end
 
     def success
-      success_lookup(@@states)
+      success_lookup(BatchState.states)
     end
 
     def fail
-      fail_lookup(@@states)
+      fail_lookup(BatchState.states)
     end
   end
-
 end

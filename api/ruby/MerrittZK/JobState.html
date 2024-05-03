@@ -72,19 +72,7 @@
   <h3>Methods</h3>
 
   <ul class="link-list" role="directory">
-    <li ><a href="#method-c-Completed">::Completed</a>
-    <li ><a href="#method-c-Deleted">::Deleted</a>
-    <li ><a href="#method-c-Downloading">::Downloading</a>
-    <li ><a href="#method-c-Estimating">::Estimating</a>
-    <li ><a href="#method-c-Failed">::Failed</a>
-    <li ><a href="#method-c-Held">::Held</a>
-    <li ><a href="#method-c-Notify">::Notify</a>
-    <li ><a href="#method-c-Pending">::Pending</a>
-    <li ><a href="#method-c-Processing">::Processing</a>
-    <li ><a href="#method-c-Provisioning">::Provisioning</a>
-    <li ><a href="#method-c-Recording">::Recording</a>
     <li ><a href="#method-c-init">::init</a>
-    <li ><a href="#method-c-states">::states</a>
     <li ><a href="#method-i-fail">#fail</a>
     <li ><a href="#method-i-state_change">#state_change</a>
     <li ><a href="#method-i-success">#success</a>
@@ -101,271 +89,65 @@
 
   <section class="description">
     
+<p>State transition for Merritt Ingest Jobs</p>
+
   </section>
 
   <section id="5Buntitled-5D" class="documentation-section">
 
 
+    <section class="constants-list">
+      <header>
+        <h3>Constants</h3>
+      </header>
+      <dl>
+        <dt id="Completed">Completed
+        <dd>
+        <dt id="Deleted">Deleted
+        <dd>
+        <dt id="Downloading">Downloading
+        <dd>
+        <dt id="Estimating">Estimating
+        <dd>
+        <dt id="Failed">Failed
+        <dd>
+        <dt id="Held">Held
+        <dd>
+        <dt id="Notify">Notify
+        <dd>
+        <dt id="Pending">Pending
+        <dd>
+        <dt id="Processing">Processing
+        <dd>
+        <dt id="Provisioning">Provisioning
+        <dd>
+        <dt id="Recording">Recording
+        <dd>
+      </dl>
+    </section>
 
+    <section class="attribute-method-details" class="method-section">
+      <header>
+        <h3>Attributes</h3>
+      </header>
+
+      <div id="attribute-c-states" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">states</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        </div>
+      </div>
+    </section>
 
 
      <section id="public-class-5Buntitled-5D-method-details" class="method-section">
        <header>
          <h3>Public Class Methods</h3>
        </header>
-
-      <div id="method-c-Completed" class="method-detail ">
-        <div class="method-header">
-          <div class="method-heading">
-            <span class="method-name">Completed</span><span
-              class="method-args">()</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-        </div>
-
-        <div class="method-description">
-          
-
-          <div class="method-source-code" id="Completed-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job_state.rb, line 78</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-constant">Completed</span>
-  <span class="ruby-identifier">@@states</span>[<span class="ruby-value">:Completed</span>]
-<span class="ruby-keyword">end</span></pre>
-          </div>
-        </div>
-
-
-      </div>
-
-      <div id="method-c-Deleted" class="method-detail ">
-        <div class="method-header">
-          <div class="method-heading">
-            <span class="method-name">Deleted</span><span
-              class="method-args">()</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-        </div>
-
-        <div class="method-description">
-          
-
-          <div class="method-source-code" id="Deleted-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job_state.rb, line 74</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-constant">Deleted</span>
-  <span class="ruby-identifier">@@states</span>[<span class="ruby-value">:Deleted</span>]
-<span class="ruby-keyword">end</span></pre>
-          </div>
-        </div>
-
-
-      </div>
-
-      <div id="method-c-Downloading" class="method-detail ">
-        <div class="method-header">
-          <div class="method-heading">
-            <span class="method-name">Downloading</span><span
-              class="method-args">()</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-        </div>
-
-        <div class="method-description">
-          
-
-          <div class="method-source-code" id="Downloading-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job_state.rb, line 54</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-constant">Downloading</span>
-  <span class="ruby-identifier">@@states</span>[<span class="ruby-value">:Downloading</span>]
-<span class="ruby-keyword">end</span></pre>
-          </div>
-        </div>
-
-
-      </div>
-
-      <div id="method-c-Estimating" class="method-detail ">
-        <div class="method-header">
-          <div class="method-heading">
-            <span class="method-name">Estimating</span><span
-              class="method-args">()</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-        </div>
-
-        <div class="method-description">
-          
-
-          <div class="method-source-code" id="Estimating-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job_state.rb, line 46</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-constant">Estimating</span>
-  <span class="ruby-identifier">@@states</span>[<span class="ruby-value">:Estimating</span>]
-<span class="ruby-keyword">end</span></pre>
-          </div>
-        </div>
-
-
-      </div>
-
-      <div id="method-c-Failed" class="method-detail ">
-        <div class="method-header">
-          <div class="method-heading">
-            <span class="method-name">Failed</span><span
-              class="method-args">()</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-        </div>
-
-        <div class="method-description">
-          
-
-          <div class="method-source-code" id="Failed-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job_state.rb, line 70</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-constant">Failed</span>
-  <span class="ruby-identifier">@@states</span>[<span class="ruby-value">:Failed</span>]
-<span class="ruby-keyword">end</span></pre>
-          </div>
-        </div>
-
-
-      </div>
-
-      <div id="method-c-Held" class="method-detail ">
-        <div class="method-header">
-          <div class="method-heading">
-            <span class="method-name">Held</span><span
-              class="method-args">()</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-        </div>
-
-        <div class="method-description">
-          
-
-          <div class="method-source-code" id="Held-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job_state.rb, line 42</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-constant">Held</span>
-  <span class="ruby-identifier">@@states</span>[<span class="ruby-value">:Held</span>]
-<span class="ruby-keyword">end</span></pre>
-          </div>
-        </div>
-
-
-      </div>
-
-      <div id="method-c-Notify" class="method-detail ">
-        <div class="method-header">
-          <div class="method-heading">
-            <span class="method-name">Notify</span><span
-              class="method-args">()</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-        </div>
-
-        <div class="method-description">
-          
-
-          <div class="method-source-code" id="Notify-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job_state.rb, line 66</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-constant">Notify</span>
-  <span class="ruby-identifier">@@states</span>[<span class="ruby-value">:Notify</span>]
-<span class="ruby-keyword">end</span></pre>
-          </div>
-        </div>
-
-
-      </div>
-
-      <div id="method-c-Pending" class="method-detail ">
-        <div class="method-header">
-          <div class="method-heading">
-            <span class="method-name">Pending</span><span
-              class="method-args">()</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-        </div>
-
-        <div class="method-description">
-          
-
-          <div class="method-source-code" id="Pending-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job_state.rb, line 38</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-constant">Pending</span>
-  <span class="ruby-identifier">@@states</span>[<span class="ruby-value">:Pending</span>]
-<span class="ruby-keyword">end</span></pre>
-          </div>
-        </div>
-
-
-      </div>
-
-      <div id="method-c-Processing" class="method-detail ">
-        <div class="method-header">
-          <div class="method-heading">
-            <span class="method-name">Processing</span><span
-              class="method-args">()</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-        </div>
-
-        <div class="method-description">
-          
-
-          <div class="method-source-code" id="Processing-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job_state.rb, line 58</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-constant">Processing</span>
-  <span class="ruby-identifier">@@states</span>[<span class="ruby-value">:Processing</span>]
-<span class="ruby-keyword">end</span></pre>
-          </div>
-        </div>
-
-
-      </div>
-
-      <div id="method-c-Provisioning" class="method-detail ">
-        <div class="method-header">
-          <div class="method-heading">
-            <span class="method-name">Provisioning</span><span
-              class="method-args">()</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-        </div>
-
-        <div class="method-description">
-          
-
-          <div class="method-source-code" id="Provisioning-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job_state.rb, line 50</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-constant">Provisioning</span>
-  <span class="ruby-identifier">@@states</span>[<span class="ruby-value">:Provisioning</span>]
-<span class="ruby-keyword">end</span></pre>
-          </div>
-        </div>
-
-
-      </div>
-
-      <div id="method-c-Recording" class="method-detail ">
-        <div class="method-header">
-          <div class="method-heading">
-            <span class="method-name">Recording</span><span
-              class="method-args">()</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-        </div>
-
-        <div class="method-description">
-          
-
-          <div class="method-source-code" id="Recording-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job_state.rb, line 62</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-constant">Recording</span>
-  <span class="ruby-identifier">@@states</span>[<span class="ruby-value">:Recording</span>]
-<span class="ruby-keyword">end</span></pre>
-          </div>
-        </div>
-
-
-      </div>
 
       <div id="method-c-init" class="method-detail ">
         <div class="method-header">
@@ -380,32 +162,9 @@
           
 
           <div class="method-source-code" id="init-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job_state.rb, line 22</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job_state.rb, line 37</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">init</span>
-  <span class="ruby-keyword">self</span>.<span class="ruby-constant">Pending</span>
-<span class="ruby-keyword">end</span></pre>
-          </div>
-        </div>
-
-
-      </div>
-
-      <div id="method-c-states" class="method-detail ">
-        <div class="method-header">
-          <div class="method-heading">
-            <span class="method-name">states</span><span
-              class="method-args">()</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-        </div>
-
-        <div class="method-description">
-          
-
-          <div class="method-source-code" id="states-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job_state.rb, line 18</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">states</span>
-  <span class="ruby-identifier">@@states</span>
+  <span class="ruby-constant">Pending</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -433,9 +192,9 @@
           
 
           <div class="method-source-code" id="fail-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job_state.rb, line 34</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job_state.rb, line 49</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">fail</span>
-  <span class="ruby-identifier">fail_lookup</span>(<span class="ruby-identifier">@@states</span>)
+  <span class="ruby-identifier">fail_lookup</span>(<span class="ruby-constant">JobState</span>.<span class="ruby-identifier">states</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -456,9 +215,9 @@
           
 
           <div class="method-source-code" id="state_change-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job_state.rb, line 26</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job_state.rb, line 41</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">state_change</span>(<span class="ruby-identifier">state</span>)
-  <span class="ruby-identifier">state_lookup</span>(<span class="ruby-identifier">@@states</span>, <span class="ruby-identifier">state</span>)
+  <span class="ruby-identifier">state_lookup</span>(<span class="ruby-constant">JobState</span>.<span class="ruby-identifier">states</span>, <span class="ruby-identifier">state</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -479,9 +238,9 @@
           
 
           <div class="method-source-code" id="success-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job_state.rb, line 30</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job_state.rb, line 45</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">success</span>
-  <span class="ruby-identifier">success_lookup</span>(<span class="ruby-identifier">@@states</span>)
+  <span class="ruby-identifier">success_lookup</span>(<span class="ruby-constant">JobState</span>.<span class="ruby-identifier">states</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>

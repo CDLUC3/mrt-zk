@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require_relative '../lib/merritt_zk_state'
 require_relative '../lib/merritt_zk_job_state'
@@ -222,5 +224,4 @@ RSpec.describe 'state transition tests' do
       expect(state.deletable?).to be(true)
     end
   end
-
 end

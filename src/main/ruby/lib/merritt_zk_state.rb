@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'zk'
 require 'json'
 require 'yaml'
 
 module MerrittZK
-  ## 
+  ##
   # Class details
   class IngestState
     def initialize(status, next_status)
@@ -14,6 +16,7 @@ module MerrittZK
       @fail_state = nil
       next_status.each do |k, v|
         next if v.nil?
+
         @success_state = k if v.fetch(:success, false)
         @fail_state = k if v.fetch(:fail, false)
       end
@@ -21,24 +24,15 @@ module MerrittZK
 
     def self.state_yaml
       JSON.parse(
-        YAML.safe_load(
-          File.read(File.join(File.dirname(__FILE__), '../../../../states.yml')), 
-          aliases: true
-        ).to_json, 
+        YAML.safe_load_file(File.join(File.dirname(__FILE__), '../../../../states.yml'), aliases: true).to_json,
         symbolize_names: true
       )
     end
 
-    def status
-      @status
-    end
+    attr_reader :status, :next_status
 
     def name
       @status.to_s
-    end
-
-    def next_status
-      @next_status
     end
 
     def deletable?
@@ -58,23 +52,15 @@ module MerrittZK
     end
 
     def state_lookup(states, state)
-      return states.fetch(state, nil) if state_change_allowed(state)
+      states.fetch(state, nil) if state_change_allowed(state)
     end
 
     def to_s
       "#{@status}: #{@next_status}"
     end
 
-    private 
+    private
 
-    def success_state
-      @success_state
-    end
-
-    def fail_state
-      @fail_state
-    end
-
+    attr_reader :success_state, :fail_state
   end
-
 end

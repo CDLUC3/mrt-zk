@@ -94,11 +94,24 @@
 
   <section class="description">
     
+<p>Merritt Object Assembly Queue Item</p>
+
   </section>
 
   <section id="5Buntitled-5D" class="documentation-section">
 
 
+    <section class="constants-list">
+      <header>
+        <h3>Constants</h3>
+      </header>
+      <dl>
+        <dt id="DIR">DIR
+        <dd>
+        <dt id="PREFIX">PREFIX
+        <dd>
+      </dl>
+    </section>
 
 
 
@@ -120,16 +133,15 @@
           
 
           <div class="method-source-code" id="acquire_pending_assembly-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 45</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 47</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">acquire_pending_assembly</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">queue_name</span>)
   <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">children</span>(<span class="ruby-constant">Access</span>.<span class="ruby-identifier">dir</span>(<span class="ruby-identifier">queue_name</span>)).<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">cp</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">a</span> = <span class="ruby-constant">Access</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">queue_name</span>, <span class="ruby-identifier">cp</span>)
     <span class="ruby-identifier">a</span>.<span class="ruby-identifier">load</span>(<span class="ruby-identifier">zk</span>)
     <span class="ruby-keyword">begin</span>
-      <span class="ruby-keyword">if</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">lock</span>(<span class="ruby-identifier">zk</span>)
-        <span class="ruby-keyword">return</span> <span class="ruby-identifier">a</span>
-      <span class="ruby-keyword">end</span>
-    <span class="ruby-keyword">rescue</span>  <span class="ruby-constant">ZK</span><span class="ruby-operator">::</span><span class="ruby-constant">Exceptions</span><span class="ruby-operator">::</span><span class="ruby-constant">NodeExists</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">e</span>
+      <span class="ruby-keyword">return</span> <span class="ruby-identifier">a</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">lock</span>(<span class="ruby-identifier">zk</span>)
+    <span class="ruby-keyword">rescue</span> <span class="ruby-constant">ZK</span><span class="ruby-operator">::</span><span class="ruby-constant">Exceptions</span><span class="ruby-operator">::</span><span class="ruby-constant">NodeExists</span>
+      <span class="ruby-comment"># no action</span>
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">nil</span>
@@ -153,12 +165,12 @@
           
 
           <div class="method-source-code" id="create_assembly-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 37</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 39</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">create_assembly</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">queue_name</span>, <span class="ruby-identifier">token</span>)
   <span class="ruby-identifier">id</span> = <span class="ruby-constant">QueueItem</span>.<span class="ruby-identifier">create_id</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">prefix_path</span>(<span class="ruby-identifier">queue_name</span>))
   <span class="ruby-identifier">access</span> = <span class="ruby-constant">Access</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">queue_name</span>, <span class="ruby-identifier">id</span>, <span class="ruby-value">data:</span> <span class="ruby-identifier">token</span>)
-  <span class="ruby-identifier">access</span>.<span class="ruby-identifier">set_data</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-string">&quot;token&quot;</span>, <span class="ruby-identifier">token</span>)
-  <span class="ruby-identifier">access</span>.<span class="ruby-identifier">set_status</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">@@init_status</span>)
+  <span class="ruby-identifier">access</span>.<span class="ruby-identifier">set_data</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-string">&#39;token&#39;</span>, <span class="ruby-identifier">token</span>)
+  <span class="ruby-identifier">access</span>.<span class="ruby-identifier">set_status</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-constant">AccessState</span>.<span class="ruby-identifier">init</span>)
   <span class="ruby-identifier">access</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -180,9 +192,9 @@
           
 
           <div class="method-source-code" id="dir-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 25</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 27</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">dir</span>(<span class="ruby-identifier">queue_name</span>)
-  <span class="ruby-node">&quot;#{@@dir}/#{queue_name}&quot;</span>
+  <span class="ruby-node">&quot;#{DIR}/#{queue_name}&quot;</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -207,7 +219,7 @@
             </div>
 
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 12</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 14</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">queue_name</span>, <span class="ruby-identifier">id</span>, <span class="ruby-value">data:</span> <span class="ruby-keyword">nil</span>)
   <span class="ruby-keyword">super</span>(<span class="ruby-identifier">id</span>, <span class="ruby-value">data:</span> <span class="ruby-identifier">data</span>)
   <span class="ruby-ivar">@queue_name</span> = <span class="ruby-identifier">queue_name</span>
@@ -231,9 +243,9 @@
           
 
           <div class="method-source-code" id="prefix_path-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 29</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 31</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">prefix_path</span>(<span class="ruby-identifier">queue_name</span>)
-  <span class="ruby-node">&quot;#{self.dir(queue_name)}/#{@@prefix}&quot;</span>
+  <span class="ruby-node">&quot;#{dir(queue_name)}/#{PREFIX}&quot;</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -263,11 +275,12 @@
           <div class="method-source-code" id="delete-source">
             <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 60</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">delete</span>(<span class="ruby-identifier">zk</span>)
-  <span class="ruby-identifier">raise</span> <span class="ruby-constant">MerrittZK</span><span class="ruby-operator">::</span><span class="ruby-constant">MerrittStateError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;Delete invalid #{path}&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@status</span>.<span class="ruby-identifier">deletable?</span>
-  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">empty?</span>
-    <span class="ruby-comment"># puts &quot;DELETE #{path}&quot;</span>
-    <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">rm_rf</span>(<span class="ruby-identifier">path</span>)
-  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">MerrittZK</span><span class="ruby-operator">::</span><span class="ruby-constant">MerrittStateError</span>, <span class="ruby-node">&quot;Delete invalid #{path}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@status</span>.<span class="ruby-identifier">deletable?</span>
+
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">empty?</span>
+
+  <span class="ruby-comment"># puts &quot;DELETE #{path}&quot;</span>
+  <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">rm_rf</span>(<span class="ruby-identifier">path</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -288,7 +301,7 @@
           
 
           <div class="method-source-code" id="load_properties-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 17</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 19</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">load_properties</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-ivar">@data</span> = <span class="ruby-identifier">json_property</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-string">&#39;token&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -311,7 +324,7 @@
           
 
           <div class="method-source-code" id="path-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 33</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 35</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">path</span>
   <span class="ruby-node">&quot;#{Access.dir(@queue_name)}/#{@id}&quot;</span>
 <span class="ruby-keyword">end</span></pre>
@@ -334,7 +347,7 @@
           
 
           <div class="method-source-code" id="states-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 21</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 23</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">states</span>
   <span class="ruby-constant">AccessState</span>.<span class="ruby-identifier">states</span>
 <span class="ruby-keyword">end</span></pre>

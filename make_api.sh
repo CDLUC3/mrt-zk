@@ -2,6 +2,7 @@
 mvn clean javadoc:javadoc
 cd src/main/ruby
 rm -rf doc
+bundle exec rubocop || exit
 bundle exec rdoc lib/*.rb
 cd ../../..
 rm -rf api

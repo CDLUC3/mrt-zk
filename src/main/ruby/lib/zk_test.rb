@@ -1,13 +1,17 @@
+# frozen_string_literal: true
+
 require 'zk'
 require 'json'
 require 'yaml'
 
+##
+# Supporting class for state transition rspec tests
 class MyZooTest
   def initialize
     @connstr = 'localhost:8084'
     @zk = ZK.new(@connstr)
     @tests = JSON.parse(
-      YAML.safe_load(File.read('../../../test-cases.yml'), aliases: true).to_json,
+      YAML.safe_load_file('../../../test-cases.yml', aliases: true).to_json,
       symbolize_names: true
     )
   end
@@ -16,16 +20,11 @@ class MyZooTest
     ZK.new(@connstr)
   end
 
-  def zk
-    @zk
-  end
-
-  def tests
-    @tests
-  end
+  attr_reader :zk, :tests
 
   def make_path(path, cp)
     return "/#{cp}" if path == '/'
+
     "#{path}/#{cp}"
   end
 
@@ -43,6 +42,7 @@ class MyZooTest
   def delete_all
     @zk.children('/').each do |cp|
       next if cp == 'zookeeper'
+
       @zk.rm_rf("/#{cp}")
     end
   end
@@ -67,14 +67,17 @@ class MyZooTest
     return true if path == '/locks/storage'
     return true if path == '/locks/inventory'
     return true if path == '/locks/collections'
+
     if @zk.children(path).empty?
       # skip job states with no jobs
       return true if File.dirname(path) == '/jobs/states'
+
       # skip nodes with children, list children
       return false
     end
     # skip nodes with empty data
     return true if data.nil? || data.empty?
+
     false
   end
 
@@ -83,14 +86,15 @@ class MyZooTest
       data = @zk.get(path)[0]
       begin
         data = JSON.parse(data)
-      rescue
+      rescue StandardError
+        # no action
       end
       obj[path.to_sym] = data unless skip_listing(path, data)
       begin
         @zk.children(path).each do |cp|
           list(obj: obj, path: make_path(path, cp))
         end
-      rescue StandardError => e 
+      rescue StandardError => e
         puts "FAIL #{e.message}"
       end
     end
@@ -100,11 +104,13 @@ class MyZooTest
   def serialize(v)
     return nil if v.nil?
     return v.to_json if v.is_a?(Hash)
+
     v.to_s
   end
 
   def set_config(data)
     return if data.nil?
+
     data.each do |k, v|
       @zk.mkdir_p(File.dirname(k.to_s))
       @zk.create(k.to_s, data: serialize(v))
@@ -118,6 +124,7 @@ class MyZooTest
   def output(name)
     s = tests.fetch(name, {}).fetch(:output, {})
     return {} if s.nil?
+
     JSON.parse(s.to_json)
   end
 
@@ -135,9 +142,10 @@ class MyZooTest
 
     return true if curzk == jout
 
-    puts "---"
-    curzk.keys.each do |k|
+    puts '---'
+    curzk.each_key do |k|
       next if jout.key?(k) && curzk[k] == jout[k]
+
       puts "#{k}:"
       puts "\tcur zk: [#{curzk[k]}]"
       puts "\tcur zk: nil" if curzk[k].nil?
@@ -150,7 +158,7 @@ class MyZooTest
     (curzk.keys - jout.keys).each do |k|
       puts "#{k}: missing from yaml out"
     end
-    puts "---"
+    puts '---'
     false
   end
 end

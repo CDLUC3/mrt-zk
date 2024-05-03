@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 require 'zk'
 require 'json'
 require 'yaml'
 
 module MerrittZK
-
+  ##
+  # Merritt Object Assembly Queue Item
   class Access < QueueItem
-    @@dir = '/access'
-    @@prefix = 'qid'
-    @@init_status = AccessState.init
+    DIR = '/access'
+    PREFIX = 'qid'
 
     def initialize(queue_name, id, data: nil)
       super(id, data: data)
@@ -23,11 +25,11 @@ module MerrittZK
     end
 
     def self.dir(queue_name)
-      "#{@@dir}/#{queue_name}"
+      "#{DIR}/#{queue_name}"
     end
 
     def self.prefix_path(queue_name)
-      "#{self.dir(queue_name)}/#{@@prefix}"
+      "#{dir(queue_name)}/#{PREFIX}"
     end
 
     def path
@@ -37,8 +39,8 @@ module MerrittZK
     def self.create_assembly(zk, queue_name, token)
       id = QueueItem.create_id(zk, prefix_path(queue_name))
       access = Access.new(queue_name, id, data: token)
-      access.set_data(zk, "token", token)
-      access.set_status(zk, @@init_status)
+      access.set_data(zk, 'token', token)
+      access.set_status(zk, AccessState.init)
       access
     end
 
@@ -47,24 +49,21 @@ module MerrittZK
         a = Access.new(queue_name, cp)
         a.load(zk)
         begin
-          if a.lock(zk)
-            return a
-          end
-        rescue  ZK::Exceptions::NodeExists => e
+          return a if a.lock(zk)
+        rescue ZK::Exceptions::NodeExists
+          # no action
         end
       end
       nil
     end
 
-
     def delete(zk)
-      raise MerrittZK::MerrittStateError.new("Delete invalid #{path}") unless @status.deletable?
-      unless path.nil? || path.empty?
-        # puts "DELETE #{path}"
-        zk.rm_rf(path)
-      end
+      raise MerrittZK::MerrittStateError, "Delete invalid #{path}" unless @status.deletable?
+
+      return if path.nil? || path.empty?
+
+      # puts "DELETE #{path}"
+      zk.rm_rf(path)
     end
-
   end
-
 end
