@@ -186,14 +186,11 @@ module MerrittZK
     end
 
     def payload_object
-      json = if json?
-               JSON.parse(payload_text, symbolize_names: true)
-             else
-               {
-                 payload: payload_text
-               }
-             end
-      json[:queueNode] = dir
+      json = {payload: payload_text}
+      if json?
+        json = JSON.parse(payload_text, symbolize_names: true)
+      end
+      json[:queueNode] = '/jobs'
       json[:id] = @id
       json[:date] = time.to_s
       json[:status] = status_name
