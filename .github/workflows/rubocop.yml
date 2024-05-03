@@ -16,13 +16,8 @@ jobs:
         ruby-version: '3.0'
         bundler-cache: true
         working-directory: src/main/ruby
-        
-    # Run the Rubocop linter checks
-    # - name: 'Run Rubocop'
-    #  run: bundle exec rubocop
-    #  working-directory: coll-health-obj-analysis
 
     # Run the Rubocop linter checks
-    - name: 'Generate rdoc'
-      run: bundle exec rdoc merritt_zk.rb
+    - name: 'Run Rubocop'
+      run: bundle exec rubocop
       working-directory: src/main/ruby
