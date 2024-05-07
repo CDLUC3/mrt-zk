@@ -133,7 +133,7 @@ module MerrittZK
   # This class will be removed after the migration is successfully completed
   class LegacyItem
     DIR = '/na'
-    STATUS_VALS = %w[Pending Consumed Deleted Failed Completed Held]
+    STATUS_VALS = %w[Pending Consumed Deleted Failed Completed Held].freeze
     def dir
       DIR
     end

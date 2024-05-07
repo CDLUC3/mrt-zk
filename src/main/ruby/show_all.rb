@@ -116,6 +116,7 @@ if ARGV.include?('-debug')
     puts j.fetch(:path, '')
     puts JSON.pretty_generate(j)
   end
+
 end
 
 if ARGV.include?('-clear')

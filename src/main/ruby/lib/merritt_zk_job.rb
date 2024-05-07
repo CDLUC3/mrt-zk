@@ -284,6 +284,17 @@ module MerrittZK
       false
     end
 
+    def payload_object
+      # queueNode, manifestURL, date, status, iD
+      payload = super
+      m = /(http:[^<]*)/.match(payload[:payload])
+      payload[:queueNode] = DIR
+      payload[:manfestURL] = m[1]
+      payload[:queueId] = payload[:id]
+      payload[:queueStatus] = payload[:status]
+      payload
+    end
+
     def self.list_jobs(zk)
       jobs = []
       zk.children(DIR).sort.each do |cp|
