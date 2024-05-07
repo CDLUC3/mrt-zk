@@ -109,6 +109,7 @@ if ARGV.include?('-debug')
   puts '===> DEBUG'
   MerrittZK::LegacyIngestJob.list_jobs(zk).each do |j|
     puts j.fetch(:path, '')
+    puts JSON.pretty_generate(j)
   end
 
   MerrittZK::LegacyInventoryJob.list_jobs(zk).each do |j|

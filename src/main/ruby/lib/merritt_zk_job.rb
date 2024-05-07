@@ -216,10 +216,6 @@ module MerrittZK
       DIR
     end
 
-    def self.status_vals
-      %w[Pending Consumed Deleted Failed Completed Held]
-    end
-
     def submitter
       @payload.fetch(:submitter, '')
     end
@@ -286,10 +282,6 @@ module MerrittZK
 
     def json?
       false
-    end
-
-    def self.status_vals
-      %w[Pending Consumed Deleted Failed Completed Held]
     end
 
     def self.list_jobs(zk)
