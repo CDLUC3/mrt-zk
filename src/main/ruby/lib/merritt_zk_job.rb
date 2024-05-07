@@ -289,9 +289,9 @@ module MerrittZK
       payload = super
       m = /(http:[^<]*)/.match(payload[:payload])
       payload[:queueNode] = DIR
-      payload[:manfestURL] = m[1]
-      payload[:queueId] = payload[:id]
-      payload[:queueStatus] = payload[:status]
+      payload[:manifestURL] = m[1]
+      payload[:iD] = payload[:id]
+      payload[:status] = payload[:status]
       payload
     end
 
