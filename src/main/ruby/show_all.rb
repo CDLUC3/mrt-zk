@@ -105,6 +105,18 @@ if ARGV.include?('-migrate')
   end
 end
 
+if ARGV.include?('-debug')
+  puts '===> DEBUG'
+  MerrittZK::LegacyIngestJob.list_jobs(zk).each do |j|
+    puts j.fetch(:path, '')
+  end
+
+  MerrittZK::LegacyInventoryJob.list_jobs(zk).each do |j|
+    puts j.fetch(:path, '')
+    puts JSON.pretty_generate(j)
+  end
+end
+
 if ARGV.include?('-clear')
   LIST.each do |p|
     zk.rm_rf(p)

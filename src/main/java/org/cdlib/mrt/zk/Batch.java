@@ -139,8 +139,13 @@ public class Batch extends QueueItem {
       if (QueueItemHelper.exists(client, p)) {
         if (client.getChildren(p, false).isEmpty()) {
           Batch b = new Batch(cp);
+          b.load(client);
+
+          if (b.status() == BatchState.Completed || b.status() == BatchState.Failed) {
+            continue;
+          }
+
           if (b.lock(client)) {
-            b.load(client);
             b.setStatus(client, BatchState.Reporting);
             return b;
           }
@@ -168,7 +173,6 @@ public class Batch extends QueueItem {
         jobs.add(new Job(cp, id()));
       }
     }
-    System.out.println("TBTBTB "+ state.path + " " + jobs.size());
     return jobs;
   }
 

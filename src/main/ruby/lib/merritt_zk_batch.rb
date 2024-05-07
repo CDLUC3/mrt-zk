@@ -95,6 +95,7 @@ module MerrittZK
         b = Batch.new(cp)
         b.load(zk)
         begin
+          next if b.status == BatchState::Completed || b.status == BatchState::Failed 
           if b.lock(zk)
             b.set_status(zk, BatchState::Reporting)
             return b

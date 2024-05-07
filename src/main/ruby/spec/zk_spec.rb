@@ -344,6 +344,9 @@ RSpec.describe 'ZK input/ouput tests' do
       expect(bbb.status.status).to eq(:Completed)
       expect(bbb.status.deletable?).to be(true)
 
+      bbbx = MerrittZK::Batch.acquire_complete_batch(@zk)
+      expect(bbbx).to be_nil
+
       bbbb = MerrittZK::Batch.new(bbb.id).load(@zk)
       expect(bbbb.status.status).to eq(:Completed)
       expect(bbbb.has_failure).to be(false)

@@ -666,6 +666,9 @@ public class ZKTestIT {
       assertEquals(bbb.status(), BatchState.Completed);
       assertTrue(bbb.status().isDeletable());
 
+      Batch bbbx = Batch.acquireCompletedBatch(zk);
+      assertNull(bbbx);
+
       Batch bbbb = new Batch(bbb.id());
       bbbb.load(zk);
       assertEquals(bbbb.status(), BatchState.Completed);
@@ -763,7 +766,6 @@ public class ZKTestIT {
       bbbb.setStatus(zk, BatchState.Deleted);
       assertEquals(bbbb.status(), BatchState.Deleted);
       assertTrue(bbbb.status().isDeletable());
-      System.out.println(222);
     }
 
     @Test

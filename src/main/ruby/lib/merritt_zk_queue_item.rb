@@ -137,6 +137,10 @@ module MerrittZK
       DIR
     end
 
+    def path
+      "#{dir}/#{id}"
+    end
+
     def status_vals
       []
     end
@@ -192,6 +196,7 @@ module MerrittZK
       json[:id] = @id
       json[:date] = time.to_s
       json[:status] = status_name
+      json[:path] = path
       json
     end
 

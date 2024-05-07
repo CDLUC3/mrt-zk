@@ -216,7 +216,7 @@ module MerrittZK
       DIR
     end
 
-    def status_vals
+    def self.status_vals
       %w[Pending Consumed Deleted Failed Completed Held]
     end
 
@@ -268,6 +268,34 @@ module MerrittZK
       jobs = []
       zk.children(DIR).sort.each do |cp|
         lj = LegacyIngestJob.new(cp)
+        lj.load(zk)
+        jobs.append(lj.payload_object)
+      end
+      jobs
+    end
+  end
+
+  ##
+  # Legacy Merritt Inventory Job record.
+  # This class will be removed after the migration is complete
+  class LegacyInventoryJob < LegacyItem
+    DIR = '/mrt.inventory.full'
+    def dir
+      DIR
+    end
+
+    def json?
+      false
+    end
+
+    def self.status_vals
+      %w[Pending Consumed Deleted Failed Completed Held]
+    end
+
+    def self.list_jobs(zk)
+      jobs = []
+      zk.children(DIR).sort.each do |cp|
+        lj = LegacyInventoryJob.new(cp)
         lj.load(zk)
         jobs.append(lj.payload_object)
       end
