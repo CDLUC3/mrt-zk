@@ -117,6 +117,10 @@ if ARGV.include?('-debug')
     puts JSON.pretty_generate(j)
   end
 
+  MerrittZK::LegacyAccessJob.list_jobs(zk).each do |j|
+    puts j.fetch(:path, '')
+    puts JSON.pretty_generate(j)
+  end
 end
 
 if ARGV.include?('-clear')

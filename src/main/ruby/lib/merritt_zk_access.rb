@@ -10,6 +10,8 @@ module MerrittZK
   class Access < QueueItem
     DIR = '/access'
     PREFIX = 'qid'
+    SMALL = 'small'
+    LARGE = 'large'
 
     def initialize(queue_name, id, data: nil)
       super(id, data: data)
@@ -65,5 +67,18 @@ module MerrittZK
       # puts "DELETE #{path}"
       zk.rm_rf(path)
     end
+
+    def self.list_jobs(zk)
+      jobs = []
+      [SMALL, LARGE].each do |queue|
+        zk.children("#{DIR}/#{queue}").sort.each do |cp|
+          job = Access.new(queue, cp).load(zk)
+          jobjson = job.data
+          jobs.append(jobjson)
+        end
+      end
+      jobs
+    end
   end
+
 end

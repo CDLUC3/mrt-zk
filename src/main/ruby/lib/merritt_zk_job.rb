@@ -285,13 +285,10 @@ module MerrittZK
     end
 
     def payload_object
-      # queueNode, manifestURL, date, status, iD
       payload = super
       m = /(http:[^<]*)/.match(payload[:payload])
       payload[:queueNode] = DIR
       payload[:manifestURL] = m[1]
-      payload[:iD] = payload[:id]
-      payload[:status] = payload[:status]
       payload
     end
 
@@ -305,4 +302,65 @@ module MerrittZK
       jobs
     end
   end
+
+  ##
+  # Legacy Merritt Access Job record.
+  # This class will be removed after the migration is complete
+  class LegacyAccessJob < LegacyItem
+    def initialize(dir, cp)
+      @dir = dir
+      super(cp)
+    end
+
+    def dir
+      @dir
+    end
+
+    def json?
+      false
+    end
+
+    def payload_object
+      payload = super
+      payload[:queueNode] = dir
+      payload
+    end
+
+    def self.list_jobs(zk)
+      jobs = []
+      zk.children(LargeLegacyAccessJob::DIR).sort.each do |cp|
+        lj = LargeLegacyAccessJob.new(cp)
+        lj.load(zk)
+        jobs.append(lj.payload_object)
+      end
+      zk.children(SmallLegacyAccessJob::DIR).sort.each do |cp|
+        lj = SmallLegacyAccessJob.new(cp)
+        lj.load(zk)
+        jobs.append(lj.payload_object)
+      end
+      jobs
+    end
+  end
+
+  ##
+  # Legacy Merritt Small Access Job record.
+  # This class will be removed after the migration is complete
+  class SmallLegacyAccessJob < LegacyAccessJob
+    DIR = '/accessSmall.1'
+    def initialize(cp)
+      super(DIR, cp)
+    end
+  end
+  
+  ##
+  # Legacy Merritt Large Access Job record.
+  # This class will be removed after the migration is complete
+  class LargeLegacyAccessJob < LegacyAccessJob
+    DIR = '/accessLarge.1'
+    def initialize
+      super(DIR, cp)
+    end
+  end
 end
+
+

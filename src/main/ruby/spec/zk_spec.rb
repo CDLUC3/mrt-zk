@@ -747,7 +747,7 @@ RSpec.describe 'ZK input/ouput tests' do
 
   describe 'Test Access Assembly Creation' do
     it :access_happy_path do |_x|
-      q = 'small'
+      q = MerrittZK::Access::SMALL
       a = MerrittZK::Access.create_assembly(@zk, q, { token: 'abc' })
       @remap['qid0'] = a.id
       aa = MerrittZK::Access.acquire_pending_assembly(@zk, q)
@@ -765,6 +765,10 @@ RSpec.describe 'ZK input/ouput tests' do
 
       expect(aaa.status.status).to eq(:Completed)
       expect(aaa.status.deletable?).to be(true)
+
+      # Only for Ruby interface
+      arr = MerrittZK::Access.list_jobs(@zk)
+      expect(arr.length).to eq(1)
     end
   end
 
