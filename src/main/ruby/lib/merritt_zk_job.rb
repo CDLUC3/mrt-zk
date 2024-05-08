@@ -262,6 +262,8 @@ module MerrittZK
 
     def self.list_jobs(zk)
       jobs = []
+      return jobs unless zk.exists?(DIR)
+
       zk.children(DIR).sort.each do |cp|
         lj = LegacyIngestJob.new(cp)
         lj.load(zk)
@@ -294,6 +296,8 @@ module MerrittZK
 
     def self.list_jobs(zk)
       jobs = []
+      return jobs unless zk.exists?(DIR)
+
       zk.children(DIR).sort.each do |cp|
         lj = LegacyInventoryJob.new(cp)
         lj.load(zk)
@@ -326,15 +330,20 @@ module MerrittZK
 
     def self.list_jobs(zk)
       jobs = []
-      zk.children(LargeLegacyAccessJob::DIR).sort.each do |cp|
-        lj = LargeLegacyAccessJob.new(cp)
-        lj.load(zk)
-        jobs.append(lj.payload_object)
+      if zk.exists?(LargeLegacyAccessJob::DIR)
+        zk.children(LargeLegacyAccessJob::DIR).sort.each do |cp|
+          lj = LargeLegacyAccessJob.new(cp)
+          lj.load(zk)
+          jobs.append(lj.payload_object)
+        end
       end
-      zk.children(SmallLegacyAccessJob::DIR).sort.each do |cp|
-        lj = SmallLegacyAccessJob.new(cp)
-        lj.load(zk)
-        jobs.append(lj.payload_object)
+
+      if zk.exists?(SmallLegacyAccessJob::DIR)
+        zk.children(SmallLegacyAccessJob::DIR).sort.each do |cp|
+          lj = SmallLegacyAccessJob.new(cp)
+          lj.load(zk)
+          jobs.append(lj.payload_object)
+        end
       end
       jobs
     end

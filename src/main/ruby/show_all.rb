@@ -42,7 +42,6 @@ def show(zk, arr)
   arr.each do |p|
     next unless zk.exists?(p)
 
-    puts p
     puts '---------'
     zk.children(p).each do |cp|
       show_node(zk, p, "#{p}/#{cp}")
@@ -101,6 +100,14 @@ if ARGV.include?('-migrate')
       job.set_status(zk, MerrittZK::JobState::Deleted)
     when 'Held'
       job.set_status(zk, MerrittZK::JobState::Held)
+    end
+  end
+
+  MerrittZK::LegacyAccessJob.list_jobs(zk).each do |j|
+    if j.fetch(:queueNode, '') == MerrittZK::LargeLegacyAccessJob::DIR
+      MerrittZK::Access.create_assembly(zk, MerrittZK::Access::LARGE, j)
+    else
+      MerrittZK::Access.create_assembly(zk, MerrittZK::Access::SMALL, j)
     end
   end
 end

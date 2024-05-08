@@ -74,6 +74,8 @@ module MerrittZK
         zk.children("#{DIR}/#{queue}").sort.each do |cp|
           job = Access.new(queue, cp).load(zk)
           jobjson = job.data
+          jobjson[:id] = cp
+          jobjson[:queueNode] = queue
           jobs.append(jobjson)
         end
       end
