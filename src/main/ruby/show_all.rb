@@ -137,6 +137,15 @@ if ARGV.include?('-m1')
   end
 end
 
+if ARGV.include?('-m13')
+  LIST.each do |_p|
+    zk.rm_rf('/migration')
+    zk.create('/migration', data: nil)
+    zk.create('/migration/m1', data: nil)
+    zk.create('/migration/m3', data: nil)
+  end
+end
+
 if ARGV.include?('-m0')
   LIST.each do |_p|
     zk.rm_rf('/migration')

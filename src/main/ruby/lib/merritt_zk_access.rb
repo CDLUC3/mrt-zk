@@ -80,5 +80,4 @@ module MerrittZK
       jobs
     end
   end
-
 end

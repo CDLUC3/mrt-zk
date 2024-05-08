@@ -312,12 +312,10 @@ module MerrittZK
       super(cp)
     end
 
-    def dir
-      @dir
-    end
+    attr_reader :dir
 
     def json?
-      false
+      true
     end
 
     def payload_object
@@ -351,7 +349,7 @@ module MerrittZK
       super(DIR, cp)
     end
   end
-  
+
   ##
   # Legacy Merritt Large Access Job record.
   # This class will be removed after the migration is complete
@@ -362,5 +360,3 @@ module MerrittZK
     end
   end
 end
-
-
