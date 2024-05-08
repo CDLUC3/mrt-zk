@@ -75,7 +75,8 @@ module MerrittZK
           job = Access.new(queue, cp).load(zk)
           jobjson = job.data
           jobjson[:id] = cp
-          jobjson[:queueNode] = queue
+          jobjson[:queueNode] = Access.dir(queue)
+          jobjson[:path] = job.path
           jobs.append(jobjson)
         end
       end
