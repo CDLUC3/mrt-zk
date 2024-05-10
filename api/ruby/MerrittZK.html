@@ -176,7 +176,7 @@ zk.close</pre>
 <h3 id="module-MerrittZK-label-Acquire+Completed+Batch-2C+Perform+Reporting">Acquire Completed <a href="MerrittZK/Batch.html"><code>Batch</code></a>, Perform Reporting<span><a href="#module-MerrittZK-label-Acquire+Completed+Batch-2C+Perform+Reporting">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
 <pre class="ruby"><span class="ruby-identifier">zk</span> = <span class="ruby-constant">ZK</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;localhost:8084&#39;</span>)
-<span class="ruby-identifier">batch</span> = <span class="ruby-constant">MerrittZK</span><span class="ruby-operator">::</span><span class="ruby-constant">Batch</span>.<span class="ruby-identifier">acquire_completed_batch</span>(<span class="ruby-identifier">zk</span>)
+<span class="ruby-identifier">batch</span> = <span class="ruby-constant">MerrittZK</span><span class="ruby-operator">::</span><span class="ruby-constant">Batch</span>.<span class="ruby-identifier">acquire_batch_for_reporting_batch</span>(<span class="ruby-identifier">zk</span>)
 <span class="ruby-comment"># perform reporting on jobs</span>
 <span class="ruby-identifier">batch</span>.<span class="ruby-identifier">set_status</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">batch</span>.<span class="ruby-identifier">status</span>.<span class="ruby-identifier">success</span>)
 <span class="ruby-comment"># An admin thread will perform batch.delete(zk)</span>

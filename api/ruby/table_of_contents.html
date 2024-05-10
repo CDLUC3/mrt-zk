@@ -66,7 +66,16 @@
     <a href="MerrittZK/JobState.html">MerrittZK::JobState</a>
   </li>
   <li class="class">
+    <a href="MerrittZK/LargeLegacyAccessJob.html">MerrittZK::LargeLegacyAccessJob</a>
+  </li>
+  <li class="class">
+    <a href="MerrittZK/LegacyAccessJob.html">MerrittZK::LegacyAccessJob</a>
+  </li>
+  <li class="class">
     <a href="MerrittZK/LegacyIngestJob.html">MerrittZK::LegacyIngestJob</a>
+  </li>
+  <li class="class">
+    <a href="MerrittZK/LegacyInventoryJob.html">MerrittZK::LegacyInventoryJob</a>
   </li>
   <li class="class">
     <a href="MerrittZK/LegacyItem.html">MerrittZK::LegacyItem</a>
@@ -84,6 +93,12 @@
     <a href="MerrittZK/QueueItem.html">MerrittZK::QueueItem</a>
   </li>
   <li class="class">
+    <a href="MerrittZK/SmallLegacyAccessJob.html">MerrittZK::SmallLegacyAccessJob</a>
+  </li>
+  <li class="class">
+    <a href="MerrittZK/ZkKeys.html">MerrittZK::ZkKeys</a>
+  </li>
+  <li class="class">
     <a href="MyZooTest.html">MyZooTest</a>
   </li>
 </ul>
@@ -92,7 +107,7 @@
 <ul>
 
   <li class="method">
-    <a href="MerrittZK/Batch.html#method-c-acquire_complete_batch">::acquire_complete_batch</a>
+    <a href="MerrittZK/Batch.html#method-c-acquire_batch_for_reporting_batch">::acquire_batch_for_reporting_batch</a>
     &mdash;
     <span class="container">MerrittZK::Batch</span>
 
@@ -152,6 +167,11 @@
     <span class="container">MerrittZK::Locks</span>
 
   <li class="method">
+    <a href="MerrittZK/Batch.html#method-c-delete_completed_batches">::delete_completed_batches</a>
+    &mdash;
+    <span class="container">MerrittZK::Batch</span>
+
+  <li class="method">
     <a href="MerrittZK/Access.html#method-c-dir">::dir</a>
     &mdash;
     <span class="container">MerrittZK::Access</span>
@@ -187,14 +207,29 @@
     <span class="container">MerrittZK::Locks</span>
 
   <li class="method">
-    <a href="MerrittZK/Job.html#method-c-list_jobs">::list_jobs</a>
+    <a href="MerrittZK/Access.html#method-c-list_jobs_as_json">::list_jobs_as_json</a>
+    &mdash;
+    <span class="container">MerrittZK::Access</span>
+
+  <li class="method">
+    <a href="MerrittZK/LegacyAccessJob.html#method-c-list_jobs_as_json">::list_jobs_as_json</a>
+    &mdash;
+    <span class="container">MerrittZK::LegacyAccessJob</span>
+
+  <li class="method">
+    <a href="MerrittZK/Job.html#method-c-list_jobs_as_json">::list_jobs_as_json</a>
     &mdash;
     <span class="container">MerrittZK::Job</span>
 
   <li class="method">
-    <a href="MerrittZK/LegacyIngestJob.html#method-c-list_jobs">::list_jobs</a>
+    <a href="MerrittZK/LegacyIngestJob.html#method-c-list_jobs_as_json">::list_jobs_as_json</a>
     &mdash;
     <span class="container">MerrittZK::LegacyIngestJob</span>
+
+  <li class="method">
+    <a href="MerrittZK/LegacyInventoryJob.html#method-c-list_jobs_as_json">::list_jobs_as_json</a>
+    &mdash;
+    <span class="container">MerrittZK::LegacyInventoryJob</span>
 
   <li class="method">
     <a href="MerrittZK/Locks.html#method-c-lock_collection">::lock_collection</a>
@@ -230,6 +265,21 @@
     <a href="MerrittZK/Access.html#method-c-new">::new</a>
     &mdash;
     <span class="container">MerrittZK::Access</span>
+
+  <li class="method">
+    <a href="MerrittZK/LegacyAccessJob.html#method-c-new">::new</a>
+    &mdash;
+    <span class="container">MerrittZK::LegacyAccessJob</span>
+
+  <li class="method">
+    <a href="MerrittZK/SmallLegacyAccessJob.html#method-c-new">::new</a>
+    &mdash;
+    <span class="container">MerrittZK::SmallLegacyAccessJob</span>
+
+  <li class="method">
+    <a href="MerrittZK/LargeLegacyAccessJob.html#method-c-new">::new</a>
+    &mdash;
+    <span class="container">MerrittZK::LargeLegacyAccessJob</span>
 
   <li class="method">
     <a href="MerrittZK/Batch.html#method-c-new">::new</a>
@@ -377,6 +427,11 @@
     <span class="container">MerrittZK::LegacyIngestJob</span>
 
   <li class="method">
+    <a href="MerrittZK/LegacyInventoryJob.html#method-i-dir">#dir</a>
+    &mdash;
+    <span class="container">MerrittZK::LegacyInventoryJob</span>
+
+  <li class="method">
     <a href="MerrittZK/LegacyItem.html#method-i-dir">#dir</a>
     &mdash;
     <span class="container">MerrittZK::LegacyItem</span>
@@ -445,6 +500,16 @@
     <a href="MerrittZK/QueueItem.html#method-i-int_property">#int_property</a>
     &mdash;
     <span class="container">MerrittZK::QueueItem</span>
+
+  <li class="method">
+    <a href="MerrittZK/LegacyAccessJob.html#method-i-json-3F">#json?</a>
+    &mdash;
+    <span class="container">MerrittZK::LegacyAccessJob</span>
+
+  <li class="method">
+    <a href="MerrittZK/LegacyInventoryJob.html#method-i-json-3F">#json?</a>
+    &mdash;
+    <span class="container">MerrittZK::LegacyInventoryJob</span>
 
   <li class="method">
     <a href="MerrittZK/LegacyItem.html#method-i-json-3F">#json?</a>
@@ -555,6 +620,21 @@
     <a href="MerrittZK/QueueItem.html#method-i-path">#path</a>
     &mdash;
     <span class="container">MerrittZK::QueueItem</span>
+
+  <li class="method">
+    <a href="MerrittZK/LegacyItem.html#method-i-path">#path</a>
+    &mdash;
+    <span class="container">MerrittZK::LegacyItem</span>
+
+  <li class="method">
+    <a href="MerrittZK/LegacyAccessJob.html#method-i-payload_object">#payload_object</a>
+    &mdash;
+    <span class="container">MerrittZK::LegacyAccessJob</span>
+
+  <li class="method">
+    <a href="MerrittZK/LegacyInventoryJob.html#method-i-payload_object">#payload_object</a>
+    &mdash;
+    <span class="container">MerrittZK::LegacyInventoryJob</span>
 
   <li class="method">
     <a href="MerrittZK/LegacyItem.html#method-i-payload_object">#payload_object</a>
@@ -720,11 +800,6 @@
     <a href="MerrittZK/QueueItem.html#method-i-status_path">#status_path</a>
     &mdash;
     <span class="container">MerrittZK::QueueItem</span>
-
-  <li class="method">
-    <a href="MerrittZK/LegacyIngestJob.html#method-i-status_vals">#status_vals</a>
-    &mdash;
-    <span class="container">MerrittZK::LegacyIngestJob</span>
 
   <li class="method">
     <a href="MerrittZK/LegacyItem.html#method-i-status_vals">#status_vals</a>

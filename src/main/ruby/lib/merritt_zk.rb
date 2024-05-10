@@ -77,7 +77,7 @@ require_relative 'merritt_zk_locks'
 # === Acquire Completed Batch, Perform Reporting
 #
 #     zk = ZK.new('localhost:8084')
-#     batch = MerrittZK::Batch.acquire_completed_batch(zk)
+#     batch = MerrittZK::Batch.acquire_batch_for_reporting_batch(zk)
 #     # perform reporting on jobs
 #     batch.set_status(zk, batch.status.success)
 #     # An admin thread will perform batch.delete(zk)

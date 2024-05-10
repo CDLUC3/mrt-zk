@@ -72,10 +72,11 @@
   <h3>Methods</h3>
 
   <ul class="link-list" role="directory">
-    <li ><a href="#method-c-acquire_complete_batch">::acquire_complete_batch</a>
+    <li ><a href="#method-c-acquire_batch_for_reporting_batch">::acquire_batch_for_reporting_batch</a>
     <li ><a href="#method-c-acquire_pending_batch">::acquire_pending_batch</a>
     <li ><a href="#method-c-batch_uuid_path">::batch_uuid_path</a>
     <li ><a href="#method-c-create_batch">::create_batch</a>
+    <li ><a href="#method-c-delete_completed_batches">::delete_completed_batches</a>
     <li ><a href="#method-c-dir">::dir</a>
     <li ><a href="#method-c-find_batch_by_uuid">::find_batch_by_uuid</a>
     <li class="calls-super" ><a href="#method-c-new">::new</a>
@@ -147,10 +148,10 @@
          <h3>Public Class Methods</h3>
        </header>
 
-      <div id="method-c-acquire_complete_batch" class="method-detail ">
+      <div id="method-c-acquire_batch_for_reporting_batch" class="method-detail ">
         <div class="method-header">
           <div class="method-heading">
-            <span class="method-name">acquire_complete_batch</span><span
+            <span class="method-name">acquire_batch_for_reporting_batch</span><span
               class="method-args">(zk)</span>
             <span class="method-click-advice">click to toggle source</span>
           </div>
@@ -159,9 +160,9 @@
         <div class="method-description">
           
 
-          <div class="method-source-code" id="acquire_complete_batch-source">
+          <div class="method-source-code" id="acquire_batch_for_reporting_batch-source">
             <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 90</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">acquire_complete_batch</span>(<span class="ruby-identifier">zk</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">acquire_batch_for_reporting_batch</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">children</span>(<span class="ruby-constant">DIR</span>).<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">cp</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-node">&quot;#{DIR}/#{cp}/states/batch-processing&quot;</span>)
     <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">children</span>(<span class="ruby-node">&quot;#{DIR}/#{cp}/states/batch-processing&quot;</span>).<span class="ruby-identifier">empty?</span>
@@ -169,6 +170,8 @@
     <span class="ruby-identifier">b</span> = <span class="ruby-constant">Batch</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">cp</span>)
     <span class="ruby-identifier">b</span>.<span class="ruby-identifier">load</span>(<span class="ruby-identifier">zk</span>)
     <span class="ruby-keyword">begin</span>
+      <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">status</span> <span class="ruby-operator">==</span> <span class="ruby-constant">BatchState</span><span class="ruby-operator">::</span><span class="ruby-constant">Completed</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">status</span> <span class="ruby-operator">==</span> <span class="ruby-constant">BatchState</span><span class="ruby-operator">::</span><span class="ruby-constant">Failed</span>
+
       <span class="ruby-keyword">if</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">lock</span>(<span class="ruby-identifier">zk</span>)
         <span class="ruby-identifier">b</span>.<span class="ruby-identifier">set_status</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-constant">BatchState</span><span class="ruby-operator">::</span><span class="ruby-constant">Reporting</span>)
         <span class="ruby-keyword">return</span> <span class="ruby-identifier">b</span>
@@ -201,13 +204,13 @@
             <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 72</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">acquire_pending_batch</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">children</span>(<span class="ruby-constant">DIR</span>).<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">cp</span><span class="ruby-operator">|</span>
-    <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-node">&quot;#{DIR}/#{cp}/states&quot;</span>)
+    <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-node">&quot;#{DIR}/#{cp}/#{ZkKeys::STATES}&quot;</span>)
 
     <span class="ruby-identifier">b</span> = <span class="ruby-constant">Batch</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">cp</span>)
     <span class="ruby-identifier">b</span>.<span class="ruby-identifier">load</span>(<span class="ruby-identifier">zk</span>)
     <span class="ruby-keyword">begin</span>
       <span class="ruby-keyword">if</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">lock</span>(<span class="ruby-identifier">zk</span>)
-        <span class="ruby-identifier">b</span>.<span class="ruby-identifier">set_data</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-string">&#39;states&#39;</span>, <span class="ruby-keyword">nil</span>)
+        <span class="ruby-identifier">b</span>.<span class="ruby-identifier">set_data</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-constant">ZkKeys</span><span class="ruby-operator">::</span><span class="ruby-constant">STATES</span>, <span class="ruby-keyword">nil</span>)
         <span class="ruby-keyword">return</span> <span class="ruby-identifier">b</span>
       <span class="ruby-keyword">end</span>
     <span class="ruby-keyword">rescue</span> <span class="ruby-constant">ZK</span><span class="ruby-operator">::</span><span class="ruby-constant">Exceptions</span><span class="ruby-operator">::</span><span class="ruby-constant">NodeExists</span>
@@ -264,9 +267,48 @@
   <span class="ruby-identifier">batch</span> = <span class="ruby-constant">Batch</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">id</span>, <span class="ruby-value">data:</span> <span class="ruby-identifier">submission</span>)
   <span class="ruby-identifier">uuid</span> = <span class="ruby-identifier">submission</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:batchID</span>, <span class="ruby-string">&#39;&#39;</span>)
   <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">create</span>(<span class="ruby-identifier">batch_uuid_path</span>(<span class="ruby-identifier">uuid</span>), <span class="ruby-identifier">id</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">uuid</span>.<span class="ruby-identifier">empty?</span>
-  <span class="ruby-identifier">batch</span>.<span class="ruby-identifier">set_data</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-string">&#39;submission&#39;</span>, <span class="ruby-identifier">submission</span>)
+  <span class="ruby-identifier">batch</span>.<span class="ruby-identifier">set_data</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-constant">ZkKeys</span><span class="ruby-operator">::</span><span class="ruby-constant">SUBMISSION</span>, <span class="ruby-identifier">submission</span>)
   <span class="ruby-identifier">batch</span>.<span class="ruby-identifier">set_status</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-constant">BatchState</span>.<span class="ruby-identifier">init</span>)
   <span class="ruby-identifier">batch</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-c-delete_completed_batches" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">delete_completed_batches</span><span
+              class="method-args">(zk)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="delete_completed_batches-source">
+            <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 111</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">delete_completed_batches</span>(<span class="ruby-identifier">zk</span>)
+  <span class="ruby-identifier">ids</span> = []
+  <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">children</span>(<span class="ruby-constant">DIR</span>).<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">cp</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-node">&quot;#{DIR}/#{cp}/states/batch-processing&quot;</span>)
+    <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">children</span>(<span class="ruby-node">&quot;#{DIR}/#{cp}/states/batch-processing&quot;</span>).<span class="ruby-identifier">empty?</span>
+
+    <span class="ruby-identifier">b</span> = <span class="ruby-constant">Batch</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">cp</span>)
+    <span class="ruby-identifier">b</span>.<span class="ruby-identifier">load</span>(<span class="ruby-identifier">zk</span>)
+    <span class="ruby-keyword">begin</span>
+      <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">status</span> <span class="ruby-operator">==</span> <span class="ruby-constant">BatchState</span><span class="ruby-operator">::</span><span class="ruby-constant">Completed</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">status</span> <span class="ruby-operator">==</span> <span class="ruby-constant">BatchState</span><span class="ruby-operator">::</span><span class="ruby-constant">Deleted</span>
+
+      <span class="ruby-identifier">b</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">zk</span>)
+      <span class="ruby-identifier">ids</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">id</span>
+    <span class="ruby-keyword">rescue</span> <span class="ruby-constant">ZK</span><span class="ruby-operator">::</span><span class="ruby-constant">Exceptions</span><span class="ruby-operator">::</span><span class="ruby-constant">NodeExists</span>
+      <span class="ruby-comment"># no action</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">ids</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -310,7 +352,7 @@
           
 
           <div class="method-source-code" id="find_batch_by_uuid-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 132</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 154</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">find_batch_by_uuid</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">uuid</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">uuid</span>.<span class="ruby-identifier">empty?</span>
 
@@ -427,7 +469,7 @@
           
 
           <div class="method-source-code" id="delete-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 147</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 169</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">delete</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">MerrittZK</span><span class="ruby-operator">::</span><span class="ruby-constant">MerrittStateError</span>, <span class="ruby-node">&quot;Delete invalid #{path}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@status</span>.<span class="ruby-identifier">deletable?</span>
 
@@ -467,7 +509,7 @@
           
 
           <div class="method-source-code" id="get_completed_jobs-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 109</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 131</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_completed_jobs</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-identifier">get_jobs</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-string">&#39;batch-completed&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -490,7 +532,7 @@
           
 
           <div class="method-source-code" id="get_failed_jobs-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 113</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 135</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_failed_jobs</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-identifier">get_jobs</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-string">&#39;batch-failed&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -513,7 +555,7 @@
           
 
           <div class="method-source-code" id="get_jobs-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 121</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 143</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_jobs</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">state</span>)
   <span class="ruby-identifier">jobs</span> = []
   <span class="ruby-identifier">p</span> = <span class="ruby-node">&quot;#{path}/states/#{state}&quot;</span>
@@ -543,7 +585,7 @@
           
 
           <div class="method-source-code" id="get_processing_jobs-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 117</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 139</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_processing_jobs</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-identifier">get_jobs</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-string">&#39;batch-processing&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -596,7 +638,7 @@
           <div class="method-source-code" id="load_properties-source">
             <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 31</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">load_properties</span>(<span class="ruby-identifier">zk</span>)
-  <span class="ruby-ivar">@data</span> = <span class="ruby-identifier">json_property</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-string">&#39;submission&#39;</span>)
+  <span class="ruby-ivar">@data</span> = <span class="ruby-identifier">json_property</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-constant">ZkKeys</span><span class="ruby-operator">::</span><span class="ruby-constant">SUBMISSION</span>)
   <span class="ruby-identifier">load_has_failure</span>(<span class="ruby-identifier">zk</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>

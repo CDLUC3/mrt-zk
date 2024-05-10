@@ -403,6 +403,9 @@ job_happy_path_with_delete:
 batch_happy_path_with_delete:
   input:
   output: 
+batch_happy_path_with_delete_completed:
+  input:
+  output: 
 job_create_config:
   input:
   output:

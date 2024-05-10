@@ -77,7 +77,7 @@
  * 
  * <pre>
  * try(ZooKeeper zk = new ZooKeeper("localhost:8084", 100, null)) {
- *   Batch batch = Batch.acquireCompletedBatch(zk);
+ *   Batch batch = Batch.acquireBatchForReporting(zk);
  *   //Notify depositor of job status
  *   batch.setStatus(zk, batch.status().success()));
  *   //Admin thread will perform batch.delete(zk);

@@ -87,7 +87,7 @@ module MerrittZK
       nil
     end
 
-    def self.acquire_complete_batch(zk)
+    def self.acquire_batch_for_reporting_batch(zk)
       zk.children(DIR).sort.each do |cp|
         next unless zk.exists?("#{DIR}/#{cp}/states/batch-processing")
         next unless zk.children("#{DIR}/#{cp}/states/batch-processing").empty?
@@ -106,6 +106,26 @@ module MerrittZK
         end
       end
       nil
+    end
+
+    def self.delete_completed_batches(zk)
+      ids = []
+      zk.children(DIR).sort.each do |cp|
+        next unless zk.exists?("#{DIR}/#{cp}/states/batch-processing")
+        next unless zk.children("#{DIR}/#{cp}/states/batch-processing").empty?
+
+        b = Batch.new(cp)
+        b.load(zk)
+        begin
+          next unless b.status == BatchState::Completed || b.status == BatchState::Deleted
+
+          b.delete(zk)
+          ids << b.id
+        rescue ZK::Exceptions::NodeExists
+          # no action
+        end
+      end
+      ids
     end
 
     def get_completed_jobs(zk)

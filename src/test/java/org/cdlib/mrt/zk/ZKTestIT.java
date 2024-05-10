@@ -53,6 +53,7 @@ public class ZKTestIT {
       batch_recovery,
       job_happy_path_with_delete,
       batch_happy_path_with_delete,
+      batch_happy_path_with_delete_completed,
       job_create_config,
       job_create_config_ident,
       job_create_config_ident_metadata,
@@ -645,7 +646,7 @@ public class ZKTestIT {
       jj.setStatus(zk, jj.status().success());
       jj.unlock(zk);
       assertEquals(jj.status(), JobState.Notify);
-      Batch bbb = Batch.acquireCompletedBatch(zk);
+      Batch bbb = Batch.acquireBatchForReporting(zk);
       assertNull(bbb);
 
       jj = Job.acquireJob(zk, JobState.Notify);
@@ -655,7 +656,7 @@ public class ZKTestIT {
       jj.unlock(zk);
       assertEquals(jj.status(), JobState.Completed);
 
-      bbb = Batch.acquireCompletedBatch(zk);
+      bbb = Batch.acquireBatchForReporting(zk);
       assertNotNull(bbb);
       assertEquals(bbb.status(), BatchState.Reporting);
       assertFalse(bbb.status().isDeletable());
@@ -666,7 +667,7 @@ public class ZKTestIT {
       assertEquals(bbb.status(), BatchState.Completed);
       assertTrue(bbb.status().isDeletable());
 
-      Batch bbbx = Batch.acquireCompletedBatch(zk);
+      Batch bbbx = Batch.acquireBatchForReporting(zk);
       assertNull(bbbx);
 
       Batch bbbb = new Batch(bbb.id());
@@ -730,7 +731,7 @@ public class ZKTestIT {
       jj.setStatus(zk, jj.status().success());
       jj.unlock(zk);
       assertEquals(jj.status(), JobState.Notify);
-      Batch bbb = Batch.acquireCompletedBatch(zk);
+      Batch bbb = Batch.acquireBatchForReporting(zk);
       assertNull(bbb);
 
       jj = Job.acquireJob(zk, JobState.Notify);
@@ -740,7 +741,7 @@ public class ZKTestIT {
       jj.unlock(zk);
       assertEquals(jj.status(), JobState.Failed);
 
-      bbb = Batch.acquireCompletedBatch(zk);
+      bbb = Batch.acquireBatchForReporting(zk);
       assertNotNull(bbb);
       assertEquals(bbb.status(), BatchState.Reporting);
       assertFalse(bbb.status().isDeletable());
@@ -823,7 +824,7 @@ public class ZKTestIT {
       jj.setStatus(zk, jj.status().success());
       jj.unlock(zk);
       assertEquals(jj.status(), JobState.Notify);
-      Batch bbb = Batch.acquireCompletedBatch(zk);
+      Batch bbb = Batch.acquireBatchForReporting(zk);
       assertNull(bbb);
 
       jj = Job.acquireJob(zk, JobState.Notify);
@@ -833,7 +834,7 @@ public class ZKTestIT {
       jj.unlock(zk);
       assertEquals(jj.status(), JobState.Failed);
 
-      bbb = Batch.acquireCompletedBatch(zk);
+      bbb = Batch.acquireBatchForReporting(zk);
       assertNotNull(bbb);
       assertEquals(bbb.status(), BatchState.Reporting);
       assertFalse(bbb.status().isDeletable());
@@ -1009,7 +1010,7 @@ public class ZKTestIT {
       jj.setStatus(zk, jj.status().success());
       jj.unlock(zk);
       assertEquals(jj.status(), JobState.Notify);
-      Batch bbb = Batch.acquireCompletedBatch(zk);
+      Batch bbb = Batch.acquireBatchForReporting(zk);
       assertNull(bbb);
 
       jj = Job.acquireJob(zk, JobState.Notify);
@@ -1019,7 +1020,7 @@ public class ZKTestIT {
       jj.unlock(zk);
       assertEquals(jj.status(), JobState.Completed);
 
-      bbb = Batch.acquireCompletedBatch(zk);
+      bbb = Batch.acquireBatchForReporting(zk);
       assertNotNull(bbb);
       assertEquals(bbb.status(), BatchState.Reporting);
       assertFalse(bbb.status().isDeletable());
@@ -1036,6 +1037,91 @@ public class ZKTestIT {
       assertFalse(bbbb.hasFailure());
 
       bbbb.delete(zk);
+    }
+
+    @Test
+    public void batchHappyPathWithDeleteCompleted() throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError{
+      load(Tests.batch_happy_path_with_delete_completed);
+      Batch b = Batch.createBatch(zk, fooBar());
+      remap.put("bid0", b.id());
+
+      Batch bb = Batch.acquirePendingBatch(zk);
+      assertEquals(b.id(), bb.id());
+
+      Job j = Job.createJob(zk, bb.id(), quack("2"));
+      remap.put("jid1", j.id());
+      j.setPriority(zk, 2);
+
+      bb.unlock(zk);
+
+      Job jj = Job.acquireJob(zk, JobState.Pending);
+      assertEquals(jj.id(), remap.get("jid1"));
+
+      jj.setStatus(zk, jj.status().stateChange(JobState.Estimating));
+      jj.unlock(zk);
+
+      jj = Job.acquireJob(zk, JobState.Estimating);
+      assertNotNull(jj);
+      assertEquals(jj.id(), remap.get("jid1"));
+      jj.setStatus(zk, jj.status().success());
+      jj.unlock(zk);
+      assertEquals(jj.status(), JobState.Provisioning);
+
+      jj = Job.acquireJob(zk, JobState.Provisioning);
+      assertNotNull(jj);
+      assertEquals(jj.id(), remap.get("jid1"));
+      jj.setStatus(zk, jj.status().success());
+      jj.unlock(zk);
+      assertEquals(jj.status(), JobState.Downloading);
+
+      jj = Job.acquireJob(zk, JobState.Downloading);
+      assertNotNull(jj);
+      assertEquals(jj.id(), remap.get("jid1"));
+      jj.setStatus(zk, jj.status().success());
+      jj.unlock(zk);
+      assertEquals(jj.status(), JobState.Processing);
+
+      jj = Job.acquireJob(zk, JobState.Processing);
+      assertNotNull(jj);
+      assertEquals(jj.id(), remap.get("jid1"));
+      jj.setStatus(zk, jj.status().success());
+      jj.unlock(zk);
+      assertEquals(jj.status(), JobState.Recording);
+
+      jj = Job.acquireJob(zk, JobState.Recording);
+      assertNotNull(jj);
+      assertEquals(jj.id(), remap.get("jid1"));
+      jj.setStatus(zk, jj.status().success());
+      jj.unlock(zk);
+      assertEquals(jj.status(), JobState.Notify);
+      Batch bbb = Batch.acquireBatchForReporting(zk);
+      assertNull(bbb);
+
+      jj = Job.acquireJob(zk, JobState.Notify);
+      assertNotNull(jj);
+      assertEquals(jj.id(), remap.get("jid1"));
+      jj.setStatus(zk, jj.status().success());
+      jj.unlock(zk);
+      assertEquals(jj.status(), JobState.Completed);
+
+      bbb = Batch.acquireBatchForReporting(zk);
+      assertNotNull(bbb);
+      assertEquals(bbb.status(), BatchState.Reporting);
+      assertFalse(bbb.status().isDeletable());
+      assertFalse(bbb.hasFailure());
+      bbb.setStatus(zk, bbb.status().success());
+      bbb.unlock(zk);
+
+      assertEquals(bbb.status(), BatchState.Completed);
+      assertTrue(bbb.status().isDeletable());
+
+      Batch bbbb = new Batch(bbb.id());
+      bbbb.load(zk);
+      assertEquals(bbbb.status(), BatchState.Completed);
+      assertFalse(bbbb.hasFailure());
+
+      List<String> ids = Batch.deleteCompletedBatches(zk);
+      assertTrue(ids.contains(bbbb.id()));
     }
 
     @Test

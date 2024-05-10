@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":9,"i1":9,"i2":10,"i3":9,"i4":9,"i5":10,"i6":10,"i7":9,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":9,"i14":10,"i15":10,"i16":9,"i17":10,"i18":9,"i19":10,"i20":10};
+var data = {"i0":9,"i1":9,"i2":10,"i3":9,"i4":9,"i5":10,"i6":9,"i7":10,"i8":9,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":9,"i15":10,"i16":10,"i17":9,"i18":10,"i19":9,"i20":10,"i21":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -225,7 +225,7 @@ extends <a href="QueueItem.html" title="class in org.cdlib.mrt.zk">QueueItem</a>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>static <a href="Batch.html" title="class in org.cdlib.mrt.zk">Batch</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#acquireCompletedBatch(org.apache.zookeeper.ZooKeeper)">acquireCompletedBatch</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#acquireBatchForReporting(org.apache.zookeeper.ZooKeeper)">acquireBatchForReporting</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -255,80 +255,85 @@ extends <a href="QueueItem.html" title="class in org.cdlib.mrt.zk">QueueItem</a>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i6" class="altColor">
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#deleteCompletedBatches(org.apache.zookeeper.ZooKeeper)">deleteCompletedBatches</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#dir()">dir</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>static <a href="Batch.html" title="class in org.cdlib.mrt.zk">Batch</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#findByUuid(org.apache.zookeeper.ZooKeeper,java.lang.String)">findByUuid</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client,
           <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;uuid)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="Job.html" title="class in org.cdlib.mrt.zk">Job</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getCompletedJobs(org.apache.zookeeper.ZooKeeper)">getCompletedJobs</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="Job.html" title="class in org.cdlib.mrt.zk">Job</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getFailedJobs(org.apache.zookeeper.ZooKeeper)">getFailedJobs</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="Job.html" title="class in org.cdlib.mrt.zk">Job</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getJobs(org.apache.zookeeper.ZooKeeper,org.cdlib.mrt.zk.QueueItem.BatchJobStates)">getJobs</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client,
        <a href="QueueItem.BatchJobStates.html" title="enum in org.cdlib.mrt.zk">QueueItem.BatchJobStates</a>&nbsp;state)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="Job.html" title="class in org.cdlib.mrt.zk">Job</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getProcessingJobs(org.apache.zookeeper.ZooKeeper)">getProcessingJobs</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hasFailure()">hasFailure</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Indicate that a batch contains a failed job in the Job Queue.</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>static <a href="IngestState.html" title="interface in org.cdlib.mrt.zk">IngestState</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#initStatus()">initStatus</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#loadHasFailure(org.apache.zookeeper.ZooKeeper)">loadHasFailure</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#loadProperties(org.apache.zookeeper.ZooKeeper)">loadProperties</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#main(java.lang.String%5B%5D)">main</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>[]&nbsp;argv)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#prefix()">prefix</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#prefixPath()">prefixPath</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code><a href="IngestState.html" title="interface in org.cdlib.mrt.zk">IngestState</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#resolveStatus(java.lang.String)">resolveStatus</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;s)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code><a href="IngestState.html" title="interface in org.cdlib.mrt.zk">IngestState</a>[]</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#states()">states</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
@@ -599,21 +604,41 @@ extends <a href="QueueItem.html" title="class in org.cdlib.mrt.zk">QueueItem</a>
 </dl>
 </li>
 </ul>
-<a id="acquireCompletedBatch(org.apache.zookeeper.ZooKeeper)">
+<a id="acquireBatchForReporting(org.apache.zookeeper.ZooKeeper)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>acquireCompletedBatch</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Batch.html" title="class in org.cdlib.mrt.zk">Batch</a>&nbsp;acquireCompletedBatch&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client)
-                                   throws <a href="MerrittZKNodeInvalid.html" title="class in org.cdlib.mrt.zk">MerrittZKNodeInvalid</a>,
-                                          org.apache.zookeeper.KeeperException,
-                                          <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></pre>
+<h4>acquireBatchForReporting</h4>
+<pre class="methodSignature">public static&nbsp;<a href="Batch.html" title="class in org.cdlib.mrt.zk">Batch</a>&nbsp;acquireBatchForReporting&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client)
+                                      throws <a href="MerrittZKNodeInvalid.html" title="class in org.cdlib.mrt.zk">MerrittZKNodeInvalid</a>,
+                                             org.apache.zookeeper.KeeperException,
+                                             <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="MerrittZKNodeInvalid.html" title="class in org.cdlib.mrt.zk">MerrittZKNodeInvalid</a></code></dd>
 <dd><code>org.apache.zookeeper.KeeperException</code></dd>
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></code></dd>
+</dl>
+</li>
+</ul>
+<a id="deleteCompletedBatches(org.apache.zookeeper.ZooKeeper)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>deleteCompletedBatches</h4>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;&nbsp;deleteCompletedBatches&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client)
+                                           throws <a href="MerrittZKNodeInvalid.html" title="class in org.cdlib.mrt.zk">MerrittZKNodeInvalid</a>,
+                                                  org.apache.zookeeper.KeeperException,
+                                                  <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a>,
+                                                  <a href="MerrittStateError.html" title="class in org.cdlib.mrt.zk">MerrittStateError</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="MerrittZKNodeInvalid.html" title="class in org.cdlib.mrt.zk">MerrittZKNodeInvalid</a></code></dd>
+<dd><code>org.apache.zookeeper.KeeperException</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></code></dd>
+<dd><code><a href="MerrittStateError.html" title="class in org.cdlib.mrt.zk">MerrittStateError</a></code></dd>
 </dl>
 </li>
 </ul>

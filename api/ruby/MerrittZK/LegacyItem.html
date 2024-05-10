@@ -76,6 +76,7 @@
     <li ><a href="#method-i-dir">#dir</a>
     <li ><a href="#method-i-json-3F">#json?</a>
     <li ><a href="#method-i-load">#load</a>
+    <li ><a href="#method-i-path">#path</a>
     <li ><a href="#method-i-payload_object">#payload_object</a>
     <li ><a href="#method-i-payload_text">#payload_text</a>
     <li ><a href="#method-i-status_byte">#status_byte</a>
@@ -108,6 +109,8 @@
       </header>
       <dl>
         <dt id="DIR">DIR
+        <dd>
+        <dt id="STATUS_VALS">STATUS_VALS
         <dd>
       </dl>
     </section>
@@ -148,7 +151,7 @@
           
 
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 144</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 163</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">id</span>)
   <span class="ruby-ivar">@id</span> = <span class="ruby-identifier">id</span>
   <span class="ruby-ivar">@data</span> = {}
@@ -181,7 +184,7 @@
           
 
           <div class="method-source-code" id="dir-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 136</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 151</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">dir</span>
   <span class="ruby-constant">DIR</span>
 <span class="ruby-keyword">end</span></pre>
@@ -204,7 +207,7 @@
           
 
           <div class="method-source-code" id="json-3F-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 170</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 189</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">json?</span>
   <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>
@@ -227,7 +230,7 @@
           
 
           <div class="method-source-code" id="load-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 151</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 170</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">load</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-identifier">arr</span> = <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">get</span>(<span class="ruby-node">&quot;#{dir}/#{@id}&quot;</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">arr</span>.<span class="ruby-identifier">nil?</span>
@@ -235,6 +238,29 @@
   <span class="ruby-identifier">payload</span> = <span class="ruby-identifier">arr</span>[<span class="ruby-value">0</span>]
   <span class="ruby-ivar">@bytes</span> = <span class="ruby-identifier">payload</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> [] <span class="ruby-operator">:</span> <span class="ruby-identifier">payload</span>.<span class="ruby-identifier">bytes</span>
   <span class="ruby-ivar">@payload</span> = <span class="ruby-identifier">payload_object</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-path" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">path</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="path-source">
+            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 155</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">path</span>
+  <span class="ruby-node">&quot;#{dir}/#{id}&quot;</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -255,19 +281,15 @@
           
 
           <div class="method-source-code" id="payload_object-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 188</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 207</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">payload_object</span>
-  <span class="ruby-identifier">json</span> = <span class="ruby-keyword">if</span> <span class="ruby-identifier">json?</span>
-           <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">payload_text</span>, <span class="ruby-value">symbolize_names:</span> <span class="ruby-keyword">true</span>)
-         <span class="ruby-keyword">else</span>
-           {
-             <span class="ruby-value">payload:</span> <span class="ruby-identifier">payload_text</span>
-           }
-         <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">json</span> = { <span class="ruby-value">payload:</span> <span class="ruby-identifier">payload_text</span> }
+  <span class="ruby-identifier">json</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">payload_text</span>, <span class="ruby-value">symbolize_names:</span> <span class="ruby-keyword">true</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">json?</span>
   <span class="ruby-identifier">json</span>[<span class="ruby-value">:queueNode</span>] = <span class="ruby-identifier">dir</span>
   <span class="ruby-identifier">json</span>[<span class="ruby-value">:id</span>] = <span class="ruby-ivar">@id</span>
   <span class="ruby-identifier">json</span>[<span class="ruby-value">:date</span>] = <span class="ruby-identifier">time</span>.<span class="ruby-identifier">to_s</span>
   <span class="ruby-identifier">json</span>[<span class="ruby-value">:status</span>] = <span class="ruby-identifier">status_name</span>
+  <span class="ruby-identifier">json</span>[<span class="ruby-value">:path</span>] = <span class="ruby-identifier">path</span>
   <span class="ruby-identifier">json</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -289,7 +311,7 @@
           
 
           <div class="method-source-code" id="payload_text-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 182</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 201</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">payload_text</span>
   <span class="ruby-keyword">return</span> <span class="ruby-string">&#39;&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@bytes</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">10</span>
 
@@ -314,7 +336,7 @@
           
 
           <div class="method-source-code" id="status_byte-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 160</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 179</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">status_byte</span>
   <span class="ruby-ivar">@bytes</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">?</span> <span class="ruby-value">0</span> <span class="ruby-operator">:</span> <span class="ruby-ivar">@bytes</span>[<span class="ruby-value">0</span>]
 <span class="ruby-keyword">end</span></pre>
@@ -337,7 +359,7 @@
           
 
           <div class="method-source-code" id="status_name-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 164</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 183</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">status_name</span>
   <span class="ruby-keyword">return</span> <span class="ruby-string">&#39;NA&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">status_byte</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">status_vals</span>.<span class="ruby-identifier">length</span>
 
@@ -362,9 +384,9 @@
           
 
           <div class="method-source-code" id="status_vals-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 140</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 159</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">status_vals</span>
-  []
+  <span class="ruby-constant">STATUS_VALS</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -385,7 +407,7 @@
           
 
           <div class="method-source-code" id="time-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 174</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 193</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">time</span>
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@bytes</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">9</span>
 

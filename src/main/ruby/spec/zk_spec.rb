@@ -324,7 +324,7 @@ RSpec.describe 'ZK input/ouput tests' do
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Notify)
 
-      bbb = MerrittZK::Batch.acquire_complete_batch(@zk)
+      bbb = MerrittZK::Batch.acquire_batch_for_reporting_batch(@zk)
       expect(bbb).to be_nil
 
       jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Notify)
@@ -334,7 +334,7 @@ RSpec.describe 'ZK input/ouput tests' do
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Completed)
 
-      bbb = MerrittZK::Batch.acquire_complete_batch(@zk)
+      bbb = MerrittZK::Batch.acquire_batch_for_reporting_batch(@zk)
       expect(bbb).to_not be_nil
       expect(bbb.status.status).to be(:Reporting)
       expect(bbb.has_failure).to be(false)
@@ -344,7 +344,7 @@ RSpec.describe 'ZK input/ouput tests' do
       expect(bbb.status.status).to eq(:Completed)
       expect(bbb.status.deletable?).to be(true)
 
-      bbbx = MerrittZK::Batch.acquire_complete_batch(@zk)
+      bbbx = MerrittZK::Batch.acquire_batch_for_reporting_batch(@zk)
       expect(bbbx).to be_nil
 
       bbbb = MerrittZK::Batch.new(bbb.id).load(@zk)
@@ -404,7 +404,7 @@ RSpec.describe 'ZK input/ouput tests' do
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Notify)
 
-      bbb = MerrittZK::Batch.acquire_complete_batch(@zk)
+      bbb = MerrittZK::Batch.acquire_batch_for_reporting_batch(@zk)
       expect(bbb).to be_nil
 
       jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Notify)
@@ -414,7 +414,7 @@ RSpec.describe 'ZK input/ouput tests' do
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Failed)
 
-      bbb = MerrittZK::Batch.acquire_complete_batch(@zk)
+      bbb = MerrittZK::Batch.acquire_batch_for_reporting_batch(@zk)
       expect(bbb).to_not be_nil
       expect(bbb.status.status).to be(:Reporting)
       expect(bbb.has_failure).to be(true)
@@ -492,7 +492,7 @@ RSpec.describe 'ZK input/ouput tests' do
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Notify)
 
-      bbb = MerrittZK::Batch.acquire_complete_batch(@zk)
+      bbb = MerrittZK::Batch.acquire_batch_for_reporting_batch(@zk)
       expect(bbb).to be_nil
 
       jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Notify)
@@ -502,7 +502,7 @@ RSpec.describe 'ZK input/ouput tests' do
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Failed)
 
-      bbb = MerrittZK::Batch.acquire_complete_batch(@zk)
+      bbb = MerrittZK::Batch.acquire_batch_for_reporting_batch(@zk)
       expect(bbb).to_not be_nil
       expect(bbb.status.status).to be(:Reporting)
       expect(bbb.has_failure).to be(true)
@@ -658,7 +658,7 @@ RSpec.describe 'ZK input/ouput tests' do
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Notify)
 
-      bbb = MerrittZK::Batch.acquire_complete_batch(@zk)
+      bbb = MerrittZK::Batch.acquire_batch_for_reporting_batch(@zk)
       expect(bbb).to be_nil
 
       jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Notify)
@@ -668,7 +668,7 @@ RSpec.describe 'ZK input/ouput tests' do
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Completed)
 
-      bbb = MerrittZK::Batch.acquire_complete_batch(@zk)
+      bbb = MerrittZK::Batch.acquire_batch_for_reporting_batch(@zk)
       expect(bbb).to_not be_nil
       expect(bbb.status.status).to be(:Reporting)
       expect(bbb.has_failure).to be(false)
@@ -683,6 +683,86 @@ RSpec.describe 'ZK input/ouput tests' do
       expect(bbbb.has_failure).to be(false)
 
       bbbb.delete(@zk)
+    end
+
+    it :batch_happy_path_with_delete_completed do |_x|
+      b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
+      @remap['bid0'] = b.id
+      bb = MerrittZK::Batch.acquire_pending_batch(@zk)
+      expect(b.id).to eq(bb.id)
+
+      j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack2' })
+      @remap['jid1'] = j.id
+      j.set_priority(@zk, 2)
+
+      bb.unlock(@zk)
+
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Pending)
+      expect(jj.id).to eq(@remap['jid1'])
+      jj.set_status(@zk, jj.status.state_change(:Estimating))
+      jj.unlock(@zk)
+
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Estimating)
+      expect(jj).to_not be_nil
+      expect(jj.id).to eq(@remap['jid1'])
+      jj.set_status(@zk, jj.status.success)
+      jj.unlock(@zk)
+      expect(jj.status.status).to eq(:Provisioning)
+
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Provisioning)
+      expect(jj).to_not be_nil
+      expect(jj.id).to eq(@remap['jid1'])
+      jj.set_status(@zk, jj.status.success)
+      jj.unlock(@zk)
+      expect(jj.status.status).to eq(:Downloading)
+
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Downloading)
+      expect(jj).to_not be_nil
+      expect(jj.id).to eq(@remap['jid1'])
+      jj.set_status(@zk, jj.status.success)
+      jj.unlock(@zk)
+      expect(jj.status.status).to eq(:Processing)
+
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Processing)
+      expect(jj).to_not be_nil
+      expect(jj.id).to eq(@remap['jid1'])
+      jj.set_status(@zk, jj.status.success)
+      jj.unlock(@zk)
+      expect(jj.status.status).to eq(:Recording)
+
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Recording)
+      expect(jj).to_not be_nil
+      expect(jj.id).to eq(@remap['jid1'])
+      jj.set_status(@zk, jj.status.success)
+      jj.unlock(@zk)
+      expect(jj.status.status).to eq(:Notify)
+
+      bbb = MerrittZK::Batch.acquire_batch_for_reporting_batch(@zk)
+      expect(bbb).to be_nil
+
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Notify)
+      expect(jj).to_not be_nil
+      expect(jj.id).to eq(@remap['jid1'])
+      jj.set_status(@zk, jj.status.success)
+      jj.unlock(@zk)
+      expect(jj.status.status).to eq(:Completed)
+
+      bbb = MerrittZK::Batch.acquire_batch_for_reporting_batch(@zk)
+      expect(bbb).to_not be_nil
+      expect(bbb.status.status).to be(:Reporting)
+      expect(bbb.has_failure).to be(false)
+      bbb.set_status(@zk, bbb.status.success)
+      bbb.unlock(@zk)
+
+      expect(bbb.status.status).to eq(:Completed)
+      expect(bbb.status.deletable?).to be(true)
+
+      bbbb = MerrittZK::Batch.new(bbb.id).load(@zk)
+      expect(bbbb.status.status).to eq(:Completed)
+      expect(bbbb.has_failure).to be(false)
+
+      ids = MerrittZK::Batch.delete_completed_batches(@zk)
+      expect(ids.include?(bbbb.id)).to be(true)
     end
   end
 
