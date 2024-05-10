@@ -120,7 +120,7 @@ public enum JobState implements IngestState {
   Failed {
     public List<IngestState> nextStates() {
       return Arrays.asList(
-        JobState.Deleted, JobState.Downloading, JobState.Processing, JobState.Recording, JobState.Notify
+        JobState.Estimating, JobState.Deleted, JobState.Downloading, JobState.Processing, JobState.Recording, JobState.Notify
       );
     }
   },

@@ -23,6 +23,28 @@ def get_payload(p, d)
   end
 end
 
+def edit_get_bytes(zk, path)
+  return [] unless zk.exists?(path)
+  zk.get(path)[0].bytes
+end
+
+def edit_get_payload(zk, path)
+  edit_get_bytes(zk, path)[9..].pack('c*')
+end
+
+def edit_write_payload(zk, path, payload)
+  bytes = edit_get_bytes(zk, path)
+  return if bytes.length < 10
+  zk.set(path, (bytes[0..8] + payload.bytes).pack('CCCCCCCCCc*'))
+end
+
+def edit_write_status(zk, path, status)
+  return if status < 0 || status > 10
+  bytes = edit_get_bytes(zk, path)
+  bytes[0] = status
+  zk.set(path, bytes.pack('CCCCCCCCCc*'))
+end
+
 def show_node(zk, p, cpath)
   puts cpath
   d = get_payload(p, zk.get(cpath)[0])
@@ -55,7 +77,7 @@ zk = ZK.new(ENV.fetch('ZKCONN', 'localhost:8084'))
 LIST = %w[
   /batches /batch-uuids /jobs /jobs/states /access /access/small /access/large
   /locks /locks/queue /locks/storage /locks/inventory /locks/collection
-  /migration /migration/m1
+  /migration /migration/m1 /migration/m3
 ].freeze
 
 puts '===> LEGACY'
@@ -78,7 +100,7 @@ if ARGV.include?('-migrate')
       batches[buuid] = b
     end
     job = MerrittZK::Job.create_job(zk, b, j)
-    status = j.fetch('status', '')
+    status = j.fetch(:status, '')
     case status
     when 'Pending'
       # no action
@@ -103,13 +125,55 @@ if ARGV.include?('-migrate')
     end
   end
 
+  batches.keys.each do |bid|
+    batch = MerrittZK::Batch.find_batch_by_uuid(zk, bid)
+    batch.load(zk)
+
+    if batch.get_processing_jobs(zk).length > 0
+      batch.set_status(zk, MerrittZK::BatchState::Processing)
+    elsif batch.get_failed_jobs(zk).length > 0
+      batch.set_status(zk, MerrittZK::BatchState::Processing)
+      batch.set_status(zk, MerrittZK::BatchState::Reporting)
+      batch.set_status(zk, MerrittZK::BatchState::Failed)
+    elsif batch.get_completed_jobs(zk).length > 0
+      batch.set_status(zk, MerrittZK::BatchState::Processing)
+      batch.set_status(zk, MerrittZK::BatchState::Reporting)
+      batch.set_status(zk, MerrittZK::BatchState::Completed)
+    end    
+  end
+
   MerrittZK::LegacyAccessJob.list_jobs(zk).each do |j|
     if j.fetch(:queueNode, '') == MerrittZK::LargeLegacyAccessJob::DIR
-      MerrittZK::Access.create_assembly(zk, MerrittZK::Access::LARGE, j)
+      job = MerrittZK::Access.create_assembly(zk, MerrittZK::Access::LARGE, j)
     else
-      MerrittZK::Access.create_assembly(zk, MerrittZK::Access::SMALL, j)
+      job = MerrittZK::Access.create_assembly(zk, MerrittZK::Access::SMALL, j)
     end
+    status = j.fetch(:status, '')
+    case status
+    when 'Pending'
+      # no action
+    when 'Consumed'
+      job.set_status(zk, MerrittZK::AccessState::Processing)
+    when 'Completed'
+      job.set_status(zk, MerrittZK::AccessState::Processing)
+      job.set_status(zk, MerrittZK::AccessState::Completed)
+    when 'Failed'
+      job.set_status(zk, MerrittZK::AccessState::Processing)
+      job.set_status(zk, MerrittZK::AccessState::Failed)
+    when 'Deleted'
+      job.set_status(zk, MerrittZK::AccessState::Processing)
+      job.set_status(zk, MerrittZK::AccessState::Failed)
+      job.set_status(zk, MerrittZK::AccessState::Deleted)
+    end  
   end
+end
+
+if ARGV.include?('-inv')
+  puts '===> INV'
+  path = '/mrt.inventory.full/mrtQ-000000025100'
+  d = edit_get_payload(zk, path)
+  # Failed = 3
+  edit_write_status(zk, path, 3)
 end
 
 if ARGV.include?('-debug')
@@ -142,26 +206,20 @@ if ARGV.include?('-clear')
 end
 
 if ARGV.include?('-m1')
-  LIST.each do |_p|
-    zk.rm_rf('/migration')
-    zk.create('/migration', data: nil)
-    zk.create('/migration/m1', data: nil)
-  end
+  zk.rm_rf('/migration')
+  zk.create('/migration', data: nil)
+  zk.create('/migration/m1', data: nil)
 end
 
 if ARGV.include?('-m13')
-  LIST.each do |_p|
-    zk.rm_rf('/migration')
-    zk.create('/migration', data: nil)
-    zk.create('/migration/m1', data: nil)
-    zk.create('/migration/m3', data: nil)
-  end
+  zk.rm_rf('/migration')
+  zk.create('/migration', data: nil)
+  zk.create('/migration/m1', data: nil)
+  zk.create('/migration/m3', data: nil)
 end
 
 if ARGV.include?('-m0')
-  LIST.each do |_p|
-    zk.rm_rf('/migration')
-  end
+  zk.rm_rf('/migration')
 end
 
 puts '===> MIGRATED'

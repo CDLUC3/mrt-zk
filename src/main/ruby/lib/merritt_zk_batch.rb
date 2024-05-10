@@ -29,7 +29,7 @@ module MerrittZK
     end
 
     def load_properties(zk)
-      @data = json_property(zk, 'submission')
+      @data = json_property(zk, ZkKeys::SUBMISSION)
       load_has_failure(zk)
     end
 
@@ -64,20 +64,20 @@ module MerrittZK
       batch = Batch.new(id, data: submission)
       uuid = submission.fetch(:batchID, '')
       zk.create(batch_uuid_path(uuid), id) unless uuid.empty?
-      batch.set_data(zk, 'submission', submission)
+      batch.set_data(zk, ZkKeys::SUBMISSION, submission)
       batch.set_status(zk, BatchState.init)
       batch
     end
 
     def self.acquire_pending_batch(zk)
       zk.children(DIR).sort.each do |cp|
-        next if zk.exists?("#{DIR}/#{cp}/states")
+        next if zk.exists?("#{DIR}/#{cp}/#{ZkKeys::STATES}")
 
         b = Batch.new(cp)
         b.load(zk)
         begin
           if b.lock(zk)
-            b.set_data(zk, 'states', nil)
+            b.set_data(zk, ZkKeys::STATES, nil)
             return b
           end
         rescue ZK::Exceptions::NodeExists

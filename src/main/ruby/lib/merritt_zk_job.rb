@@ -27,10 +27,10 @@ module MerrittZK
     end
 
     def load_properties(zk)
-      @data = json_property(zk, 'configuration')
-      @bid = string_property(zk, 'bid')
-      @priority = int_property(zk, 'priority')
-      @space_needed = int_property(zk, 'space_needed')
+      @data = json_property(zk, ZkKeys::CONFIGURATION)
+      @bid = string_property(zk, ZkKeys::BID)
+      @priority = int_property(zk, ZkKeys::PRIORITY)
+      @space_needed = int_property(zk, ZkKeys::SPACE_NEEEDED)
       set_job_state_path(zk)
       set_batch_state_path(zk)
     end
@@ -41,7 +41,7 @@ module MerrittZK
       return if priority == @priority
 
       @priority = priority
-      set_data(zk, 'priority', priority)
+      set_data(zk, ZkKeys::PRIORITY, priority)
       set_job_state_path(zk)
     end
 
@@ -49,7 +49,7 @@ module MerrittZK
       return if space_needed == @space_needed
 
       @space_needed = space_needed
-      set_data(zk, 'space_needed', space_needed)
+      set_data(zk, ZkKeys::SPACE_NEEEDED, space_needed)
     end
 
     def set_status(zk, status, job_retry: false)
@@ -109,10 +109,10 @@ module MerrittZK
     def self.create_job(zk, bid, data)
       id = QueueItem.create_id(zk, prefix_path)
       job = Job.new(id, bid: bid, data: data)
-      job.set_data(zk, 'bid', bid)
-      job.set_data(zk, 'priority', job.priority)
-      job.set_data(zk, 'space_needed', job.space_needed)
-      job.set_data(zk, 'configuration', data)
+      job.set_data(zk, ZkKeys::BID, bid)
+      job.set_data(zk, ZkKeys::PRIORITY, job.priority)
+      job.set_data(zk, ZkKeys::SPACE_NEEEDED, job.space_needed)
+      job.set_data(zk, ZkKeys::CONFIGURATION, data)
       job.set_status(zk, JobState.init)
       job.set_job_state_path(zk)
       job.set_batch_state_path(zk)
@@ -163,7 +163,7 @@ module MerrittZK
     def self.list_jobs(zk)
       jobs = []
       zk.children(DIR).sort.each do |cp|
-        next if cp == 'states'
+        next if cp == ZkKeys::STATES
 
         job = Job.new(cp).load(zk)
         jobjson = job.data

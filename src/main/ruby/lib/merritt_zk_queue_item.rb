@@ -6,6 +6,20 @@ require 'yaml'
 
 module MerrittZK
   ##
+  # Constants for accessing data nodes in ZK
+  class ZkKeys
+    TOKEN = 'token'
+    SUBMISSION = 'submission'
+    STATES = 'states'
+    PRIORITY = 'priority'
+    SPACE_NEEEDED = 'space_needed'
+    BID = 'bid'
+    CONFIGURATION = 'configuration'
+    STATUS = 'status'
+    LOCK = 'lock'
+  end
+
+  ##
   # Base class for Merritt Queue Items that follow similar conventions
   class QueueItem
     def initialize(id, data: nil)
@@ -27,7 +41,7 @@ module MerrittZK
     def load(zk)
       raise MerrittZKNodeInvalid, "Missing Node #{path}" unless zk.exists?(path)
 
-      load_status(zk, json_property(zk, 'status'))
+      load_status(zk, json_property(zk, ZkKeys::STATUS))
       load_properties(zk)
       self
     end
@@ -114,11 +128,11 @@ module MerrittZK
     end
 
     def lock(zk)
-      zk.create("#{path}/lock", data: nil, mode: :ephemeral)
+      zk.create("#{path}/#{ZkKeys::LOCK}", data: nil, mode: :ephemeral)
     end
 
     def unlock(zk)
-      zk.delete("#{path}/lock")
+      zk.delete("#{path}/#{ZkKeys::LOCK}")
     end
 
     def data_prop(_prop, defval)
@@ -193,7 +207,7 @@ module MerrittZK
     def payload_object
       json = { payload: payload_text }
       json = JSON.parse(payload_text, symbolize_names: true) if json?
-      json[:queueNode] = '/jobs'
+      json[:queueNode] = dir
       json[:id] = @id
       json[:date] = time.to_s
       json[:status] = status_name

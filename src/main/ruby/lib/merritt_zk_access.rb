@@ -19,7 +19,7 @@ module MerrittZK
     end
 
     def load_properties(zk)
-      @data = json_property(zk, 'token')
+      @data = json_property(zk, ZkKeys::TOKEN)
     end
 
     def states
@@ -41,7 +41,7 @@ module MerrittZK
     def self.create_assembly(zk, queue_name, token)
       id = QueueItem.create_id(zk, prefix_path(queue_name))
       access = Access.new(queue_name, id, data: token)
-      access.set_data(zk, 'token', token)
+      access.set_data(zk, ZkKeys::TOKEN, token)
       access.set_status(zk, AccessState.init)
       access
     end
