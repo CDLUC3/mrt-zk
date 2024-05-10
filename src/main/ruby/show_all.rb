@@ -25,6 +25,7 @@ end
 
 def edit_get_bytes(zk, path)
   return [] unless zk.exists?(path)
+
   zk.get(path)[0].bytes
 end
 
@@ -35,11 +36,13 @@ end
 def edit_write_payload(zk, path, payload)
   bytes = edit_get_bytes(zk, path)
   return if bytes.length < 10
+
   zk.set(path, (bytes[0..8] + payload.bytes).pack('CCCCCCCCCc*'))
 end
 
 def edit_write_status(zk, path, status)
-  return if status < 0 || status > 10
+  return if status.negative? || status > 10
+
   bytes = edit_get_bytes(zk, path)
   bytes[0] = status
   zk.set(path, bytes.pack('CCCCCCCCCc*'))
@@ -91,7 +94,7 @@ if ARGV.include?('-migrate')
   end
 
   batches = {}
-  MerrittZK::LegacyIngestJob.list_jobs(zk).each do |j|
+  MerrittZK::LegacyIngestJob.list_jobs_as_json(zk).each do |j|
     buuid = j.fetch(:batchID, '')
     b = batches[buuid]
     if b.nil?
@@ -125,29 +128,29 @@ if ARGV.include?('-migrate')
     end
   end
 
-  batches.keys.each do |bid|
+  batches.each_key do |bid|
     batch = MerrittZK::Batch.find_batch_by_uuid(zk, bid)
     batch.load(zk)
 
-    if batch.get_processing_jobs(zk).length > 0
+    if batch.get_processing_jobs(zk).length.positive?
       batch.set_status(zk, MerrittZK::BatchState::Processing)
-    elsif batch.get_failed_jobs(zk).length > 0
+    elsif batch.get_failed_jobs(zk).length.positive?
       batch.set_status(zk, MerrittZK::BatchState::Processing)
       batch.set_status(zk, MerrittZK::BatchState::Reporting)
       batch.set_status(zk, MerrittZK::BatchState::Failed)
-    elsif batch.get_completed_jobs(zk).length > 0
+    elsif batch.get_completed_jobs(zk).length.positive?
       batch.set_status(zk, MerrittZK::BatchState::Processing)
       batch.set_status(zk, MerrittZK::BatchState::Reporting)
       batch.set_status(zk, MerrittZK::BatchState::Completed)
-    end    
+    end
   end
 
-  MerrittZK::LegacyAccessJob.list_jobs(zk).each do |j|
-    if j.fetch(:queueNode, '') == MerrittZK::LargeLegacyAccessJob::DIR
-      job = MerrittZK::Access.create_assembly(zk, MerrittZK::Access::LARGE, j)
-    else
-      job = MerrittZK::Access.create_assembly(zk, MerrittZK::Access::SMALL, j)
-    end
+  MerrittZK::LegacyAccessJob.list_jobs_as_json(zk).each do |j|
+    job = if j.fetch(:queueNode, '') == MerrittZK::LargeLegacyAccessJob::DIR
+            MerrittZK::Access.create_assembly(zk, MerrittZK::Access::LARGE, j)
+          else
+            MerrittZK::Access.create_assembly(zk, MerrittZK::Access::SMALL, j)
+          end
     status = j.fetch(:status, '')
     case status
     when 'Pending'
@@ -164,36 +167,36 @@ if ARGV.include?('-migrate')
       job.set_status(zk, MerrittZK::AccessState::Processing)
       job.set_status(zk, MerrittZK::AccessState::Failed)
       job.set_status(zk, MerrittZK::AccessState::Deleted)
-    end  
+    end
   end
 end
 
 if ARGV.include?('-inv')
   puts '===> INV'
   path = '/mrt.inventory.full/mrtQ-000000025100'
-  d = edit_get_payload(zk, path)
+  edit_get_payload(zk, path)
   # Failed = 3
   edit_write_status(zk, path, 3)
 end
 
 if ARGV.include?('-debug')
   puts '===> DEBUG'
-  MerrittZK::LegacyIngestJob.list_jobs(zk).each do |j|
+  MerrittZK::LegacyIngestJob.list_jobs_as_json(zk).each do |j|
     puts j.fetch(:path, '')
     puts JSON.pretty_generate(j)
   end
 
-  MerrittZK::LegacyInventoryJob.list_jobs(zk).each do |j|
+  MerrittZK::LegacyInventoryJob.list_jobs_as_json(zk).each do |j|
     puts j.fetch(:path, '')
     puts JSON.pretty_generate(j)
   end
 
-  MerrittZK::LegacyAccessJob.list_jobs(zk).each do |j|
+  MerrittZK::LegacyAccessJob.list_jobs_as_json(zk).each do |j|
     puts j.fetch(:path, '')
     puts JSON.pretty_generate(j)
   end
 
-  MerrittZK::Access.list_jobs(zk).each do |j|
+  MerrittZK::Access.list_jobs_as_json(zk).each do |j|
     puts j.fetch(:path, '')
     puts JSON.pretty_generate(j)
   end
@@ -218,9 +221,7 @@ if ARGV.include?('-m13')
   zk.create('/migration/m3', data: nil)
 end
 
-if ARGV.include?('-m0')
-  zk.rm_rf('/migration')
-end
+zk.rm_rf('/migration') if ARGV.include?('-m0')
 
 puts '===> MIGRATED'
 

@@ -8,6 +8,6 @@ puts 'testing mrt-zk gem load'
 # run the following from the target env
 # export ZKCONN=`get_ssm_value_by_name inventory/zoo/queueService`
 zk = ZK.new(ENV.fetch('ZKCONN', 'localhost:8084'))
-MerrittZK::LegacyIngestJob.list_jobs(zk).each do |j|
+MerrittZK::LegacyIngestJob.list_jobs_as_json(zk).each do |j|
   puts "#{j.fetch(:id, '')}: #{j.fetch(:title, '')} #{j.fetch(:status, '')}\n\t#{j.fetch(:date, '')} "
 end

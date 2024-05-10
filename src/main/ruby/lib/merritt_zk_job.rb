@@ -160,7 +160,10 @@ module MerrittZK
       zk.rm_rf(path)
     end
 
-    def self.list_jobs(zk)
+    ##
+    # List jobs as a json object that will be consumed by the admin tool.
+    # This is a transitional representation that can be compatible with legacy job listings.
+    def self.list_jobs_as_json(zk)
       jobs = []
       zk.children(DIR).sort.each do |cp|
         next if cp == ZkKeys::STATES
@@ -169,6 +172,7 @@ module MerrittZK
         jobjson = job.data
         jobjson[:id] = job.id
         jobjson[:bid] = job.bid
+        jobjson[:status] = job.status_name
         jobs.append(jobjson)
       end
       jobs
@@ -260,7 +264,9 @@ module MerrittZK
       @payload.fetch(:space_needed, 0)
     end
 
-    def self.list_jobs(zk)
+    ##
+    # List legacy ingest jobs as a json object that will be consumed by the admin tool.
+    def self.list_jobs_as_json(zk)
       jobs = []
       return jobs unless zk.exists?(DIR)
 
@@ -294,7 +300,9 @@ module MerrittZK
       payload
     end
 
-    def self.list_jobs(zk)
+    ##
+    # List legacy inventory jobs as a json object that will be consumed by the admin tool.
+    def self.list_jobs_as_json(zk)
       jobs = []
       return jobs unless zk.exists?(DIR)
 
@@ -304,68 +312,6 @@ module MerrittZK
         jobs.append(lj.payload_object)
       end
       jobs
-    end
-  end
-
-  ##
-  # Legacy Merritt Access Job record.
-  # This class will be removed after the migration is complete
-  class LegacyAccessJob < LegacyItem
-    def initialize(dir, cp)
-      @dir = dir
-      super(cp)
-    end
-
-    attr_reader :dir
-
-    def json?
-      true
-    end
-
-    def payload_object
-      payload = super
-      payload[:queueNode] = dir
-      payload
-    end
-
-    def self.list_jobs(zk)
-      jobs = []
-      if zk.exists?(LargeLegacyAccessJob::DIR)
-        zk.children(LargeLegacyAccessJob::DIR).sort.each do |cp|
-          lj = LargeLegacyAccessJob.new(cp)
-          lj.load(zk)
-          jobs.append(lj.payload_object)
-        end
-      end
-
-      if zk.exists?(SmallLegacyAccessJob::DIR)
-        zk.children(SmallLegacyAccessJob::DIR).sort.each do |cp|
-          lj = SmallLegacyAccessJob.new(cp)
-          lj.load(zk)
-          jobs.append(lj.payload_object)
-        end
-      end
-      jobs
-    end
-  end
-
-  ##
-  # Legacy Merritt Small Access Job record.
-  # This class will be removed after the migration is complete
-  class SmallLegacyAccessJob < LegacyAccessJob
-    DIR = '/accessSmall.1'
-    def initialize(cp)
-      super(DIR, cp)
-    end
-  end
-
-  ##
-  # Legacy Merritt Large Access Job record.
-  # This class will be removed after the migration is complete
-  class LargeLegacyAccessJob < LegacyAccessJob
-    DIR = '/accessLarge.1'
-    def initialize
-      super(DIR, cp)
     end
   end
 end

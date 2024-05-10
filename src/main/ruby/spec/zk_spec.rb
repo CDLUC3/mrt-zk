@@ -268,7 +268,7 @@ RSpec.describe 'ZK input/ouput tests' do
       expect(arr.length).to eq(0)
 
       # Only for Ruby interface
-      arr = MerrittZK::Job.list_jobs(@zk)
+      arr = MerrittZK::Job.list_jobs_as_json(@zk)
       expect(arr.length).to eq(3)
     end
 
@@ -767,7 +767,7 @@ RSpec.describe 'ZK input/ouput tests' do
       expect(aaa.status.deletable?).to be(true)
 
       # Only for Ruby interface
-      arr = MerrittZK::Access.list_jobs(@zk)
+      arr = MerrittZK::Access.list_jobs_as_json(@zk)
       expect(arr.length).to eq(1)
     end
   end
