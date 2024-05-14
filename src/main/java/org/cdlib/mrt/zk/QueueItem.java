@@ -257,10 +257,14 @@ abstract public class QueueItem {
   public void setStatusTrigger(ZooKeeper client) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
   }
 
-  public boolean lock(ZooKeeper client) throws KeeperException, InterruptedException {
+  public boolean lock(ZooKeeper client) throws InterruptedException {
     String statpath = makePath(ZKKey.LOCK);
-    QueueItemHelper.createEphemeral(client, statpath, QueueItemHelper.empty);
-    return true;
+    try {
+      QueueItemHelper.createEphemeral(client, statpath, QueueItemHelper.empty);
+      return true;  
+    } catch(KeeperException e) {
+      return false;
+    }
   }
 
   public boolean unlock(ZooKeeper client) throws InterruptedException, KeeperException {

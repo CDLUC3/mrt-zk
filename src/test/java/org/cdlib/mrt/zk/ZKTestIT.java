@@ -482,6 +482,9 @@ public class ZKTestIT {
       bb.unlock(zk);
 
       Job jj = Job.acquireJob(zk, JobState.Pending);
+      assertNotNull(jj);
+      Job jj2 = Job.acquireJob(zk, JobState.Pending);
+      assertNull(jj2);
       jj.setStatus(zk, jj.status().stateChange(JobState.Estimating));
     }
 
@@ -1286,6 +1289,8 @@ public class ZKTestIT {
       Access aa = Access.acquirePendingAssembly(zk, Access.Queues.small);
       assertEquals(a.id(), aa.id());
       assertEquals(aa.status(), AccessState.Pending);
+      Access aa2 = Access.acquirePendingAssembly(zk, Access.Queues.small);
+      assertNull(aa2);
       aa.setStatus(zk, AccessState.Processing);
       assertEquals(aa.status(), AccessState.Processing);
       aa.unlock(zk);
