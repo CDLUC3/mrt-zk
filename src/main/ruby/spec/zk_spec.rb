@@ -167,7 +167,10 @@ RSpec.describe 'ZK input/ouput tests' do
       bb.unlock(@zk)
 
       jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Pending)
+      expect(jj).to_not be_nil
       jj.set_status(@zk, jj.status.state_change(:Estimating))
+      jj2 = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Pending)
+      expect(jj2).to be_nil
     end
 
     it :acquire_lowest_priority_job do |_x|
@@ -831,8 +834,11 @@ RSpec.describe 'ZK input/ouput tests' do
       a = MerrittZK::Access.create_assembly(@zk, q, { token: 'abc' })
       @remap['qid0'] = a.id
       aa = MerrittZK::Access.acquire_pending_assembly(@zk, q)
+      expect(aa).to_not be_nil
       expect(a.id).to eq(aa.id)
       expect(aa.status.status).to eq(:Pending)
+      aa2 = MerrittZK::Access.acquire_pending_assembly(@zk, q)
+      expect(aa2).to be_nil
       aa.set_status(@zk, aa.status.state_change(:Processing))
       expect(aa.status.status).to eq(:Processing)
       aa.unlock(@zk)
