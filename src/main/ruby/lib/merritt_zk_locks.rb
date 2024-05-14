@@ -59,6 +59,8 @@ module MerrittZK
 
     def self.unlock_large_access_queue(zk)
       zk.delete(LOCKS_QUEUE_ACCESS_LARGE)
+    rescue StandardError
+      # no action
     end
 
     def self.lock_small_access_queue(zk)
@@ -67,6 +69,8 @@ module MerrittZK
 
     def self.unlock_small_access_queue(zk)
       zk.delete(LOCKS_QUEUE_ACCESS_SMALL)
+    rescue StandardError
+      # no action
     end
 
     def self.lock_collection(zk, mnemonic)
@@ -75,6 +79,8 @@ module MerrittZK
 
     def self.unlock_collection(zk, mnemonic)
       zk.delete("#{LOCKS_COLLECTION}/#{mnemonic}")
+    rescue StandardError
+      # no action
     end
 
     def self.lock_object_storage(zk, ark)
@@ -83,6 +89,8 @@ module MerrittZK
 
     def self.unlock_object_storage(zk, ark)
       zk.delete("#{LOCKS_STORAGE}/#{ark.gsub('/', '_')}")
+    rescue StandardError
+      # no action
     end
 
     def self.lock_object_inventory(zk, ark)
@@ -91,6 +99,8 @@ module MerrittZK
 
     def self.unlock_object_inventory(zk, ark)
       zk.delete("#{LOCKS_INVENTORY}/#{ark.gsub('/', '_')}")
+    rescue StandardError
+      # no action
     end
   end
 end
