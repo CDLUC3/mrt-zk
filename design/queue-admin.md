@@ -31,12 +31,9 @@ Migrate Queue Administration Tasks from Ingest to the Merritt Admin Tool
 - Conceptually, this could allow the remaining set of admin functions to be performed entirely from Lambda
 
 ## Migration Levels
-- m0: no migration
-- m0r: retire immediately
-- m1: support legacy queues
-- m2: support mrt-zk migration (ingest and inventory)
-- m2r: retire with the introduction of mrt-zk (ingest and inventory)
-- m3: support mrt-zk migration (access and store)
+- m1: support mrt-zk migration (ingest and inventory)
+- m2: collection locks and ingest queue lock through zookeeper
+- m3: support mrt-zk migration (access)
 - m4: profiles accessible to lambda
 - m5: refactor collection creation
 
@@ -47,32 +44,32 @@ Migrate Queue Administration Tasks from Ingest to the Merritt Admin Tool
 |ingest|/state| NA | |  /admin/state duplicates /state |
 |ingest|/help| NA | | /admin/help duplicates /state |
 |ingest|POST reset| ?? | | |
-|ingest|/locks| admin| read zookeeper from admin| |
-|ingest|/queues| admin | read zookeeper from admin | NA|
-|ingest|/queues-acc| admin | read zookeeper from admin | NA |
-|ingest|/queues-inv| admin | read zookeeper from admin | |
-|ingest|/queue| admin | read zookeeper from admin| ?|
-|ingest|/queue/{queue}| admin | read zookeeper from admin | Job.list_all<br>Job.list_all_legacy |
-|ingest|/queue-acc/{queue}| admin | read zookeeper from admin | Assembly.list_all_legacy|
-|ingest|/queue-inv/{queue}| admin | read zookeeper from admin | Job.list_all_legacy_inv|
-|ingest|/lock/{lock}| admin |read  zookeeper from admin | ObjectLocks.list_all |
-|ingest|POST /requeue/{queue}/{id}/{fromState}| admin | write zookeeper from admin | job.set_status(zk, job.status.state_change(:State)) |
-|ingest|POST /deleteq/{queue}/{id}/{fromState}| admin | write zookeeper from admin  | job.delete(zk)|
-|ingest|POST /cleanupq/{queue}| admin | write zookeeper from admin  | Job.cleanup |
-|ingest|POST /{action: hold or release}/{queue}/{id}| admin | write zookeeper from admin  | job.set_status(zk, job.status.state_change(:State)) |
-|ingest|POST /release-all/{queue}/{profile}| admin | write zookeeper from admin  | Collection.release_jobs|
-|ingest|{profilePath}| admin | profiles as artifact | |
-|ingest|/profiles-full| admin| profiles as artifact | |
-|ingest|/profile/{profile}| admin | profiles as artifact| |
-|ingest|/profile/admin/{env}/{type}/{profile}| admin| profiles as artifact | |
+|ingest m1|/locks| admin| read zookeeper from admin| |
+|ingest m1|/queues| admin | read zookeeper from admin | NA|
+|ingest m1|/queues-acc| admin | read zookeeper from admin | NA |
+|ingest m1|/queues-inv| admin | read zookeeper from admin | |
+|ingest m1|/queue| admin | read zookeeper from admin| ?|
+|ingest m1|/queue/{queue}| admin | read zookeeper from admin | Job.list_all<br>Job.list_all_legacy |
+|ingest m1|/queue-acc/{queue}| admin | read zookeeper from admin | Assembly.list_all_legacy|
+|ingest m1|/queue-inv/{queue}| admin | read zookeeper from admin | Job.list_all_legacy_inv|
+|ingest m1|/lock/{lock}| admin |read  zookeeper from admin | ObjectLocks.list_all |
+|ingest m1|POST /requeue/{queue}/{id}/{fromState}| admin | write zookeeper from admin | job.set_status(zk, job.status.state_change(:State)) |
+|ingest m1|POST /deleteq/{queue}/{id}/{fromState}| admin | write zookeeper from admin  | job.delete(zk)|
+|ingest m1|POST /cleanupq/{queue}| admin | write zookeeper from admin  | Job.cleanup |
+|ingest m1|POST /{action: hold or release}/{queue}/{id}| admin | write zookeeper from admin  | job.set_status(zk, job.status.state_change(:State)) |
+|ingest m1|POST /release-all/{queue}/{profile}| admin | write zookeeper from admin  | Collection.release_jobs|
+|ingest m4|{profilePath}| admin | profiles as artifact | |
+|ingest m4|/profiles-full| admin| profiles as artifact | this endpoint also returns data related to collection locks (m2)|
+|ingest m4|/profile/{profile}| admin | profiles as artifact| |
+|ingest m4|/profile/admin/{env}/{type}/{profile}| admin| profiles as artifact | |
 |ingest|/bids/{batchAge}| ingest | mount zfs to lambda | keep in ingest |
 |ingest|/bid/{batchID}| ingest | mount zfs to lambda | keep in ingest|
 |ingest|/bid/{batchID}/{batchAge}| ingest | mount zfs to lamda | keep in ingest|
 |ingest|/jid-erc/{batchID}/{jobID}| ingest| mount zfs to lambda | keep in ingest|
 |ingest|/jid-file/{batchID}/{jobID}| ingest | mount zfs to lambda| keep in ingest|
 |ingest|/jid-manifest/{batchID}/{jobID}| ingest | mount zfs to lambda|  keep in ingest|
-|ingest|POST /submission/{request: freeze or thaw}/{collection}| admin | implement hold/freeze in ZK | Collection.hold <br/>Collection.release |
-|ingest|POST /submissions/{request: freeze or thaw}| admin | implement hold/freeze in ZK | Job.hold <br/> Job.release|
-|ingest|POST /profile/{type}| admin? | | Is this simply a template edit?  If so, could the admin tool do this?|
-|access|POST /flag/set/access/#{qobj}|admin|write zookeeper from admin |Access.hold|
-|access|POST /flag/clear/access/#{qobj}|admin|write zookeeper from admin |Access.relese|
+|ingest m2|POST /submission/{request: freeze or thaw}/{collection}| admin | implement hold/freeze in ZK | Collection.hold <br/>Collection.release |
+|ingest m2|POST /submissions/{request: freeze or thaw}| admin | implement hold/freeze in ZK | Job.hold <br/> Job.release|
+|ingest m4|POST /profile/{type}| admin? | | Is this simply a template edit?  If so, could the admin tool do this?|
+|access m3|POST /flag/set/access/#{qobj}|admin|write zookeeper from admin |Access.hold|
+|access m3|POST /flag/clear/access/#{qobj}|admin|write zookeeper from admin |Access.relese|
