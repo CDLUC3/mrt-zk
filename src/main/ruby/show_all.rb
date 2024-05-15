@@ -209,12 +209,18 @@ if ARGV.include?('-clear')
 end
 
 if ARGV.include?('-m1')
+  LIST.each do |p|
+    zk.create(p, data: nil) unless zk.exists?(p)
+  end
   zk.rm_rf('/migration')
   zk.create('/migration', data: nil)
   zk.create('/migration/m1', data: nil)
 end
 
 if ARGV.include?('-m13')
+  LIST.each do |p|
+    zk.create(p, data: nil) unless zk.exists?(p)
+  end
   zk.rm_rf('/migration')
   zk.create('/migration', data: nil)
   zk.create('/migration/m1', data: nil)
