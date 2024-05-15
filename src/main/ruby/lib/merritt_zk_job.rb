@@ -52,9 +52,9 @@ module MerrittZK
       set_data(zk, ZkKeys::SPACE_NEEEDED, space_needed)
     end
 
-    def set_status(zk, status, job_retry: false)
+    def set_status(zk, status, message = '', job_retry: false)
       @retry_count += 1 if job_retry
-      super(zk, status)
+      super(zk, status, message)
       set_job_state_path(zk)
       set_batch_state_path(zk)
     end

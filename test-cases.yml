@@ -340,6 +340,7 @@ batch_failure:
       status: Failed
       last_modified: now
       retry_count: 0
+      message: Sample Failure Message
     /jobs/states/failed/02-jid1: null
 batch_recovery:
   input:

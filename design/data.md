@@ -19,14 +19,14 @@
 | - | - | - | - | - | - |
 | /batches/BID/lock | none | - | Pending, Reporting | - | **Ephemeral node** to lock a batch, deleted by the thread that creates the node |
 | /batches/BID/submission | json | profile_name<br/>submitter<br/>payload_filename<br/><br/>erc_what<br/>erc_who<br/>erc_when<br/>erc_where<br/>type<br/>submission_mode | creation | none | |
-| /batches/BID/status | json | status<br/>last_modified | creation | all jobs done | | 
+| /batches/BID/status | json | status<br/>last_modified<br/>message | creation | all jobs done | message is optional| 
 | /batches/BID/status-report | json | failed_jobs | failure | failure | last status report sent to user | 
 | /batches/BID/states/STATE/JID | none | - | | | STATE = batch-processing / batch-failed / batch-completed<br/>Create watcher to watch for states/processing to be empty| 
 | /batches/BID/lock | none | - | Several states | - | **Ephemeral node** to lock a job, deleted by the thread that creates the node |
 | /batch-uuids/UUID | string | - | Pending | none | batchID uuid is minted by ingest, used for lookup |
 | /jobs/JID/bid | string | batch_id | creation | none | |
 | /jobs/JID/configuration | json | profile_name<br/>submitter<br/>payload_url<br/>payload_type<br/>response_type<br/>local_id | creation | none | |
-| /jobs/JID/status | json | status<br/>last_successful_status<br/>last_modification_date<br/>retry_count | creation | none | |
+| /jobs/JID/status | json | status<br/>last_successful_status<br/>last_modification_date<br/>retry_count<br/>message | creation | none | message is optional|
 | /jobs/JID/priority | int | - | creation | estimating | |
 | /jobs/JID/space_needed | long | - | creation | estimating | |
 | /jobs/JID/identifiers | json | primary_id<br/>local_id: [] | creation | processing | |
@@ -50,7 +50,7 @@
 | Zookeeper Node Path | Node Data Type | Fields | Created By | Modified By | Comment |
 | - | - | - | - | - | - |
 | /access/small/ID/token<br>/access/large/ID/token | json | token<br>delivery-node<br>cloud-content-byte<br>status<br>url<br>anticipated-availability-time| Access | Access | |
-| /access/small/ID/status<br>/access/large/ID/status | json | status<br/>last_modified | creation | all jobs done | | 
+| /access/small/ID/status<br>/access/large/ID/status | json | status<br/>last_modified<br/>message | creation | all jobs done | message is optional| 
 
 ## Batch and Job State Transition
 

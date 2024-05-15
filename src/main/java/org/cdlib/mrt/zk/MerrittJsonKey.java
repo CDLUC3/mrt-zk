@@ -9,6 +9,7 @@ public enum MerrittJsonKey {
   LastModified("last_modified"),
   RetryCount("retry_count"),
   LastSuccessfulStatus("last_successful_status"),
+  Message("message"),
   ErcWho("erc_who"),
   ErcWhat("erc_what"),
   ErcWhere("erc_where"),

@@ -413,7 +413,7 @@ RSpec.describe 'ZK input/ouput tests' do
       jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Notify)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
-      jj.set_status(@zk, jj.status.fail)
+      jj.set_status(@zk, jj.status.fail, 'Sample Failure Message')
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Failed)
 

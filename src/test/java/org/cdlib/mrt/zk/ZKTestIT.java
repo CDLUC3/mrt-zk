@@ -740,7 +740,7 @@ public class ZKTestIT {
       jj = Job.acquireJob(zk, JobState.Notify);
       assertNotNull(jj);
       assertEquals(jj.id(), remap.get("jid1"));
-      jj.setStatus(zk, jj.status().fail());
+      jj.setStatus(zk, jj.status().fail(), "Sample Failure Message");
       jj.unlock(zk);
       assertEquals(jj.status(), JobState.Failed);
 

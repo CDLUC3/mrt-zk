@@ -115,10 +115,12 @@ module MerrittZK
       }
     end
 
-    def set_status(zk, status)
+    def set_status(zk, status, message = '')
       return if status == @status
 
-      data = QueueItem.serialize(status_object(status))
+      json = status_object(status)
+      json[:message] = message unless message.empty?
+      data = QueueItem.serialize(json)
       if @status.nil?
         zk.create(status_path, data)
       else

@@ -240,11 +240,20 @@ abstract public class QueueItem {
   }
 
   public void setStatus(ZooKeeper client, IngestState status) throws KeeperException, InterruptedException, MerrittZKNodeInvalid {
+    setStatus(client, status, "");
+  }
+
+  public void setStatus(ZooKeeper client, IngestState status, String message) throws KeeperException, InterruptedException, MerrittZKNodeInvalid {
     if (status == this.status) {
       return;
     }
     String statpath = makePath(ZKKey.STATUS);
-    byte[] data = QueueItemHelper.asBytes(QueueItemHelper.serialize(statusObject(status)));
+    JSONObject json = statusObject(status);
+    if (!message.isEmpty()) {
+      json.put(MerrittJsonKey.Message.key(), message);
+    }
+
+    byte[] data = QueueItemHelper.asBytes(QueueItemHelper.serialize(json));
     if (this.status == null) {
       QueueItemHelper.create(client, statpath, data);
     } else {
