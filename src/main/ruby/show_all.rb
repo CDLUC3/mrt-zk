@@ -4,14 +4,16 @@
 require_relative 'lib/merritt_zk'
 require 'zk'
 
-def get_payload(p, d)
-  %w[/ingest /accessLarge.1 /accessSmall.1 /mrt.inventory.full].include?(p)
-  %w[/mrt.lock /mrt.InvLock].include?(p)
+def get_payload(p, cp, d)
+  # %w[/ingest /accessLarge.1 /accessSmall.1 /mrt.inventory.full].include?(p)
+  # %w[/mrt.lock /mrt.InvLock].include?(p)
   if %w[/ingest].include?(p)
     JSON.parse(d.bytes[9..].pack('c*'))
   elsif %w[/accessLarge.1 /accessSmall.1 /mrt.inventory.full].include?(p)
     d.bytes[9..].pack('c*')
-  elsif %w[/mrt.InvLock].include?(p) || p =~ %r{/mrt.lock/ark}
+  elsif %w[/mrt.InvLock].include?(p)
+    d.bytes[8..].pack('c*')
+  elsif %w[/mrt.lock].include?(p) && cp =~ /(ark|access$)/
     d.bytes[8..].pack('c*')
   else
     begin
@@ -50,7 +52,7 @@ end
 
 def show_node(zk, p, cpath)
   puts cpath
-  d = get_payload(p, zk.get(cpath)[0])
+  d = get_payload(p, cpath, zk.get(cpath)[0])
   if d.is_a?(Hash)
     puts JSON.pretty_generate(d)
   else
@@ -66,6 +68,7 @@ end
 def show(zk, arr)
   arr.each do |p|
     next unless zk.exists?(p)
+    next if zk.children(p).empty?
 
     puts '---------'
     zk.children(p).each do |cp|
@@ -86,6 +89,7 @@ LIST = %w[
 puts '===> LEGACY'
 
 show(zk, %w[/accessSmall.1 /accessLarge.1 /mrt.inventory.full /mrt.InvLock /mrt.lock /ingest])
+# show(zk, %w[/mrt.InvLock /mrt.lock])
 
 if ARGV.include?('-migrate')
   LIST.each do |p|
