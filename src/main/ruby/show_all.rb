@@ -11,9 +11,7 @@ def get_payload(p, cp, d)
     JSON.parse(d.bytes[9..].pack('c*'))
   elsif %w[/accessLarge.1 /accessSmall.1 /mrt.inventory.full].include?(p)
     d.bytes[9..].pack('c*')
-  elsif %w[/mrt.InvLock].include?(p)
-    d.bytes[8..].pack('c*')
-  elsif %w[/mrt.lock].include?(p) && cp =~ /(ark|access$)/
+  elsif %w[/mrt.InvLock].include?(p) || (%w[/mrt.lock].include?(p) && cp =~ /(ark|access$)/)
     d.bytes[8..].pack('c*')
   else
     begin
