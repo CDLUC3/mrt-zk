@@ -252,7 +252,7 @@
           
 
           <div class="method-source-code" id="data_prop-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 138</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 140</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">data_prop</span>(<span class="ruby-identifier">_prop</span>, <span class="ruby-identifier">defval</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">defval</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@data</span>.<span class="ruby-identifier">nil?</span>
 
@@ -402,7 +402,7 @@
           
 
           <div class="method-source-code" id="lock-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 130</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 132</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">lock</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">create</span>(<span class="ruby-node">&quot;#{path}/#{ZkKeys::LOCK}&quot;</span>, <span class="ruby-value">data:</span> <span class="ruby-keyword">nil</span>, <span class="ruby-value">mode:</span> <span class="ruby-value">:ephemeral</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -468,7 +468,7 @@
         <div class="method-header">
           <div class="method-heading">
             <span class="method-name">set_status</span><span
-              class="method-args">(zk, status)</span>
+              class="method-args">(zk, status, message = &#39;&#39;)</span>
             <span class="method-click-advice">click to toggle source</span>
           </div>
         </div>
@@ -478,10 +478,12 @@
 
           <div class="method-source-code" id="set_status-source">
             <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 118</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_status</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">status</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_status</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">status</span>, <span class="ruby-identifier">message</span> = <span class="ruby-string">&#39;&#39;</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">status</span> <span class="ruby-operator">==</span> <span class="ruby-ivar">@status</span>
 
-  <span class="ruby-identifier">data</span> = <span class="ruby-constant">QueueItem</span>.<span class="ruby-identifier">serialize</span>(<span class="ruby-identifier">status_object</span>(<span class="ruby-identifier">status</span>))
+  <span class="ruby-identifier">json</span> = <span class="ruby-identifier">status_object</span>(<span class="ruby-identifier">status</span>)
+  <span class="ruby-identifier">json</span>[<span class="ruby-value">:message</span>] = <span class="ruby-identifier">message</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">message</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-identifier">data</span> = <span class="ruby-constant">QueueItem</span>.<span class="ruby-identifier">serialize</span>(<span class="ruby-identifier">json</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@status</span>.<span class="ruby-identifier">nil?</span>
     <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">create</span>(<span class="ruby-identifier">status_path</span>, <span class="ruby-identifier">data</span>)
   <span class="ruby-keyword">else</span>
@@ -630,7 +632,7 @@
           
 
           <div class="method-source-code" id="unlock-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 134</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_queue_item.rb, line 136</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">unlock</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-node">&quot;#{path}/#{ZkKeys::LOCK}&quot;</span>)
 <span class="ruby-keyword">end</span></pre>

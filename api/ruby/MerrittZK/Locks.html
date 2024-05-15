@@ -254,7 +254,7 @@
           
 
           <div class="method-source-code" id="lock_collection-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_locks.rb, line 72</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_locks.rb, line 76</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">lock_collection</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">mnemonic</span>)
   <span class="ruby-identifier">create_lock</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-node">&quot;#{LOCKS_COLLECTION}/#{mnemonic}&quot;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -323,7 +323,7 @@
           
 
           <div class="method-source-code" id="lock_object_inventory-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_locks.rb, line 88</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_locks.rb, line 96</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">lock_object_inventory</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">ark</span>)
   <span class="ruby-identifier">create_ephemeral_lock</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-node">&quot;#{LOCKS_INVENTORY}/#{ark.gsub(&#39;/&#39;, &#39;_&#39;)}&quot;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -346,7 +346,7 @@
           
 
           <div class="method-source-code" id="lock_object_storage-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_locks.rb, line 80</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_locks.rb, line 86</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">lock_object_storage</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">ark</span>)
   <span class="ruby-identifier">create_ephemeral_lock</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-node">&quot;#{LOCKS_STORAGE}/#{ark.gsub(&#39;/&#39;, &#39;_&#39;)}&quot;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -369,7 +369,7 @@
           
 
           <div class="method-source-code" id="lock_small_access_queue-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_locks.rb, line 64</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_locks.rb, line 66</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">lock_small_access_queue</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-identifier">create_lock</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-constant">LOCKS_QUEUE_ACCESS_SMALL</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -392,9 +392,11 @@
           
 
           <div class="method-source-code" id="unlock_collection-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_locks.rb, line 76</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_locks.rb, line 80</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">unlock_collection</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">mnemonic</span>)
   <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-node">&quot;#{LOCKS_COLLECTION}/#{mnemonic}&quot;</span>)
+<span class="ruby-keyword">rescue</span> <span class="ruby-constant">StandardError</span>
+  <span class="ruby-comment"># no action</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -443,6 +445,8 @@
             <pre><span class="ruby-comment"># File lib/merritt_zk_locks.rb, line 60</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">unlock_large_access_queue</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-constant">LOCKS_QUEUE_ACCESS_LARGE</span>)
+<span class="ruby-keyword">rescue</span> <span class="ruby-constant">StandardError</span>
+  <span class="ruby-comment"># no action</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -463,9 +467,11 @@
           
 
           <div class="method-source-code" id="unlock_object_inventory-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_locks.rb, line 92</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_locks.rb, line 100</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">unlock_object_inventory</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">ark</span>)
   <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-node">&quot;#{LOCKS_INVENTORY}/#{ark.gsub(&#39;/&#39;, &#39;_&#39;)}&quot;</span>)
+<span class="ruby-keyword">rescue</span> <span class="ruby-constant">StandardError</span>
+  <span class="ruby-comment"># no action</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -486,9 +492,11 @@
           
 
           <div class="method-source-code" id="unlock_object_storage-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_locks.rb, line 84</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_locks.rb, line 90</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">unlock_object_storage</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">ark</span>)
   <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-node">&quot;#{LOCKS_STORAGE}/#{ark.gsub(&#39;/&#39;, &#39;_&#39;)}&quot;</span>)
+<span class="ruby-keyword">rescue</span> <span class="ruby-constant">StandardError</span>
+  <span class="ruby-comment"># no action</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -509,9 +517,11 @@
           
 
           <div class="method-source-code" id="unlock_small_access_queue-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_locks.rb, line 68</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_locks.rb, line 70</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">unlock_small_access_queue</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-constant">LOCKS_QUEUE_ACCESS_SMALL</span>)
+<span class="ruby-keyword">rescue</span> <span class="ruby-constant">StandardError</span>
+  <span class="ruby-comment"># no action</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
