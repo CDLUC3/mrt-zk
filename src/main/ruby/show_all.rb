@@ -6,12 +6,13 @@ require 'zk'
 
 def get_payload(p, cp, d)
   # %w[/ingest /accessLarge.1 /accessSmall.1 /mrt.inventory.full].include?(p)
-  # %w[/mrt.lock /mrt.InvLock].include?(p)
+  # %w[/mrt.lock].include?(p)
+  return '' if d.nil?
   if %w[/ingest].include?(p)
     JSON.parse(d.bytes[9..].pack('c*'))
   elsif %w[/accessLarge.1 /accessSmall.1 /mrt.inventory.full].include?(p)
     d.bytes[9..].pack('c*')
-  elsif %w[/mrt.InvLock].include?(p) || (%w[/mrt.lock].include?(p) && cp =~ /(ark|access$)/)
+  elsif %w[/mrt.lock].include?(p) && cp =~ /(ark|access$)/
     d.bytes[8..].pack('c*')
   else
     begin
@@ -86,8 +87,7 @@ LIST = %w[
 
 puts '===> LEGACY'
 
-show(zk, %w[/accessSmall.1 /accessLarge.1 /mrt.inventory.full /mrt.InvLock /mrt.lock /ingest])
-# show(zk, %w[/mrt.InvLock /mrt.lock])
+show(zk, %w[/accessSmall.1 /accessLarge.1 /mrt.inventory.full /mrt.lock /ingest])
 
 if ARGV.include?('-migrate')
   LIST.each do |p|
@@ -209,6 +209,13 @@ if ARGV.include?('-clear')
     zk.rm_rf(p)
   end
 end
+
+if ARGV.include?('-locks')
+  zk.create('/mrt.lock', data: nil) unless zk.exists?('/mrt.lock')
+  zk.create('/mrt.lock/ark-aaa-bbb', data: nil) unless zk.exists?('/mrt.lock/ark-aaa-bbb')
+  zk.create('/locks/storage/ark-aaa-ccc', data: nil) unless zk.exists?('/locks/storage/ark-aaa-ccc')
+end
+
 
 if ARGV.include?('-m1')
   LIST.each do |p|
