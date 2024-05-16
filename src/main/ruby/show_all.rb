@@ -8,6 +8,7 @@ def get_payload(p, cp, d)
   # %w[/ingest /accessLarge.1 /accessSmall.1 /mrt.inventory.full].include?(p)
   # %w[/mrt.lock].include?(p)
   return '' if d.nil?
+
   if %w[/ingest].include?(p)
     JSON.parse(d.bytes[9..].pack('c*'))
   elsif %w[/accessLarge.1 /accessSmall.1 /mrt.inventory.full].include?(p)
@@ -215,7 +216,6 @@ if ARGV.include?('-locks')
   zk.create('/mrt.lock/ark-aaa-bbb', data: nil) unless zk.exists?('/mrt.lock/ark-aaa-bbb')
   zk.create('/locks/storage/ark-aaa-ccc', data: nil) unless zk.exists?('/locks/storage/ark-aaa-ccc')
 end
-
 
 if ARGV.include?('-m1')
   LIST.each do |p|
