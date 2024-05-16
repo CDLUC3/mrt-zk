@@ -78,6 +78,7 @@ module MerrittZK
         begin
           if b.lock(zk)
             b.set_data(zk, ZkKeys::STATES, nil)
+            b.set_status(zk, BatchState::Processing)
             return b
           end
         rescue ZK::Exceptions::NodeExists

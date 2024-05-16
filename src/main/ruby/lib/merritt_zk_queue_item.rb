@@ -17,6 +17,8 @@ module MerrittZK
     CONFIGURATION = 'configuration'
     STATUS = 'status'
     LOCK = 'lock'
+    IDENTIFIERS = 'identifiers'
+    METADATA = 'metadata'
   end
 
   ##

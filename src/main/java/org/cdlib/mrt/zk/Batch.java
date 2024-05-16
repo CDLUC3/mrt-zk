@@ -125,6 +125,7 @@ public class Batch extends QueueItem {
         if (b.lock(client)) {
           b.load(client);
           b.createData(client, ZKKey.STATES, null);
+          b.setStatus(client, BatchState.Processing);
           return b;
         }
       }

@@ -11,7 +11,7 @@ module MerrittZK
     DIR = '/jobs'
     PREFIX = 'jid'
 
-    def initialize(id, bid: nil, data: nil)
+    def initialize(id, bid: nil, data: nil, identifiers: {}, metadata: {})
       super(id, data: data)
       @bid = bid
       @priority = 5
@@ -19,6 +19,8 @@ module MerrittZK
       @job_state_path = nil
       @batch_state_path = nil
       @retry_count = 0
+      @identifiers = identifiers
+      @metadata = metadata
     end
 
     def load_status(zk, js)
@@ -31,6 +33,8 @@ module MerrittZK
       @bid = string_property(zk, ZkKeys::BID)
       @priority = int_property(zk, ZkKeys::PRIORITY)
       @space_needed = int_property(zk, ZkKeys::SPACE_NEEEDED)
+      @identifiers = json_property(zk, ZkKeys::IDENTIFIERS) if zk.exists?("#{path}/#{ZkKeys::IDENTIFIERS}")
+      @metadata = json_property(zk, ZkKeys::METADATA) if zk.exists?("#{path}/#{ZkKeys::METADATA}")
       set_job_state_path(zk)
       set_batch_state_path(zk)
     end
@@ -106,13 +110,15 @@ module MerrittZK
       "#{DIR}/#{@id}"
     end
 
-    def self.create_job(zk, bid, data)
+    def self.create_job(zk, bid, data, identifiers: {}, metadata: {})
       id = QueueItem.create_id(zk, prefix_path)
-      job = Job.new(id, bid: bid, data: data)
+      job = Job.new(id, bid: bid, data: data, identifiers: identifiers, metadata: metadata)
       job.set_data(zk, ZkKeys::BID, bid)
       job.set_data(zk, ZkKeys::PRIORITY, job.priority)
       job.set_data(zk, ZkKeys::SPACE_NEEEDED, job.space_needed)
       job.set_data(zk, ZkKeys::CONFIGURATION, data)
+      job.set_data(zk, ZkKeys::IDENTIFIERS, identifiers) unless identifiers.empty?
+      job.set_data(zk, ZkKeys::METADATA, metadata) unless metadata.empty?
       job.set_status(zk, JobState.init)
       job.set_job_state_path(zk)
       job.set_batch_state_path(zk)

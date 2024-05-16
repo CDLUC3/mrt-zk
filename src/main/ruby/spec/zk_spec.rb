@@ -108,9 +108,13 @@ RSpec.describe 'ZK input/ouput tests' do
       b2 = MerrittZK::Batch.create_batch(@zk, make_batch_json('bar2', 'bid-uuid2'))
       @remap['bid0'] = b.id
       @remap['bid1'] = b2.id
-      MerrittZK::Batch.acquire_pending_batch(@zk)
-      MerrittZK::Batch.acquire_pending_batch(@zk)
-      expect(MerrittZK::Batch.acquire_pending_batch(@zk)).to be_nil
+      bb = MerrittZK::Batch.acquire_pending_batch(@zk)
+      expect(bb).to_not be_nil
+      expect(bb.status.status).to eq(:Processing)
+      bb = MerrittZK::Batch.acquire_pending_batch(@zk)
+      expect(bb).to_not be_nil
+      bb = MerrittZK::Batch.acquire_pending_batch(@zk)
+      expect(bb).to be_nil
     end
   end
 
@@ -766,6 +770,45 @@ RSpec.describe 'ZK input/ouput tests' do
 
       ids = MerrittZK::Batch.delete_completed_batches(@zk)
       expect(ids.include?(bbbb.id)).to be(true)
+    end
+
+    it :job_create_config do |_x|
+      b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
+      @remap['bid0'] = b.id
+      bb = MerrittZK::Batch.acquire_pending_batch(@zk)
+      expect(b.id).to eq(bb.id)
+      jc = { profile_name: 'a', submitter: 'b', payload_url: 'c', payload_type: 'd', response_type: 'e' }
+      j = MerrittZK::Job.create_job(@zk, bb.id, jc)
+      @remap['jid0'] = j.id
+      expect(j.bid).to eq(bb.id)
+      bb.unlock(@zk)
+    end
+
+    it :job_create_config_ident do |_x|
+      b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
+      @remap['bid0'] = b.id
+      bb = MerrittZK::Batch.acquire_pending_batch(@zk)
+      expect(b.id).to eq(bb.id)
+      jc = { profile_name: 'a', submitter: 'b', payload_url: 'c', payload_type: 'd', response_type: 'e' }
+      ji = { primary_id: 'f', local_id: %w[g h] }
+      j = MerrittZK::Job.create_job(@zk, bb.id, jc, identifiers: ji)
+      @remap['jid0'] = j.id
+      expect(j.bid).to eq(bb.id)
+      bb.unlock(@zk)
+    end
+
+    it :job_create_config_ident_metadata do |_x|
+      b = MerrittZK::Batch.create_batch(@zk, make_batch_json)
+      @remap['bid0'] = b.id
+      bb = MerrittZK::Batch.acquire_pending_batch(@zk)
+      expect(b.id).to eq(bb.id)
+      jc = { profile_name: 'a', submitter: 'b', payload_url: 'c', payload_type: 'd', response_type: 'e' }
+      ji = { primary_id: 'f', local_id: %w[g h] }
+      jm = { erc_who: 'i', erc_what: 'j', erc_when: 'k', erc_where: 'l' }
+      j = MerrittZK::Job.create_job(@zk, bb.id, jc, identifiers: ji, metadata: jm)
+      @remap['jid0'] = j.id
+      expect(j.bid).to eq(bb.id)
+      bb.unlock(@zk)
     end
   end
 

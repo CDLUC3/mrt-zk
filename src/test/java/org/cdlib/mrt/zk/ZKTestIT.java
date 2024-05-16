@@ -404,9 +404,13 @@ public class ZKTestIT {
       remap.put("bid0", b.id());
       Batch b2 = Batch.createBatch(zk, fooBar("2", "bid-uuid2"));
       remap.put("bid1", b2.id());
-      assertNotNull(Batch.acquirePendingBatch(zk));
-      assertNotNull(Batch.acquirePendingBatch(zk));
-      assertNull(Batch.acquirePendingBatch(zk));
+      Batch bb = Batch.acquirePendingBatch(zk);
+      assertNotNull(bb);
+      assertEquals(bb.status(), BatchState.Processing);
+      bb = Batch.acquirePendingBatch(zk);
+      assertNotNull(bb);
+      bb = Batch.acquirePendingBatch(zk);
+      assertNull(bb);
     }
 
     @Test
