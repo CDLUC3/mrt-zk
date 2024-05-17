@@ -146,7 +146,7 @@ module MerrittZK
   # This class will be removed after the migration is complete
   class LargeLegacyAccessJob < LegacyAccessJob
     DIR = '/accessLarge.1'
-    def initialize
+    def initialize(cp)
       super(DIR, cp)
     end
   end
