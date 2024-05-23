@@ -1291,6 +1291,7 @@ public class ZKTestIT {
       Access a = Access.createAssembly(zk, Access.Queues.small, token("abc"));
       remap.put("qid0", a.id());
       Access aa = Access.acquirePendingAssembly(zk, Access.Queues.small);
+      assertNotNull(aa);
       assertEquals(a.id(), aa.id());
       assertEquals(aa.status(), AccessState.Pending);
       Access aa2 = Access.acquirePendingAssembly(zk, Access.Queues.small);
@@ -1305,6 +1306,9 @@ public class ZKTestIT {
       aaa.setStatus(zk, aaa.status().success());
       assertEquals(aaa.status(), AccessState.Completed);
       assertTrue(aaa.status().isDeletable());
+      aaa.unlock(zk);
+      Access aa3 = Access.acquirePendingAssembly(zk, Access.Queues.small);
+      assertNull(aa3);
     }
 
     @Test

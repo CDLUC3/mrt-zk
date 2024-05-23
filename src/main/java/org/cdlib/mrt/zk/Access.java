@@ -107,9 +107,14 @@ public class Access extends QueueItem {
     assemblies.sort(String::compareTo);
     for(String cp: assemblies) {
       Access a = new Access(queueName, cp);
-      if (a.lock(client)) {
+      if (a != null) {
         a.load(client);
-        return a;
+        if (a.status() == AccessState.Pending) {
+          if (a.lock(client)) {
+            a.load(client);
+            return a;
+          }
+        }
       }
     }  
     return null;
