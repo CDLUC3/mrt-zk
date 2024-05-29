@@ -174,12 +174,16 @@ module MerrittZK
       zk.children(DIR).sort.each do |cp|
         next if cp == ZkKeys::STATES
 
-        job = Job.new(cp).load(zk)
-        jobjson = job.data
-        jobjson[:id] = job.id
-        jobjson[:bid] = job.bid
-        jobjson[:status] = job.status_name
-        jobs.append(jobjson)
+        begin
+          job = Job.new(cp).load(zk)
+          jobjson = job.data
+          jobjson[:id] = job.id
+          jobjson[:bid] = job.bid
+          jobjson[:status] = job.status_name
+          jobs.append(jobjson)
+        rescue StandardError => e
+          puts "List Job #{cp} exception: #{e}"
+        end
       end
       jobs
     end

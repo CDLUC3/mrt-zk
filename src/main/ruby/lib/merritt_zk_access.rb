@@ -81,6 +81,8 @@ module MerrittZK
           jobjson[:queueNode] = Access.dir(queue)
           jobjson[:path] = job.path
           jobs.append(jobjson)
+        rescue StandardError => e
+          puts "List Access #{cp} exception: #{e}"
         end
       end
       jobs
