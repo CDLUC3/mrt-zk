@@ -11,18 +11,13 @@ import org.apache.zookeeper.ZooKeeper;
  * Queue and collection level locks will be persistent.
  */
 public class MerrittLocks {
-  private static void createIfNeeded(ZooKeeper client, String path) throws KeeperException, InterruptedException {
-    if (!QueueItemHelper.exists(client, path)) {
-      QueueItemHelper.create(client, path, QueueItemHelper.empty);
-    }
-  }
 
   public static void initLocks(ZooKeeper client) throws KeeperException, InterruptedException {
-    createIfNeeded(client, QueueItem.ZkPaths.Locks.path);
-    createIfNeeded(client, QueueItem.ZkPaths.LocksQueue.path);
-    createIfNeeded(client, QueueItem.ZkPaths.LocksStorage.path);
-    createIfNeeded(client, QueueItem.ZkPaths.LocksInventory.path);
-    createIfNeeded(client, QueueItem.ZkPaths.LocksCollections.path);
+    QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.Locks.path);
+    QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.LocksQueue.path);
+    QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.LocksStorage.path);
+    QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.LocksInventory.path);
+    QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.LocksCollections.path);
   }
 
   private static boolean createLock(ZooKeeper client, String path) {

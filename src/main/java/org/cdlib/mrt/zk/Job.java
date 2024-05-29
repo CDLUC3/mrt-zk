@@ -331,4 +331,11 @@ public class Job extends QueueItem {
     return null;
   }
 
+  public static void initNodes(ZooKeeper client) throws KeeperException, InterruptedException {
+    QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.Batch.path);
+    QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.BatchUuids.path);
+    QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.Job.path);
+    QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.JobStates.path);
+  }
+
 }

@@ -119,4 +119,10 @@ public class Access extends QueueItem {
     }  
     return null;
   }
+
+  public static void initNodes(ZooKeeper client) throws KeeperException, InterruptedException {
+    QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.Access.path);
+    QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.AccessSmall.path);
+    QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.AccessLarge.path);
+  }
 }

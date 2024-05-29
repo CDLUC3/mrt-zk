@@ -115,12 +115,8 @@ public class ZKTestIT {
     }
 
     public void initPaths() throws KeeperException, InterruptedException {
-      create(QueueItem.ZkPaths.JobStates.path, null);
-      create(QueueItem.ZkPaths.Batch.path, null);
-      create(QueueItem.ZkPaths.BatchUuids.path, null);
-      create(QueueItem.ZkPaths.Access.path, null);
-      create(QueueItem.ZkPaths.AccessSmall.path, null);
-      create(QueueItem.ZkPaths.AccessLarge.path, null);
+      Job.initNodes(zk);
+      Access.initNodes(zk);
       MerrittLocks.initLocks(zk);
     }
 

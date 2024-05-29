@@ -108,4 +108,10 @@ public class QueueItemHelper {
       client.delete(p, -1);
     }
   }
+
+  public static void createIfNeeded(ZooKeeper client, String path) throws KeeperException, InterruptedException {
+    if (!exists(client, path)) {
+      create(client, path, QueueItemHelper.empty);
+    }
+  }
 }
