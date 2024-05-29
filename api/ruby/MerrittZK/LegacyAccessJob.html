@@ -133,7 +133,7 @@
           <p>List legacy access jobs as a json object that will be consumed by the admin tool.</p>
 
           <div class="method-source-code" id="list_jobs_as_json-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 113</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 115</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">list_jobs_as_json</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-identifier">jobs</span> = []
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-constant">LargeLegacyAccessJob</span><span class="ruby-operator">::</span><span class="ruby-constant">DIR</span>)
@@ -176,7 +176,7 @@
             </div>
 
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 94</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 96</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">dir</span>, <span class="ruby-identifier">cp</span>)
   <span class="ruby-ivar">@dir</span> = <span class="ruby-identifier">dir</span>
   <span class="ruby-keyword">super</span>(<span class="ruby-identifier">cp</span>)
@@ -207,7 +207,7 @@
           
 
           <div class="method-source-code" id="json-3F-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 101</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 103</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">json?</span>
   <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>
@@ -234,7 +234,7 @@
             </div>
 
           <div class="method-source-code" id="payload_object-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 105</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 107</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">payload_object</span>
   <span class="ruby-identifier">payload</span> = <span class="ruby-keyword">super</span>
   <span class="ruby-identifier">payload</span>[<span class="ruby-value">:queueNode</span>] = <span class="ruby-identifier">dir</span>
