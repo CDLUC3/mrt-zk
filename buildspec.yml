@@ -10,7 +10,7 @@ phases:
       - git clone https://github.com/CDLUC3/mrt-core2.git
       - cd mrt-core2 
       - mvn clean install -Pparent
-      - mvn clean install -DskipITs -Dmaven.test.skip=true
+      # - mvn clean install -DskipITs -Dmaven.test.skip=true
       - cd ..
   build:
     commands:
@@ -19,6 +19,12 @@ phases:
       - cd src/main/ruby
       - bundle install
       - bundle exec rdoc lib/*.rb
+      - cd ../../..
+      - rm -rf api
+      - mkdir -p api/java api/ruby
+      - cp -r target/site/apidocs/* api/java
+      - cp -r src/main/ruby/doc/* api/ruby
   post_build:
     commands:
-      - echo Goodbye
+      #- aws s3 rm s3://${S3CFBUCKET}/api --recursive
+      aws s3 cp --recursive api s3://${S3CFBUCKET}/api
