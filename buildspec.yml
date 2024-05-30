@@ -7,7 +7,9 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo Hello
+      - git clone https://github.com/CDLUC3/mrt-core2.git
+      - cd mrt-core2 
+      - mvn clean install -f dep_core/mrt-core2/pom.xml -Pparent
   build:
     commands:
       - mvn install -Ddocker.skip -DskipITs -Dmaven.test.skip=true
