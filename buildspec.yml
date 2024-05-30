@@ -7,10 +7,11 @@ version: 0.2
 phases:
   pre_build:
     commands:
+      - echo aws s3 cp --recursive api s3://${S3CFBUCKET}/api 
+      - exit
       - git clone https://github.com/CDLUC3/mrt-core2.git
       - cd mrt-core2 
       - mvn clean install -Pparent
-      # - mvn clean install -DskipITs -Dmaven.test.skip=true
       - cd ..
   build:
     commands:
@@ -27,4 +28,5 @@ phases:
   post_build:
     commands:
       #- aws s3 rm s3://${S3CFBUCKET}/api --recursive
+      echo aws s3 cp --recursive api s3://${S3CFBUCKET}/api 
       aws s3 cp --recursive api s3://${S3CFBUCKET}/api
