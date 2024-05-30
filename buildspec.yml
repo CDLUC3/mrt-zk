@@ -1,0 +1,20 @@
+version: 0.2
+
+# Pre-requisites
+# - Create CodeBuild project
+#   - Provide minimal github credentials to access public repo
+
+phases:
+  pre_build:
+    commands:
+      - echo Hello
+  build:
+    commands:
+      - mvn install -Ddocker.skip -DskipITs -Dmaven.test.skip=true
+      - mvn clean javadoc:javadoc
+      - cd src/main/ruby
+      - bundle install
+      - bundle exec rdoc lib/*.rb
+  post_build:
+    commands:
+      - echo Goodbye
