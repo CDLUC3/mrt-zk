@@ -11,9 +11,10 @@ phases:
       - aws s3 ls s3://${S3CFBUCKET}/
       - pwd
       - git clone https://github.com/CDLUC3/merritt-docker.git
-      - cd merritt_docker
+      - cd merritt-docker
       - git submodule update --remote --init mrt-services/dep_core/mrt-core2
-      - mvn -ntp install -f mrt-services/dep_core/mrt-core2/pom.xml -Pparent 
+      - mvn -ntp install -f mrt-services/dep_core/mrt-core2/pom.xml -Pparent
+      - cd .. 
   build:
     commands:
       - mvn -ntp install -Ddocker.skip -DskipITs -Dmaven.test.skip=true
