@@ -16,7 +16,7 @@ phases:
       - mvn -ntp install -f mrt-core2/pom.xml -Pparent
       - cd ../dep_zk
       - git clone https://github.com/CDLUC3/mrt-zk.git
-      - cd https://github.com/CDLUC3/mrt-zk.git
+      - cd mrt-zk
       - pwd
 
   build:
