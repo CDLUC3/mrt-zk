@@ -24,6 +24,7 @@ phases:
       - mvn -ntp install -P zk -Ddocker.skip -DskipITs -Dmaven.test.skip=true
       - cd dep_zk/mrt-zk
       - mvn -ntp javadoc:javadoc
+      - ls target
       - cd src/main/ruby
       - bundle install
       - bundle exec rdoc lib/*.rb
@@ -32,8 +33,8 @@ phases:
       - mkdir -p api/java api/ruby
       - cp -r target/site/apidocs/* api/java
       - cp -r src/main/ruby/doc/* api/ruby
+      - echo aws s3 cp --recursive api s3://${S3CFBUCKET}/api 
+      - aws s3 cp --recursive api s3://${S3CFBUCKET}/api
   post_build:
     commands:
       #- aws s3 rm s3://${S3CFBUCKET}/api --recursive
-      echo aws s3 cp --recursive api s3://${S3CFBUCKET}/api 
-      aws s3 cp --recursive api s3://${S3CFBUCKET}/api
