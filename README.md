@@ -24,7 +24,7 @@ ZooKeeper API for Merritt Microservices.
 - [State Transition Details](design/transition.md)
 - [Admin Function Mapping](design/queue-admin.md)
 - [Use Cases](design/use-cases.md)
-- [Test Plan](test_plan.md)
+- [Test Plan](design/test_plan.md)
 
 ## Code Build
 
