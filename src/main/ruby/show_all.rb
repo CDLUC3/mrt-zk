@@ -60,7 +60,7 @@ def show_node(zk, p, cpath)
   end
   puts
 
-  zk.children(cpath).each do |ccp|
+  zk.children(cpath).sort.each do |ccp|
     show_node(zk, p, "#{cpath}/#{ccp}")
   end
 end
@@ -71,7 +71,7 @@ def show(zk, arr)
     next if zk.children(p).empty?
 
     puts '---------'
-    zk.children(p).each do |cp|
+    zk.children(p).sort.each do |cp|
       show_node(zk, p, "#{p}/#{cp}")
     end
   end

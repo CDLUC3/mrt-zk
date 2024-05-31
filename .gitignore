@@ -2,3 +2,4 @@ target
 src/*/ruby/vendor
 src/*/ruby/doc
 mrt-zk-*.gem
+src/main/ruby/test.txt
