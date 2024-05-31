@@ -10,10 +10,12 @@ phases:
       - echo s3://${S3CFBUCKET}/api 
       - aws s3 ls s3://${S3CFBUCKET}/
       - pwd
-      - git clone https://github.com/CDLUC3/mrt-core2.git
+      - git clone https://github.com/CDLUC3/merritt-docker.git
+      - cd merritt_docker
+      - git submodule update --remote --init mrt-services/dep_core/mrt-core2
+      - mvn -ntp install -f mrt-services/dep_core/mrt-core2/pom.xml -Pparent 
   build:
     commands:
-      - mvn -ntp clean install -f mrt-core2/pom.xml -Pparent 
       - mvn -ntp install -Ddocker.skip -DskipITs -Dmaven.test.skip=true
       - mvn -ntp javadoc:javadoc
       - cd src/main/ruby
