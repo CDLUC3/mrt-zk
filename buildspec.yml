@@ -22,7 +22,7 @@ phases:
   build:
     commands:
       - mvn -ntp install -P zk -Ddocker.skip -DskipITs -Dmaven.test.skip=true
-      - cd mrt-services/dep_zk
+      - cd dep_zk/mrt-zk
       - mvn -ntp javadoc:javadoc
       - cd src/main/ruby
       - bundle install
