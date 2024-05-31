@@ -16,12 +16,13 @@ phases:
       - mvn -ntp install -f mrt-core2/pom.xml -Pparent
       - cd ../dep_zk
       - git clone https://github.com/CDLUC3/mrt-zk.git
-      - cd mrt-zk
+      - cd ..
       - pwd
 
   build:
     commands:
-      - mvn -ntp install -Ddocker.skip -DskipITs -Dmaven.test.skip=true
+      - mvn -ntp install -Pzk -Ddocker.skip -DskipITs -Dmaven.test.skip=true
+      - cd mrt-services/dep_zk
       - mvn -ntp javadoc:javadoc
       - cd src/main/ruby
       - bundle install
