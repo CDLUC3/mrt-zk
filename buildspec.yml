@@ -11,11 +11,11 @@ phases:
       - aws s3 ls s3://${S3CFBUCKET}/
       - pwd
       - git clone https://github.com/CDLUC3/mrt-core2.git
-      - mvn clean install -f mrt-core2/pom.xml -Pparent 
   build:
     commands:
+      - mvn clean install -f mrt-core2/pom.xml -Pparent 
       - mvn install -Ddocker.skip -DskipITs -Dmaven.test.skip=true
-      - mvn clean javadoc:javadoc
+      - mvn javadoc:javadoc
       - cd src/main/ruby
       - bundle install
       - bundle exec rdoc lib/*.rb
