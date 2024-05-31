@@ -12,7 +12,7 @@ phases:
       - pwd
       - git clone https://github.com/CDLUC3/merritt-docker.git
       - cd merritt-docker/mrt-services/dep_core
-      - git clone https://github.com/CDLUC3/merritt-core2.git
+      - git clone https://github.com/CDLUC3/mrt-core2.git
       - mvn -ntp install -Pparent
       - cd ../../.. 
   build:
