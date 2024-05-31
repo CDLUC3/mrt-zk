@@ -13,9 +13,9 @@ phases:
       - git clone https://github.com/CDLUC3/mrt-core2.git
   build:
     commands:
-      - mvn clean install -f mrt-core2/pom.xml -Pparent 
-      - mvn install -Ddocker.skip -DskipITs -Dmaven.test.skip=true
-      - mvn javadoc:javadoc
+      - mvn -ntp clean install -f mrt-core2/pom.xml -Pparent 
+      - mvn -ntp install -Ddocker.skip -DskipITs -Dmaven.test.skip=true
+      - mvn -ntp javadoc:javadoc
       - cd src/main/ruby
       - bundle install
       - bundle exec rdoc lib/*.rb
