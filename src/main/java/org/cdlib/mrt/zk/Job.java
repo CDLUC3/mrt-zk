@@ -1,6 +1,7 @@
 package org.cdlib.mrt.zk;
 
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.zookeeper.KeeperException;
@@ -336,6 +337,23 @@ public class Job extends QueueItem {
     QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.BatchUuids.path);
     QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.Job.path);
     QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.JobStates.path);
+  }
+
+  public static List<Job> listJobs(ZooKeeper client, IngestState state) throws KeeperException, InterruptedException, MerrittZKNodeInvalid {
+    ArrayList<Job> jobs = new ArrayList<>();
+    List<String> jids = client.getChildren(ZkPaths.Job.path, false);
+    jids.sort(String::compareTo);
+    for(String jid: jids) {
+      if (jid.equals("states")) {
+        continue;
+      }
+      Job job = new Job(jid);
+      job.load(client);
+      if (state == null || state == job.status()) {
+        jobs.add(job);
+      }
+    }
+    return jobs;
   }
 
 }

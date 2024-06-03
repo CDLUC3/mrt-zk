@@ -1,6 +1,7 @@
 package org.cdlib.mrt.zk;
 
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.zookeeper.KeeperException;
@@ -124,5 +125,23 @@ public class Access extends QueueItem {
     QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.Access.path);
     QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.AccessSmall.path);
     QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.AccessLarge.path);
+  }
+
+  public static List<Access> listJobs(ZooKeeper client, Queues queueName, AccessState state) throws KeeperException, InterruptedException, MerrittZKNodeInvalid {
+    ArrayList<Access> jobs = new ArrayList<>();
+    String path = queueName == Queues.large ? ZkPaths.AccessLarge.path : ZkPaths.AccessSmall.path;
+    List<String> jids = client.getChildren(path, false);
+    jids.sort(String::compareTo);
+    for(String jid: jids) {
+      if (jid.equals("states")) {
+        continue;
+      }
+      Access access = new Access(queueName, jid);
+      access.load(client);
+      if (state == null || state == access.status()) {
+        jobs.add(access);
+      }
+    }
+    return jobs;
   }
 }

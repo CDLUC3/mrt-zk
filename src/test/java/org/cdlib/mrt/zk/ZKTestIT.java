@@ -592,6 +592,11 @@ public class ZKTestIT {
       assertEquals(jobs.size(), 1);
       jobs = bb.getFailedJobs(zk);
       assertEquals(jobs.size(), 0);
+
+      jobs = Job.listJobs(zk, null);
+      assertEquals(jobs.size(), 3);
+      jobs = Job.listJobs(zk, JobState.Pending);
+      assertEquals(jobs.size(), 2);
     }
 
     @Test
@@ -1305,6 +1310,12 @@ public class ZKTestIT {
       aaa.unlock(zk);
       Access aa3 = Access.acquirePendingAssembly(zk, Access.Queues.small);
       assertNull(aa3);
+      List<Access> jobs = Access.listJobs(zk, Access.Queues.small, null);
+      assertEquals(jobs.size(), 1);
+      jobs = Access.listJobs(zk, Access.Queues.small, AccessState.Pending);
+      assertEquals(jobs.size(), 0);
+      jobs = Access.listJobs(zk, Access.Queues.large, null);
+      assertEquals(jobs.size(), 0);
     }
 
     @Test
