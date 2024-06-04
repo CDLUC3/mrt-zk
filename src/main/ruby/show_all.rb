@@ -67,12 +67,17 @@ end
 
 def show(zk, arr)
   arr.each do |p|
-    next unless zk.exists?(p)
-    next if zk.children(p).empty?
+    begin
+      next unless zk.exists?(p)
+      puts p
+      next if zk.children(p).empty?
 
-    puts '---------'
-    zk.children(p).sort.each do |cp|
-      show_node(zk, p, "#{p}/#{cp}")
+      puts '---------'
+      zk.children(p).sort.each do |cp|
+        show_node(zk, p, "#{p}/#{cp}")
+      end
+    rescue StandardError => e
+      puts e
     end
   end
 end

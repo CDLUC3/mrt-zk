@@ -21,6 +21,7 @@ public enum MerrittJsonKey {
   BatchPayloadFileName("payload_file_name"),
   BatchType("batch_type"),
   SubmissionMode("submission_mode"),
+  JID("jobID"),
   JobPayloadUrl("payload_url"),
   JobPayloadType("payload_type"),
   JobResponseType("response_type"),

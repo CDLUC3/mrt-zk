@@ -179,6 +179,10 @@ public class Job extends QueueItem {
     return jsonStringProperty(data(), MerrittJsonKey.JobResponseType, "");
   }
 
+  public String jid() {
+    return jsonStringProperty(data(), MerrittJsonKey.JID, "");
+  }
+
   public static Job createJob(ZooKeeper client, String bid, JSONObject configuration) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
     return createJob(client, bid, configuration, new JSONObject(), new JSONObject());
   }
