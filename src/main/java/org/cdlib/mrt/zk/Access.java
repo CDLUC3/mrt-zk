@@ -88,7 +88,7 @@ public class Access extends QueueItem {
     return AccessState.values();
   }
 
-  public static Access createAssembly(ZooKeeper client, Queues queueName, JSONObject token) throws KeeperException, InterruptedException, MerrittZKNodeInvalid {
+  public static Access createAssembly(ZooKeeper client, Queues queueName, JSONObject token) throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError {
     String id = QueueItemHelper.createId(client, Access.prefixPath(queueName));
     Access access = new Access(queueName, id, token);
     access.createData(client, ZKKey.ACCESS_TOKEN, token);

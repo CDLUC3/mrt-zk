@@ -185,13 +185,13 @@ public class Job extends QueueItem {
     return jsonStringProperty(data(), MerrittJsonKey.JID, "");
   }
 
-  public static Job createJob(ZooKeeper client, String bid, JSONObject configuration) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
+  public static Job createJob(ZooKeeper client, String bid, JSONObject configuration) throws MerrittZKNodeInvalid, KeeperException, InterruptedException, MerrittStateError {
     return createJob(client, bid, configuration, new JSONObject(), new JSONObject());
   }
-  public static Job createJob(ZooKeeper client, String bid, JSONObject configuration, JSONObject identifiers) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
+  public static Job createJob(ZooKeeper client, String bid, JSONObject configuration, JSONObject identifiers) throws MerrittZKNodeInvalid, KeeperException, InterruptedException, MerrittStateError {
     return createJob(client, bid, configuration, identifiers, new JSONObject());
   }
-  public static Job createJob(ZooKeeper client, String bid, JSONObject configuration, JSONObject identifiers, JSONObject metadata) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
+  public static Job createJob(ZooKeeper client, String bid, JSONObject configuration, JSONObject identifiers, JSONObject metadata) throws MerrittZKNodeInvalid, KeeperException, InterruptedException, MerrittStateError {
     String id = QueueItemHelper.createId(client, Job.prefixPath());
     Job job = new Job(id, bid, configuration);
     job.createData(client, ZKKey.JOB_BID, bid);
@@ -270,7 +270,7 @@ public class Job extends QueueItem {
     return jsonStringProperty(inventory, MerrittJsonKey.InventoryMode, "");
   }
 
-  public void setStatusWithRetry(ZooKeeper client, IngestState status) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
+  public void setStatusWithRetry(ZooKeeper client, IngestState status) throws MerrittZKNodeInvalid, KeeperException, InterruptedException, MerrittStateError {
     retryCount += 1;
     setStatus(client, status);
   }

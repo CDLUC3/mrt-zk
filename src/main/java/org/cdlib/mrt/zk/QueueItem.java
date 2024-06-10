@@ -239,11 +239,14 @@ abstract public class QueueItem {
     return jobj;
   }
 
-  public void setStatus(ZooKeeper client, IngestState status) throws KeeperException, InterruptedException, MerrittZKNodeInvalid {
+  public void setStatus(ZooKeeper client, IngestState status) throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError {
     setStatus(client, status, "");
   }
 
-  public void setStatus(ZooKeeper client, IngestState status, String message) throws KeeperException, InterruptedException, MerrittZKNodeInvalid {
+  public void setStatus(ZooKeeper client, IngestState status, String message) throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError {
+    if (status == null) {
+      throw new MerrittStateError("Status cannot be set to null");
+    }
     if (status == this.status) {
       return;
     }

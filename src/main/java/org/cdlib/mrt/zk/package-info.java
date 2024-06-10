@@ -89,7 +89,7 @@
  * <pre>
  * ZooKeeper zk = new ZooKeeper("localhost:8084", 100, null);
  * JSONObject tokenData = new JSONObject("...");
- * TODO: Create the following?: JSONObject tokenData = Access.createTokenData(...)
+ * JSONObject tokenData = Access.createTokenData(...)
  * Access access = Access.createAssembly(zk, Access.Queues.small, tokenData);
  * </pre>
  * 
