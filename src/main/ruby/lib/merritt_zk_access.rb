@@ -75,13 +75,15 @@ module MerrittZK
       jobs = []
       [SMALL, LARGE].each do |queue|
         zk.children("#{DIR}/#{queue}").sort.each do |cp|
-          job = Access.new(queue, cp).load(zk)
+          job = Access.new(queue, cp)
+          job.load(zk)
           jobjson = job.data
           jobjson[:id] = cp
           jobjson[:queueNode] = Access.dir(queue)
           jobjson[:path] = job.path
-          jobjson[:qstatus] = job.status.status
-          jobjson[:date] = job.json_property(zk, ZkKeys::STATUS).fetch(:last_modified, '..')
+          jobjson[:queueStatus] = jobjson[:status]
+          jobjson[:status] = job.status.status
+          jobjson[:date] = job.json_property(zk, ZkKeys::STATUS).fetch(:last_modified, '')
           jobs.append(jobjson)
         rescue StandardError => e
           puts "List Access #{cp} exception: #{e}"
