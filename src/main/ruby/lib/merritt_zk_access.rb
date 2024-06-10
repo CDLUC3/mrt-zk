@@ -80,6 +80,8 @@ module MerrittZK
           jobjson[:id] = cp
           jobjson[:queueNode] = Access.dir(queue)
           jobjson[:path] = job.path
+          jobjson[:qstatus] = job.status.status
+          jobjson[:date] = job.json_property(zk, ZkKeys::STATUS).fetch(:last_modified, '..')
           jobs.append(jobjson)
         rescue StandardError => e
           puts "List Access #{cp} exception: #{e}"
