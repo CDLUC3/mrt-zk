@@ -566,6 +566,8 @@ public class ZKTestIT {
       jj = Job.acquireJob(zk, JobState.Processing);
       assertNotNull(jj);
       assertEquals(jj.id(), remap.get("jid1"));
+
+      jj.setInventory(zk, "http://storage.manifest.url", "tbd");
       jj.setStatus(zk, jj.status().success());
       jj.unlock(zk);
       assertEquals(jj.status(), JobState.Recording);
@@ -573,6 +575,9 @@ public class ZKTestIT {
       jj = Job.acquireJob(zk, JobState.Recording);
       assertNotNull(jj);
       assertEquals(jj.id(), remap.get("jid1"));
+      assertEquals(jj.inventoryManifestUrl(), "http://storage.manifest.url");
+      assertEquals(jj.inventoryMode(), "tbd");
+
       jj.setStatus(zk, jj.status().success());
       jj.unlock(zk);
       assertEquals(jj.status(), JobState.Notify);

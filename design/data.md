@@ -31,6 +31,7 @@
 | /jobs/JID/space_needed | long | - | creation | estimating | |
 | /jobs/JID/identifiers | json | primary_id<br/>local_id: [] | creation | processing | |
 | /jobs/JID/metadata | json | erc_what<br/>erc_who<br/>erc_when<br/>erc_where | creation | ? | |
+| /jobs/JID/inventory | json | manifest_url<br/>mode | ingest | inventory | mode will be used when we implement "fix" options |
 | /jobs/states/STATE/PP-JID | none | - | | | PP = priority <br/>STATE = pending / held / estimating / provisioning / downloading / processing / recording / notify / failed / completed |
 
 

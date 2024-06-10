@@ -248,12 +248,16 @@ RSpec.describe 'ZK input/ouput tests' do
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
       jj.set_status(@zk, jj.status.success)
+      jj.set_data(@zk, MerrittZK::ZkKeys::INVENTORY, { manifest_url: 'http://storage.manifest.url', mode: 'tbd' })
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Recording)
 
       jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Recording)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
+      inv = jj.json_property(@zk, MerrittZK::ZkKeys::INVENTORY)
+      expect(inv.fetch(:manifest_url, '')).to eq('http://storage.manifest.url')
+      expect(inv.fetch(:mode, '')).to eq('tbd')
       jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Notify)

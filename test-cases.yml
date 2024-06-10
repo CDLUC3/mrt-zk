@@ -283,6 +283,9 @@ job_happy_path:
       status: Completed
       last_modified: now
       retry_count: 0
+    /jobs/jid1/inventory:
+      manifest_url: http://storage.manifest.url
+      mode: tbd
     /jobs/states/completed/02-jid1: null
     /jobs/jid2/bid: bid0
     /jobs/jid2/configuration:

@@ -31,6 +31,8 @@ public enum MerrittJsonKey {
   AccessTokenStatus("status"),
   AccessUrl("url"),
   AccessAnticipatedAvailabilityTime("anticipated-availability-time"),
+  InventoryManifestUrl("manifest_url"),
+  InventoryMode("mode"),
   BatchId("batchID");
 
   private String key;

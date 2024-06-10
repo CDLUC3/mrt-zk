@@ -21,6 +21,7 @@ module MerrittZK
       @retry_count = 0
       @identifiers = identifiers
       @metadata = metadata
+      @inventory = {}
     end
 
     def load_status(zk, js)
@@ -35,6 +36,7 @@ module MerrittZK
       @space_needed = int_property(zk, ZkKeys::SPACE_NEEEDED)
       @identifiers = json_property(zk, ZkKeys::IDENTIFIERS) if zk.exists?("#{path}/#{ZkKeys::IDENTIFIERS}")
       @metadata = json_property(zk, ZkKeys::METADATA) if zk.exists?("#{path}/#{ZkKeys::METADATA}")
+      @inventory = json_property(zk, ZkKeys::INVENTORY) if zk.exists?("#{path}/#{ZkKeys::INVENTORY}")
       set_job_state_path(zk)
       set_batch_state_path(zk)
     end

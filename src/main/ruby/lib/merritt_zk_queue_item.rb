@@ -15,6 +15,7 @@ module MerrittZK
     SPACE_NEEEDED = 'space_needed'
     BID = 'bid'
     CONFIGURATION = 'configuration'
+    INVENTORY = 'inventory'
     STATUS = 'status'
     LOCK = 'lock'
     IDENTIFIERS = 'identifiers'
