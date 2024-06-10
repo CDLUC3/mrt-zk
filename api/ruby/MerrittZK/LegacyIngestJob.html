@@ -135,7 +135,7 @@
           <p>List legacy ingest jobs as a json object that will be consumed by the admin tool.</p>
 
           <div class="method-source-code" id="list_jobs_as_json-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 279</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 281</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">list_jobs_as_json</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-identifier">jobs</span> = []
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">jobs</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-constant">DIR</span>)
@@ -173,7 +173,7 @@
           
 
           <div class="method-source-code" id="bid-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 265</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 267</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">bid</span>
   <span class="ruby-ivar">@payload</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:bid</span>, <span class="ruby-string">&#39;&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -196,7 +196,7 @@
           
 
           <div class="method-source-code" id="creator-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 237</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 239</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">creator</span>
   <span class="ruby-ivar">@payload</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:creator</span>, <span class="ruby-string">&#39;&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -219,7 +219,7 @@
           
 
           <div class="method-source-code" id="dir-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 229</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 231</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">dir</span>
   <span class="ruby-constant">DIR</span>
 <span class="ruby-keyword">end</span></pre>
@@ -242,7 +242,7 @@
           
 
           <div class="method-source-code" id="filename-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 249</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 251</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">filename</span>
   <span class="ruby-ivar">@payload</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:filename</span>, <span class="ruby-string">&#39;&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -265,7 +265,7 @@
           
 
           <div class="method-source-code" id="priority-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 269</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 271</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">priority</span>
   <span class="ruby-ivar">@payload</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:priority</span>, <span class="ruby-value">0</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -288,7 +288,7 @@
           
 
           <div class="method-source-code" id="profile-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 241</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 243</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">profile</span>
   <span class="ruby-ivar">@payload</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:profile</span>, <span class="ruby-string">&#39;&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -311,7 +311,7 @@
           
 
           <div class="method-source-code" id="response_form-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 245</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 247</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">response_form</span>
   <span class="ruby-ivar">@payload</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:responseForm</span>, <span class="ruby-string">&#39;&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -334,7 +334,7 @@
           
 
           <div class="method-source-code" id="space_needed-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 273</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 275</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">space_needed</span>
   <span class="ruby-ivar">@payload</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:space_needed</span>, <span class="ruby-value">0</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -357,7 +357,7 @@
           
 
           <div class="method-source-code" id="submitter-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 233</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 235</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">submitter</span>
   <span class="ruby-ivar">@payload</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:submitter</span>, <span class="ruby-string">&#39;&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -380,7 +380,7 @@
           
 
           <div class="method-source-code" id="title-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 261</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 263</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">title</span>
   <span class="ruby-ivar">@payload</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:title</span>, <span class="ruby-string">&#39;&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -403,7 +403,7 @@
           
 
           <div class="method-source-code" id="type-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 257</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 259</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">type</span>
   <span class="ruby-ivar">@payload</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:type</span>, <span class="ruby-string">&#39;&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -426,7 +426,7 @@
           
 
           <div class="method-source-code" id="udpate-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 253</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 255</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">udpate</span>
   <span class="ruby-ivar">@payload</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:update</span>, <span class="ruby-keyword">false</span>)
 <span class="ruby-keyword">end</span></pre>
