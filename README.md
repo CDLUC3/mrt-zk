@@ -88,7 +88,7 @@ docker-compose down
 ```
 cd src/main/ruby
 bundle install
-bundle exec rspec spec/states_spec.rb
+bundle exec rspec
 ```
 
 
@@ -116,4 +116,13 @@ Eventually, we plan to publish these separately from GitHub.
 
 ```bash
 make_api.sh
+```
+
+## Introspect ZooKeeper
+
+```
+cd src/main/ruby
+export ZKCONN=localhost:8084
+# export ZKCONN=`get_ssm_value_by_name inventory/zoo/queueService`
+bundle exec ruby show_all.rb
 ```
