@@ -1360,7 +1360,7 @@ public class ZKTestIT {
     }
 
     @Test
-    public void accessFailPath() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
+    public void accessFailPath() throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError {
       load(Tests.access_fail_path);
       Access a = Access.createAssembly(zk, Access.Queues.small, token("abc"));
       remap.put("qid0", a.id());
@@ -1396,7 +1396,7 @@ public class ZKTestIT {
     }
 
     @Test
-    public void findByUuid() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
+    public void findByUuid() throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError {
       load(Tests.create_batch);
       Batch b = Batch.createBatch(zk, fooBar());
       remap.put("bid0", b.id());
