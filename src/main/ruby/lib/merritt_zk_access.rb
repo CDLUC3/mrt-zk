@@ -50,6 +50,8 @@ module MerrittZK
       zk.children(Access.dir(queue_name)).sort.each do |cp|
         a = Access.new(queue_name, cp)
         a.load(zk)
+        next unless a.status == AccessState::Pending
+
         begin
           return a if a.lock(zk)
         rescue ZK::Exceptions::NodeExists

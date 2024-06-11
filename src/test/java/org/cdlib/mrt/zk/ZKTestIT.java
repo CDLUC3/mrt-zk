@@ -63,6 +63,8 @@ public class ZKTestIT {
       lock_store,
       lock_inventory,
       access_happy_path,
+      access_happy_path_del,
+      access_fail_path,
       find_batch_by_uuid;
     }
 
@@ -1315,6 +1317,76 @@ public class ZKTestIT {
       aaa.unlock(zk);
       Access aa3 = Access.acquirePendingAssembly(zk, Access.Queues.small);
       assertNull(aa3);
+      List<Access> jobs = Access.listJobs(zk, Access.Queues.small, null);
+      assertEquals(jobs.size(), 1);
+      jobs = Access.listJobs(zk, Access.Queues.small, AccessState.Pending);
+      assertEquals(jobs.size(), 0);
+      jobs = Access.listJobs(zk, Access.Queues.large, null);
+      assertEquals(jobs.size(), 0);
+    }
+
+    @Test
+    public void accessHappyPathDel() throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError{
+      load(Tests.access_happy_path_del);
+      Access a = Access.createAssembly(zk, Access.Queues.small, token("abc"));
+      remap.put("qid0", a.id());
+      Access aa = Access.acquirePendingAssembly(zk, Access.Queues.small);
+      assertNotNull(aa);
+      assertEquals(a.id(), aa.id());
+      assertEquals(aa.status(), AccessState.Pending);
+      Access aa2 = Access.acquirePendingAssembly(zk, Access.Queues.small);
+      assertNull(aa2);
+      aa.setStatus(zk, AccessState.Processing);
+      assertEquals(aa.status(), AccessState.Processing);
+      aa.unlock(zk);
+
+      Access aaa = new Access(Access.Queues.small, a.id());
+      aaa.load(zk);
+      assertEquals(a.id(), aaa.id());
+      aaa.setStatus(zk, aaa.status().success());
+      assertEquals(aaa.status(), AccessState.Completed);
+      assertTrue(aaa.status().isDeletable());
+      aaa.unlock(zk);
+      aa2 = Access.acquirePendingAssembly(zk, Access.Queues.small);
+      assertNull(aa2);
+
+      aaa.delete(zk);
+      Access aa3 = Access.acquirePendingAssembly(zk, Access.Queues.small);
+      assertNull(aa3);
+      List<Access> jobs = Access.listJobs(zk, Access.Queues.small, null);
+      assertEquals(jobs.size(), 0);
+      jobs = Access.listJobs(zk, Access.Queues.large, null);
+      assertEquals(jobs.size(), 0);
+    }
+
+    @Test
+    public void accessFailPath() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
+      load(Tests.access_fail_path);
+      Access a = Access.createAssembly(zk, Access.Queues.small, token("abc"));
+      remap.put("qid0", a.id());
+      Access aa = Access.acquirePendingAssembly(zk, Access.Queues.small);
+      assertNotNull(aa);
+      assertEquals(a.id(), aa.id());
+      assertEquals(aa.status(), AccessState.Pending);
+      Access aa2 = Access.acquirePendingAssembly(zk, Access.Queues.small);
+      assertNull(aa2);
+      aa.setStatus(zk, AccessState.Processing);
+      assertEquals(aa.status(), AccessState.Processing);
+      aa.unlock(zk);
+
+      Access aaa = new Access(Access.Queues.small, a.id());
+      aaa.load(zk);
+      assertEquals(a.id(), aaa.id());
+      aaa.setStatus(zk, aaa.status().fail());
+      assertEquals(aaa.status(), AccessState.Failed);
+      Access aa3 = Access.acquirePendingAssembly(zk, Access.Queues.small);
+      assertNull(aa3);
+      aaa.setStatus(zk, AccessState.Deleted);
+
+      assertTrue(aaa.status().isDeletable());
+      aaa.unlock(zk);
+      Access aa4 = Access.acquirePendingAssembly(zk, Access.Queues.small);
+      assertNull(aa4);
       List<Access> jobs = Access.listJobs(zk, Access.Queues.small, null);
       assertEquals(jobs.size(), 1);
       jobs = Access.listJobs(zk, Access.Queues.small, AccessState.Pending);
