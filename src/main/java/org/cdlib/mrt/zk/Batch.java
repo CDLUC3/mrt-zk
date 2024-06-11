@@ -82,7 +82,7 @@ public class Batch extends QueueItem {
     return String.format("%s/%s", ZkPaths.BatchUuids.path, uuid);
   }
 
-  public static Batch createBatch(ZooKeeper client, JSONObject submission) throws KeeperException, InterruptedException, MerrittZKNodeInvalid {
+  public static Batch createBatch(ZooKeeper client, JSONObject submission) throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError {
     String id = QueueItemHelper.createId(client, Batch.prefixPath());
     Batch batch = new Batch(id, submission);
     String uuid = jsonStringProperty(submission, MerrittJsonKey.BatchId, "");
@@ -115,7 +115,7 @@ public class Batch extends QueueItem {
     QueueItemHelper.deleteAll(client, path());
   }
 
-  public static Batch acquirePendingBatch(ZooKeeper client) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
+  public static Batch acquirePendingBatch(ZooKeeper client) throws MerrittZKNodeInvalid, KeeperException, InterruptedException, MerrittStateError {
     List<String> batches = client.getChildren(QueueItem.ZkPaths.Batch.path, false);
     batches.sort(String::compareTo);
     for(String cp: batches) {
@@ -132,7 +132,7 @@ public class Batch extends QueueItem {
     }  
     return null;
   }
-  public static Batch acquireBatchForReporting(ZooKeeper client) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
+  public static Batch acquireBatchForReporting(ZooKeeper client) throws MerrittZKNodeInvalid, KeeperException, InterruptedException, MerrittStateError {
     List<String> batches = client.getChildren(QueueItem.ZkPaths.Batch.path, false);
     batches.sort(String::compareTo);
     for(String cp: batches) {

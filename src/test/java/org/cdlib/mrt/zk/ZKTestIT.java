@@ -341,14 +341,14 @@ public class ZKTestIT {
     }
 
     @Test
-    public void createBatch() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
+    public void createBatch() throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError{
       load(Tests.create_batch);
       Batch b = Batch.createBatch(zk, fooBar());
       remap.put("bid0", b.id());
     }
 
     @Test
-    public void createAndLoadBatch() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
+    public void createAndLoadBatch() throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError{
       load(Tests.create_batch);
       Batch b = Batch.createBatch(zk, fooBar());
       remap.put("bid0", b.id());
@@ -369,7 +369,7 @@ public class ZKTestIT {
     }
 
     @Test
-    public void batchLockWithUnlock() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
+    public void batchLockWithUnlock() throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError{
       load(Tests.batch_with_lock_unlock);
       Batch b = Batch.createBatch(zk, fooBar());
       remap.put("bid0", b.id());
@@ -378,7 +378,7 @@ public class ZKTestIT {
     }
 
     @Test
-    public void batchLockWithEphemeralReleasedLock() throws KeeperException, InterruptedException, IOException, MerrittZKNodeInvalid{
+    public void batchLockWithEphemeralReleasedLock() throws KeeperException, InterruptedException, IOException, MerrittZKNodeInvalid, MerrittStateError{
       load(Tests.batch_with_ephemeral_released_lock);
       Batch b = Batch.createBatch(zk, fooBar());
       remap.put("bid0", b.id());
@@ -388,7 +388,7 @@ public class ZKTestIT {
     }
 
     @Test
-    public void batchLockWithUnreleasedLock() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
+    public void batchLockWithUnreleasedLock() throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError{
       load(Tests.batch_with_unreleased_lock);
       Batch b = Batch.createBatch(zk, fooBar());
       remap.put("bid0", b.id());
@@ -396,7 +396,7 @@ public class ZKTestIT {
     }
 
     @Test
-    public void batchAcquire() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
+    public void batchAcquire() throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError{
       load(Tests.batch_acquire);
       Batch b = Batch.createBatch(zk, fooBar());
       remap.put("bid0", b.id());
@@ -412,7 +412,7 @@ public class ZKTestIT {
     }
 
     @Test
-    public void modifyBatchState() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
+    public void modifyBatchState() throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError, MerrittStateError{
       load(Tests.modify_batch_state);
       Batch b = Batch.createBatch(zk, fooBar());
       remap.put("bid0", b.id());
@@ -420,7 +420,7 @@ public class ZKTestIT {
     }
 
     @Test
-    public void createJob() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
+    public void createJob() throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError, MerrittStateError{
       load(Tests.create_job);
       Batch b = Batch.createBatch(zk, fooBar());
       remap.put("bid0", b.id());
@@ -435,7 +435,7 @@ public class ZKTestIT {
     }
 
     @Test
-    public void createJobStateChange() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
+    public void createJobStateChange() throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError, MerrittStateError{
       load(Tests.create_job_state_change);
       Batch b = Batch.createBatch(zk, fooBar());
       remap.put("bid0", b.id());
@@ -450,7 +450,7 @@ public class ZKTestIT {
     }
 
     @Test
-    public void createAndLoadJobStateChange() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
+    public void createAndLoadJobStateChange() throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError, MerrittStateError{
       load(Tests.load_job_state_change);
       Batch b = Batch.createBatch(zk, fooBar());
       remap.put("bid0", b.id());
@@ -469,7 +469,7 @@ public class ZKTestIT {
     }
 
     @Test
-    public void acquirePendingJob() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
+    public void acquirePendingJob() throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError, MerrittStateError{
       load(Tests.acquire_pending_job);
       Batch b = Batch.createBatch(zk, fooBar());
       remap.put("bid0", b.id());
@@ -491,7 +491,7 @@ public class ZKTestIT {
     }
 
     @Test
-    public void acquireLowestPriorityJob() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
+    public void acquireLowestPriorityJob() throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError{
       load(Tests.acquire_lowest_priority_job);
       Batch b = Batch.createBatch(zk, fooBar());
       remap.put("bid0", b.id());
@@ -518,7 +518,7 @@ public class ZKTestIT {
     }
 
     @Test
-    public void jobHappyPath() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
+    public void jobHappyPath() throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError{
       load(Tests.job_happy_path);
       Batch b = Batch.createBatch(zk, fooBar());
       remap.put("bid0", b.id());
@@ -607,7 +607,7 @@ public class ZKTestIT {
     }
 
     @Test
-    public void batchHappyPath() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
+    public void batchHappyPath() throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError, MerrittStateError{
       load(Tests.batch_happy_path);
       Batch b = Batch.createBatch(zk, fooBar());
       remap.put("bid0", b.id());
@@ -692,7 +692,7 @@ public class ZKTestIT {
     }
 
     @Test
-    public void batchFailure() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
+    public void batchFailure() throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError, MerrittStateError{
       load(Tests.batch_failure);
       Batch b = Batch.createBatch(zk, fooBar());
       remap.put("bid0", b.id());
@@ -785,7 +785,7 @@ public class ZKTestIT {
     }
 
     @Test
-    public void batchRecovery() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
+    public void batchRecovery() throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError{
       load(Tests.batch_recovery);
       Batch b = Batch.createBatch(zk, fooBar());
       remap.put("bid0", b.id());
@@ -1294,7 +1294,7 @@ public class ZKTestIT {
 
 
     @Test
-    public void accessHappyPath() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
+    public void accessHappyPath() throws KeeperException, InterruptedException, MerrittZKNodeInvalid, MerrittStateError, MerrittStateError{
       load(Tests.access_happy_path);
       Access a = Access.createAssembly(zk, Access.Queues.small, token("abc"));
       remap.put("qid0", a.id());
