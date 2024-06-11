@@ -903,6 +903,68 @@ RSpec.describe 'ZK input/ouput tests' do
       arr = MerrittZK::Access.list_jobs_as_json(@zk)
       expect(arr.length).to eq(1)
     end
+
+    it :access_happy_path_del do |_x|
+      q = MerrittZK::Access::SMALL
+      a = MerrittZK::Access.create_assembly(@zk, q, { token: 'abc' })
+      @remap['qid0'] = a.id
+      aa = MerrittZK::Access.acquire_pending_assembly(@zk, q)
+      expect(aa).to_not be_nil
+      expect(a.id).to eq(aa.id)
+      expect(aa.status.status).to eq(:Pending)
+      aa2 = MerrittZK::Access.acquire_pending_assembly(@zk, q)
+      expect(aa2).to be_nil
+      aa.set_status(@zk, aa.status.state_change(:Processing))
+      expect(aa.status.status).to eq(:Processing)
+      aa.unlock(@zk)
+
+      aaa = MerrittZK::Access.new(q, a.id)
+      aaa.load(@zk)
+      expect(a.id).to eq(aaa.id)
+
+      aaa.set_status(@zk, aaa.status.success)
+
+      expect(aaa.status.status).to eq(:Completed)
+      expect(aaa.status.deletable?).to be(true)
+      aaa.delete(@zk)
+
+      # Only for Ruby interface
+      arr = MerrittZK::Access.list_jobs_as_json(@zk)
+      expect(arr.length).to eq(0)
+    end
+
+    it :access_fail_path do |_x|
+      q = MerrittZK::Access::SMALL
+      a = MerrittZK::Access.create_assembly(@zk, q, { token: 'abc' })
+      @remap['qid0'] = a.id
+      aa = MerrittZK::Access.acquire_pending_assembly(@zk, q)
+      expect(aa).to_not be_nil
+      expect(a.id).to eq(aa.id)
+      expect(aa.status.status).to eq(:Pending)
+      aa2 = MerrittZK::Access.acquire_pending_assembly(@zk, q)
+      expect(aa2).to be_nil
+      aa.set_status(@zk, aa.status.state_change(:Processing))
+      expect(aa.status.status).to eq(:Processing)
+      aa.unlock(@zk)
+
+      aaa = MerrittZK::Access.new(q, a.id)
+      aaa.load(@zk)
+      expect(a.id).to eq(aaa.id)
+
+      aaa.set_status(@zk, aaa.status.fail)
+
+      expect(aaa.status.status).to eq(:Failed)
+      aa2 = MerrittZK::Access.acquire_pending_assembly(@zk, q)
+      expect(aa2).to be_nil
+
+      aaa.set_status(@zk, aaa.status.state_change(:Deleted))
+
+      expect(aaa.status.status).to eq(:Deleted)
+      aa2 = MerrittZK::Access.acquire_pending_assembly(@zk, q)
+      expect(aa2).to be_nil
+
+      expect(aaa.status.deletable?).to be(true)
+    end
   end
 
   describe 'Find Batch by UUID' do

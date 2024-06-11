@@ -188,25 +188,11 @@ end
 
 if ARGV.include?('-debug')
   puts '===> DEBUG'
-  MerrittZK::LegacyIngestJob.list_jobs_as_json(zk).each do |j|
-    puts j.fetch(:path, '')
-    puts JSON.pretty_generate(j)
-  end
-
-  MerrittZK::LegacyInventoryJob.list_jobs_as_json(zk).each do |j|
-    puts j.fetch(:path, '')
-    puts JSON.pretty_generate(j)
-  end
-
-  MerrittZK::LegacyAccessJob.list_jobs_as_json(zk).each do |j|
-    puts j.fetch(:path, '')
-    puts JSON.pretty_generate(j)
-  end
-
   MerrittZK::Access.list_jobs_as_json(zk).each do |j|
     puts j.fetch(:path, '')
     puts JSON.pretty_generate(j)
   end
+  exit
 end
 
 if ARGV.include?('-clear')

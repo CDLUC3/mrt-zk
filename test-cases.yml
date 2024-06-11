@@ -535,6 +535,17 @@ access_happy_path:
     /access/small/qid0/status:
       status: Completed
       last_modified: now
+access_happy_path_del:
+  input:
+  output:
+access_fail_path:
+  input:
+  output:
+    /access/small/qid0/token: 
+      token: abc
+    /access/small/qid0/status:
+      status: Deleted
+      last_modified: now
 find_batch_by_uuid:
   input:
   output:
