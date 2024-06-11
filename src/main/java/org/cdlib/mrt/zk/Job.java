@@ -357,6 +357,10 @@ public class Job extends QueueItem {
     QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.BatchUuids.path);
     QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.Job.path);
     QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.JobStates.path);
+    for(JobState js: JobState.values()) {
+      String s = String.format("%s/%s", QueueItem.ZkPaths.JobStates.path, js.name().toLowerCase()); 
+      QueueItemHelper.createIfNeeded(client, s);
+    }
   }
 
   public static List<Job> listJobs(ZooKeeper client, IngestState state) throws KeeperException, InterruptedException, MerrittZKNodeInvalid {
