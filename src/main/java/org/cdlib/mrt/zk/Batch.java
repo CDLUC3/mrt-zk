@@ -158,7 +158,13 @@ public class Batch extends QueueItem {
 
   public static List<String> deleteCompletedBatches(ZooKeeper client) throws MerrittZKNodeInvalid, KeeperException, InterruptedException, MerrittStateError {
     List<String> deleted = new ArrayList<>();
+    if (!QueueItemHelper.exists(client, QueueItem.ZkPaths.Batch.path)) {
+      return deleted;
+    }
     List<String> batches = client.getChildren(QueueItem.ZkPaths.Batch.path, false);
+    if (batches.isEmpty()) {
+      return deleted;
+    }
     batches.sort(String::compareTo);
     for(String cp: batches) {
       String p = String.format("%s/%s/states/%s", QueueItem.ZkPaths.Batch.path, cp, BatchJobStates.Processing.path);
