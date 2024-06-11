@@ -9,22 +9,14 @@ phases:
     commands:
       - echo s3://${S3CFBUCKET}/api 
       - aws s3 ls s3://${S3CFBUCKET}/
-      - pwd
-      - git clone https://github.com/CDLUC3/merritt-docker.git
-      - cd merritt-docker/mrt-services/dep_core
       - git clone https://github.com/CDLUC3/mrt-core2.git
       - mvn -ntp install -f mrt-core2/pom.xml -Pparent
-      - cd ../dep_zk
-      - git clone https://github.com/CDLUC3/mrt-zk.git
-      - cd ..
-      - pwd
+      - mvn -ntp install -f mrt-core2/reflect/pom.xml
 
   build:
     commands:
-      - mvn -ntp install -P zk -Ddocker.skip -DskipITs -Dmaven.test.skip=true
-      - cd dep_zk/mrt-zk
+      - mvn -ntp clean install -Ddocker.skip -DskipITs -Dmaven.test.skip=true
       - mvn -ntp javadoc:javadoc
-      - ls target
       - cd src/main/ruby
       - bundle install
       - bundle exec rdoc lib/*.rb
