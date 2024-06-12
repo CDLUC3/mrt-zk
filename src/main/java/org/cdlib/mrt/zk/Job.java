@@ -229,7 +229,6 @@ public class Job extends QueueItem {
     }
     this.priority = priority;
     setData(client, ZKKey.JOB_PRIORITY, priority);
-    setJobStatePath(client);
   }
 
   public void setSpaceNeeded(ZooKeeper client, long spaceNeeded) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
@@ -272,6 +271,11 @@ public class Job extends QueueItem {
 
   public void setStatusWithRetry(ZooKeeper client, IngestState status) throws MerrittZKNodeInvalid, KeeperException, InterruptedException, MerrittStateError {
     retryCount += 1;
+    setStatus(client, status);
+  }
+
+  public void setStatusWithPriority(ZooKeeper client, IngestState status, int priority) throws MerrittZKNodeInvalid, KeeperException, InterruptedException, MerrittStateError {
+    setPriority(client, priority);
     setStatus(client, status);
   }
 

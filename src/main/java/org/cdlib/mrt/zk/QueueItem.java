@@ -247,22 +247,21 @@ abstract public class QueueItem {
     if (status == null) {
       throw new MerrittStateError("Status cannot be set to null");
     }
-    if (status == this.status) {
-      return;
-    }
-    String statpath = makePath(ZKKey.STATUS);
-    JSONObject json = statusObject(status);
-    if (!message.isEmpty()) {
-      json.put(MerrittJsonKey.Message.key(), message);
-    }
+    if (status != this.status) {
+      String statpath = makePath(ZKKey.STATUS);
+      JSONObject json = statusObject(status);
+      if (!message.isEmpty()) {
+        json.put(MerrittJsonKey.Message.key(), message);
+      }
 
-    byte[] data = QueueItemHelper.asBytes(QueueItemHelper.serialize(json));
-    if (this.status == null) {
-      QueueItemHelper.create(client, statpath, data);
-    } else {
-      QueueItemHelper.setData(client, statpath, data);
+      byte[] data = QueueItemHelper.asBytes(QueueItemHelper.serialize(json));
+      if (this.status == null) {
+        QueueItemHelper.create(client, statpath, data);
+      } else {
+        QueueItemHelper.setData(client, statpath, data);
+      }
+      this.status = status;
     }
-    this.status = status;
     setStatusTrigger(client);
   }
 

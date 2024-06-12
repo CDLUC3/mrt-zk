@@ -188,7 +188,7 @@ RSpec.describe 'ZK input/ouput tests' do
 
       j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack2' })
       @remap['jid1'] = j.id
-      j.set_priority(@zk, 2)
+      j.set_status_with_priority(@zk, MerrittZK::JobState::Pending, 2)
 
       j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack3' })
       @remap['jid2'] = j.id
@@ -211,7 +211,7 @@ RSpec.describe 'ZK input/ouput tests' do
 
       j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack2' })
       @remap['jid1'] = j.id
-      j.set_priority(@zk, 2)
+      j.set_status_with_priority(@zk, MerrittZK::JobState::Pending, 2)
 
       j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack3' })
       @remap['jid2'] = j.id
@@ -291,7 +291,7 @@ RSpec.describe 'ZK input/ouput tests' do
 
       j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack2' })
       @remap['jid1'] = j.id
-      j.set_priority(@zk, 2)
+      j.set_status_with_priority(@zk, MerrittZK::JobState::Pending, 2)
 
       bb.unlock(@zk)
 
@@ -371,7 +371,7 @@ RSpec.describe 'ZK input/ouput tests' do
 
       j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack2' })
       @remap['jid1'] = j.id
-      j.set_priority(@zk, 2)
+      j.set_status_with_priority(@zk, MerrittZK::JobState::Pending, 2)
 
       bb.unlock(@zk)
 
@@ -459,7 +459,7 @@ RSpec.describe 'ZK input/ouput tests' do
 
       j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack2' })
       @remap['jid1'] = j.id
-      j.set_priority(@zk, 2)
+      j.set_status_with_priority(@zk, MerrittZK::JobState::Pending, 2)
 
       bb.unlock(@zk)
 
@@ -555,7 +555,7 @@ RSpec.describe 'ZK input/ouput tests' do
 
       j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack2' })
       @remap['jid1'] = j.id
-      j.set_priority(@zk, 2)
+      j.set_status_with_priority(@zk, MerrittZK::JobState::Pending, 2)
 
       j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack3' })
       @remap['jid2'] = j.id
@@ -625,7 +625,7 @@ RSpec.describe 'ZK input/ouput tests' do
 
       j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack2' })
       @remap['jid1'] = j.id
-      j.set_priority(@zk, 2)
+      j.set_status_with_priority(@zk, MerrittZK::JobState::Pending, 2)
 
       bb.unlock(@zk)
 
@@ -704,7 +704,7 @@ RSpec.describe 'ZK input/ouput tests' do
 
       j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack2' })
       @remap['jid1'] = j.id
-      j.set_priority(@zk, 2)
+      j.set_status_with_priority(@zk, MerrittZK::JobState::Pending, 2)
 
       bb.unlock(@zk)
 

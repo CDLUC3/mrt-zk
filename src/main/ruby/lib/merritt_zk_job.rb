@@ -48,7 +48,6 @@ module MerrittZK
 
       @priority = priority
       set_data(zk, ZkKeys::PRIORITY, priority)
-      set_job_state_path(zk)
     end
 
     def set_space_needed(zk, space_needed)
@@ -63,6 +62,11 @@ module MerrittZK
       super(zk, status, message)
       set_job_state_path(zk)
       set_batch_state_path(zk)
+    end
+
+    def set_status_with_priority(zk, status, priority)
+      set_priority(zk, priority)
+      set_status(zk, status)
     end
 
     def batch_state_subpath

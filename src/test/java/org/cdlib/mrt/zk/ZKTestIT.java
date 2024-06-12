@@ -504,7 +504,7 @@ public class ZKTestIT {
 
       j = Job.createJob(zk, bb.id(), quack("2"));
       remap.put("jid1", j.id());
-      j.setPriority(zk, 2);
+      j.setStatusWithPriority(zk, JobState.Pending, 2);
 
       j = Job.createJob(zk, bb.id(), quack("3"));
       remap.put("jid2", j.id());
@@ -531,7 +531,7 @@ public class ZKTestIT {
 
       j = Job.createJob(zk, bb.id(), quack("2"));
       remap.put("jid1", j.id());
-      j.setPriority(zk, 2);
+      j.setStatusWithPriority(zk, JobState.Pending, 2);
 
       j = Job.createJob(zk, bb.id(), quack("3"));
       remap.put("jid2", j.id());
@@ -617,7 +617,7 @@ public class ZKTestIT {
 
       Job j = Job.createJob(zk, bb.id(), quack("2"));
       remap.put("jid1", j.id());
-      j.setPriority(zk, 2);
+      j.setStatusWithPriority(zk, JobState.Pending, 2);
 
       bb.unlock(zk);
 
@@ -702,7 +702,7 @@ public class ZKTestIT {
 
       Job j = Job.createJob(zk, bb.id(), quack("2"));
       remap.put("jid1", j.id());
-      j.setPriority(zk, 2);
+      j.setStatusWithPriority(zk, JobState.Pending, 2);
 
       bb.unlock(zk);
 
@@ -795,7 +795,7 @@ public class ZKTestIT {
 
       Job j = Job.createJob(zk, bb.id(), quack("2"));
       remap.put("jid1", j.id());
-      j.setPriority(zk, 2);
+      j.setStatusWithPriority(zk, JobState.Pending, 2);
 
       bb.unlock(zk);
 
@@ -903,7 +903,7 @@ public class ZKTestIT {
 
       j = Job.createJob(zk, bb.id(), quack("2"));
       remap.put("jid1", j.id());
-      j.setPriority(zk, 2);
+      j.setStatusWithPriority(zk, JobState.Pending, 2);
 
       j = Job.createJob(zk, bb.id(), quack("3"));
       remap.put("jid2", j.id());
@@ -981,7 +981,7 @@ public class ZKTestIT {
 
       Job j = Job.createJob(zk, bb.id(), quack("2"));
       remap.put("jid1", j.id());
-      j.setPriority(zk, 2);
+      j.setStatusWithPriority(zk, JobState.Pending, 2);
 
       bb.unlock(zk);
 
@@ -1065,7 +1065,7 @@ public class ZKTestIT {
 
       Job j = Job.createJob(zk, bb.id(), quack("2"));
       remap.put("jid1", j.id());
-      j.setPriority(zk, 2);
+      j.setStatusWithPriority(zk, JobState.Pending, 2);
 
       bb.unlock(zk);
 
