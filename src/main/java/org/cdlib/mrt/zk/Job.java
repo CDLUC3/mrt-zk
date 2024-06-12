@@ -209,7 +209,7 @@ public class Job extends QueueItem {
     if (!metadata.isEmpty()) {
       job.setMetadata(client, metadata);
     }
-    job.setStatus(client, Job.initStatus());
+    job.setStatusWithPriority(client, Job.initStatus(), priority);
     job.setBatchStatePath(client);
     job.setJobStatePath(client);
     return job;
