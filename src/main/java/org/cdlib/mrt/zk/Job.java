@@ -14,9 +14,10 @@ import org.json.JSONObject;
  * @see <a href="https://github.com/CDLUC3/mrt-zk/blob/main/design/transition.md">State Transition Design</a>
  */
 public class Job extends QueueItem {
+  public static int PRIORITY = 5;
   private String bid;
   private int retryCount = 0;
-  private int priority = 5;
+  private int priority = PRIORITY;
   private long spaceNeeded = 0;
   private String jobStatePath = null;
   private String batchStatePath = null;
@@ -186,12 +187,15 @@ public class Job extends QueueItem {
   }
 
   public static Job createJob(ZooKeeper client, String bid, JSONObject configuration) throws MerrittZKNodeInvalid, KeeperException, InterruptedException, MerrittStateError {
-    return createJob(client, bid, configuration, new JSONObject(), new JSONObject());
+    return createJob(client, bid, PRIORITY, configuration, new JSONObject(), new JSONObject());
   }
-  public static Job createJob(ZooKeeper client, String bid, JSONObject configuration, JSONObject identifiers) throws MerrittZKNodeInvalid, KeeperException, InterruptedException, MerrittStateError {
-    return createJob(client, bid, configuration, identifiers, new JSONObject());
+  public static Job createJob(ZooKeeper client, String bid, int priority, JSONObject configuration) throws MerrittZKNodeInvalid, KeeperException, InterruptedException, MerrittStateError {
+    return createJob(client, bid, priority, configuration, new JSONObject(), new JSONObject());
   }
-  public static Job createJob(ZooKeeper client, String bid, JSONObject configuration, JSONObject identifiers, JSONObject metadata) throws MerrittZKNodeInvalid, KeeperException, InterruptedException, MerrittStateError {
+  public static Job createJob(ZooKeeper client, String bid, int priority, JSONObject configuration, JSONObject identifiers) throws MerrittZKNodeInvalid, KeeperException, InterruptedException, MerrittStateError {
+    return createJob(client, bid, priority, configuration, identifiers, new JSONObject());
+  }
+  public static Job createJob(ZooKeeper client, String bid, int priority, JSONObject configuration, JSONObject identifiers, JSONObject metadata) throws MerrittZKNodeInvalid, KeeperException, InterruptedException, MerrittStateError {
     String id = QueueItemHelper.createId(client, Job.prefixPath());
     Job job = new Job(id, bid, configuration);
     job.createData(client, ZKKey.JOB_BID, bid);
@@ -223,7 +227,7 @@ public class Job extends QueueItem {
     retryCount = js.getInt(MerrittJsonKey.RetryCount.key());
   }
 
-  public void setPriority(ZooKeeper client, int priority) throws KeeperException, InterruptedException, MerrittZKNodeInvalid {
+  private void setPriority(ZooKeeper client, int priority) throws KeeperException, InterruptedException, MerrittZKNodeInvalid {
     if (priority == this.priority) {
       return;
     }

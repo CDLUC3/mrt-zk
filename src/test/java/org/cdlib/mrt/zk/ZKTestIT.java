@@ -1175,6 +1175,7 @@ public class ZKTestIT {
       Job j = Job.createJob(
         zk, 
         bb.id(), 
+        Job.PRIORITY,
         Job.createJobConfiguration("a", "b", "c", "d", "e"),
         Job.createJobIdentifiers("f", "g;h")
       );
@@ -1201,6 +1202,7 @@ public class ZKTestIT {
       Job j = Job.createJob(
         zk, 
         bb.id(), 
+        Job.PRIORITY,
         Job.createJobConfiguration("a", "b", "c", "d", "e"),
         Job.createJobIdentifiers("f", "g;h"),
         Job.createJobMetadata("i", "j", "k", "l")
