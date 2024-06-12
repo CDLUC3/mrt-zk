@@ -91,6 +91,7 @@
     <li ><a href="#method-i-set_priority">#set_priority</a>
     <li ><a href="#method-i-set_space_needed">#set_space_needed</a>
     <li class="calls-super" ><a href="#method-i-set_status">#set_status</a>
+    <li ><a href="#method-i-set_status_with_priority">#set_status_with_priority</a>
     <li ><a href="#method-i-states">#states</a>
     <li ><a href="#method-i-status_object">#status_object</a>
     <li ><a href="#method-i-submitter">#submitter</a>
@@ -185,7 +186,7 @@
           
 
           <div class="method-source-code" id="acquire_job-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 139</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 143</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">acquire_job</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">state</span>)
   <span class="ruby-identifier">p</span> = <span class="ruby-node">&quot;#{DIR}/states/#{state.name.downcase}&quot;</span>
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">p</span>)
@@ -219,7 +220,7 @@
           
 
           <div class="method-source-code" id="create_job-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 115</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 119</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">create_job</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">bid</span>, <span class="ruby-identifier">data</span>, <span class="ruby-value">identifiers:</span> {}, <span class="ruby-value">metadata:</span> {})
   <span class="ruby-identifier">id</span> = <span class="ruby-constant">QueueItem</span>.<span class="ruby-identifier">create_id</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">prefix_path</span>)
   <span class="ruby-identifier">job</span> = <span class="ruby-constant">Job</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">id</span>, <span class="ruby-value">bid:</span> <span class="ruby-identifier">bid</span>, <span class="ruby-value">data:</span> <span class="ruby-identifier">data</span>, <span class="ruby-value">identifiers:</span> <span class="ruby-identifier">identifiers</span>, <span class="ruby-value">metadata:</span> <span class="ruby-identifier">metadata</span>)
@@ -253,7 +254,7 @@
           <p>List jobs as a json object that will be consumed by the admin tool. This is a transitional representation that can be compatible with legacy job listings.</p>
 
           <div class="method-source-code" id="list_jobs_as_json-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 174</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 178</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">list_jobs_as_json</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-identifier">jobs</span> = []
   <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">children</span>(<span class="ruby-constant">DIR</span>).<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">cp</span><span class="ruby-operator">|</span>
@@ -327,7 +328,7 @@
           
 
           <div class="method-source-code" id="prefix_path-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 107</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 111</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">prefix_path</span>
   <span class="ruby-node">&quot;#{DIR}/#{PREFIX}&quot;</span>
 <span class="ruby-keyword">end</span></pre>
@@ -357,7 +358,7 @@
           
 
           <div class="method-source-code" id="batch_state_subpath-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 68</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 72</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">batch_state_subpath</span>
   <span class="ruby-keyword">return</span> <span class="ruby-string">&#39;batch-failed&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@status</span>.<span class="ruby-identifier">status</span> <span class="ruby-operator">==</span> <span class="ruby-value">:Failed</span>
   <span class="ruby-keyword">return</span> <span class="ruby-string">&#39;batch-completed&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@status</span>.<span class="ruby-identifier">status</span> <span class="ruby-operator">==</span> <span class="ruby-value">:Completed</span>
@@ -383,7 +384,7 @@
           
 
           <div class="method-source-code" id="creator-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 197</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 201</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">creator</span>
   <span class="ruby-identifier">data_prop</span>(<span class="ruby-string">&#39;creator&#39;</span>, <span class="ruby-string">&#39;&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -406,7 +407,7 @@
           
 
           <div class="method-source-code" id="delete-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 154</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 158</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">delete</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">MerrittZK</span><span class="ruby-operator">::</span><span class="ruby-constant">MerrittStateError</span>, <span class="ruby-node">&quot;Delete invalid #{path}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@status</span>.<span class="ruby-identifier">deletable?</span>
 
@@ -442,7 +443,7 @@
           
 
           <div class="method-source-code" id="filename-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 209</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 213</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">filename</span>
   <span class="ruby-identifier">data_prop</span>(<span class="ruby-string">&#39;filename&#39;</span>, <span class="ruby-string">&#39;&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -524,7 +525,7 @@
           
 
           <div class="method-source-code" id="path-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 111</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 115</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">path</span>
   <span class="ruby-node">&quot;#{DIR}/#{@id}&quot;</span>
 <span class="ruby-keyword">end</span></pre>
@@ -547,7 +548,7 @@
           
 
           <div class="method-source-code" id="profile-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 201</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 205</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">profile</span>
   <span class="ruby-identifier">data_prop</span>(<span class="ruby-string">&#39;profile&#39;</span>, <span class="ruby-string">&#39;&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -570,7 +571,7 @@
           
 
           <div class="method-source-code" id="response_form-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 205</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 209</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">response_form</span>
   <span class="ruby-identifier">data_prop</span>(<span class="ruby-string">&#39;responseForm&#39;</span>, <span class="ruby-string">&#39;&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -593,7 +594,7 @@
           
 
           <div class="method-source-code" id="set_batch_state_path-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 75</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 79</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_batch_state_path</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-identifier">bs</span> = <span class="ruby-identifier">format</span>(<span class="ruby-string">&#39;%s/%s/states/%s/%s&#39;</span>, <span class="ruby-constant">Batch</span>.<span class="ruby-identifier">dir</span>, <span class="ruby-ivar">@bid</span>, <span class="ruby-identifier">batch_state_subpath</span>, <span class="ruby-identifier">id</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">bs</span> <span class="ruby-operator">==</span> <span class="ruby-ivar">@batch_state_path</span>
@@ -627,7 +628,7 @@
           
 
           <div class="method-source-code" id="set_job_state_path-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 90</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 94</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_job_state_path</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-identifier">js</span> = <span class="ruby-identifier">format</span>(<span class="ruby-string">&#39;%s/states/%s/%02d-%s&#39;</span>, <span class="ruby-constant">DIR</span>, <span class="ruby-identifier">status</span>.<span class="ruby-identifier">name</span>.<span class="ruby-identifier">downcase</span>, <span class="ruby-identifier">priority</span>, <span class="ruby-identifier">id</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">js</span> <span class="ruby-operator">==</span> <span class="ruby-ivar">@job_state_path</span>
@@ -665,7 +666,6 @@
 
   <span class="ruby-ivar">@priority</span> = <span class="ruby-identifier">priority</span>
   <span class="ruby-identifier">set_data</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-constant">ZkKeys</span><span class="ruby-operator">::</span><span class="ruby-constant">PRIORITY</span>, <span class="ruby-identifier">priority</span>)
-  <span class="ruby-identifier">set_job_state_path</span>(<span class="ruby-identifier">zk</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -686,7 +686,7 @@
           
 
           <div class="method-source-code" id="set_space_needed-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 54</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 53</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_space_needed</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">space_needed</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">space_needed</span> <span class="ruby-operator">==</span> <span class="ruby-ivar">@space_needed</span>
 
@@ -716,12 +716,36 @@
             </div>
 
           <div class="method-source-code" id="set_status-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 61</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 60</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_status</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">status</span>, <span class="ruby-identifier">message</span> = <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-value">job_retry:</span> <span class="ruby-keyword">false</span>)
   <span class="ruby-ivar">@retry_count</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">job_retry</span>
   <span class="ruby-keyword">super</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">status</span>, <span class="ruby-identifier">message</span>)
   <span class="ruby-identifier">set_job_state_path</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-identifier">set_batch_state_path</span>(<span class="ruby-identifier">zk</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-set_status_with_priority" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">set_status_with_priority</span><span
+              class="method-args">(zk, status, priority)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="set_status_with_priority-source">
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 67</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_status_with_priority</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">status</span>, <span class="ruby-identifier">priority</span>)
+  <span class="ruby-identifier">set_priority</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">priority</span>)
+  <span class="ruby-identifier">set_status</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">status</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -742,7 +766,7 @@
           
 
           <div class="method-source-code" id="states-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 103</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 107</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">states</span>
   <span class="ruby-constant">JobState</span>.<span class="ruby-identifier">states</span>
 <span class="ruby-keyword">end</span></pre>
@@ -765,7 +789,7 @@
           
 
           <div class="method-source-code" id="status_object-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 130</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 134</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">status_object</span>(<span class="ruby-identifier">status</span>)
   {
     <span class="ruby-value">status:</span> <span class="ruby-identifier">status</span>.<span class="ruby-identifier">name</span>,
@@ -793,7 +817,7 @@
           
 
           <div class="method-source-code" id="submitter-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 193</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 197</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">submitter</span>
   <span class="ruby-identifier">data_prop</span>(<span class="ruby-string">&#39;submitter&#39;</span>, <span class="ruby-string">&#39;&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -816,7 +840,7 @@
           
 
           <div class="method-source-code" id="title-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 221</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 225</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">title</span>
   <span class="ruby-identifier">data_prop</span>(<span class="ruby-string">&#39;title&#39;</span>, <span class="ruby-string">&#39;&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -839,7 +863,7 @@
           
 
           <div class="method-source-code" id="type-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 217</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 221</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">type</span>
   <span class="ruby-identifier">data_prop</span>(<span class="ruby-string">&#39;type&#39;</span>, <span class="ruby-string">&#39;&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -862,7 +886,7 @@
           
 
           <div class="method-source-code" id="udpate-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 213</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 217</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">udpate</span>
   <span class="ruby-identifier">data_prop</span>(<span class="ruby-string">&#39;update&#39;</span>, <span class="ruby-keyword">false</span>)
 <span class="ruby-keyword">end</span></pre>

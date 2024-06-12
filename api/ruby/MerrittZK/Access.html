@@ -143,6 +143,8 @@
   <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">children</span>(<span class="ruby-constant">Access</span>.<span class="ruby-identifier">dir</span>(<span class="ruby-identifier">queue_name</span>)).<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">cp</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">a</span> = <span class="ruby-constant">Access</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">queue_name</span>, <span class="ruby-identifier">cp</span>)
     <span class="ruby-identifier">a</span>.<span class="ruby-identifier">load</span>(<span class="ruby-identifier">zk</span>)
+    <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">status</span> <span class="ruby-operator">==</span> <span class="ruby-constant">AccessState</span><span class="ruby-operator">::</span><span class="ruby-constant">Pending</span>
+
     <span class="ruby-keyword">begin</span>
       <span class="ruby-keyword">return</span> <span class="ruby-identifier">a</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">lock</span>(<span class="ruby-identifier">zk</span>)
     <span class="ruby-keyword">rescue</span> <span class="ruby-constant">ZK</span><span class="ruby-operator">::</span><span class="ruby-constant">Exceptions</span><span class="ruby-operator">::</span><span class="ruby-constant">NodeExists</span>
@@ -220,16 +222,20 @@
           <p>List jobs as a json object that will be consumed by the admin tool. This is a transitional representation that can be compatible with legacy job listings.</p>
 
           <div class="method-source-code" id="list_jobs_as_json-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 74</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 76</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">list_jobs_as_json</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-identifier">jobs</span> = []
   [<span class="ruby-constant">SMALL</span>, <span class="ruby-constant">LARGE</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">queue</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">children</span>(<span class="ruby-node">&quot;#{DIR}/#{queue}&quot;</span>).<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">cp</span><span class="ruby-operator">|</span>
-      <span class="ruby-identifier">job</span> = <span class="ruby-constant">Access</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">queue</span>, <span class="ruby-identifier">cp</span>).<span class="ruby-identifier">load</span>(<span class="ruby-identifier">zk</span>)
+      <span class="ruby-identifier">job</span> = <span class="ruby-constant">Access</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">queue</span>, <span class="ruby-identifier">cp</span>)
+      <span class="ruby-identifier">job</span>.<span class="ruby-identifier">load</span>(<span class="ruby-identifier">zk</span>)
       <span class="ruby-identifier">jobjson</span> = <span class="ruby-identifier">job</span>.<span class="ruby-identifier">data</span>
       <span class="ruby-identifier">jobjson</span>[<span class="ruby-value">:id</span>] = <span class="ruby-identifier">cp</span>
       <span class="ruby-identifier">jobjson</span>[<span class="ruby-value">:queueNode</span>] = <span class="ruby-constant">Access</span>.<span class="ruby-identifier">dir</span>(<span class="ruby-identifier">queue</span>)
       <span class="ruby-identifier">jobjson</span>[<span class="ruby-value">:path</span>] = <span class="ruby-identifier">job</span>.<span class="ruby-identifier">path</span>
+      <span class="ruby-identifier">jobjson</span>[<span class="ruby-value">:queueStatus</span>] = <span class="ruby-identifier">jobjson</span>[<span class="ruby-value">:status</span>]
+      <span class="ruby-identifier">jobjson</span>[<span class="ruby-value">:status</span>] = <span class="ruby-identifier">job</span>.<span class="ruby-identifier">status</span>.<span class="ruby-identifier">status</span>
+      <span class="ruby-identifier">jobjson</span>[<span class="ruby-value">:date</span>] = <span class="ruby-identifier">job</span>.<span class="ruby-identifier">json_property</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-constant">ZkKeys</span><span class="ruby-operator">::</span><span class="ruby-constant">STATUS</span>).<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:last_modified</span>, <span class="ruby-string">&#39;&#39;</span>)
       <span class="ruby-identifier">jobs</span>.<span class="ruby-identifier">append</span>(<span class="ruby-identifier">jobjson</span>)
     <span class="ruby-keyword">rescue</span> <span class="ruby-constant">StandardError</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">e</span>
       <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;List Access #{cp} exception: #{e}&quot;</span>
@@ -314,7 +320,7 @@
           
 
           <div class="method-source-code" id="delete-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 62</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_access.rb, line 64</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">delete</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">MerrittZK</span><span class="ruby-operator">::</span><span class="ruby-constant">MerrittStateError</span>, <span class="ruby-node">&quot;Delete invalid #{path}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@status</span>.<span class="ruby-identifier">deletable?</span>
 
