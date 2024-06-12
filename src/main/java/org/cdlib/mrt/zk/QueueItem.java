@@ -248,6 +248,11 @@ abstract public class QueueItem {
       throw new MerrittStateError("Status cannot be set to null");
     }
     if (status != this.status) {
+      if (this.status != null) {
+        if (this.status.stateChange(status) == null) {
+          throw new MerrittStateError(String.format("State change (%s->%s) is not allowed", this.status.name(), status.name()));
+        }  
+      }
       String statpath = makePath(ZKKey.STATUS);
       JSONObject json = statusObject(status);
       if (!message.isEmpty()) {
