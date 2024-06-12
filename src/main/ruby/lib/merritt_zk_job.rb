@@ -116,7 +116,7 @@ module MerrittZK
       "#{DIR}/#{@id}"
     end
 
-    def self.create_job(zk, bid, data, identifiers: {}, metadata: {})
+    def self.create_job(zk, bid, data, priority: 5, identifiers: {}, metadata: {})
       id = QueueItem.create_id(zk, prefix_path)
       job = Job.new(id, bid: bid, data: data, identifiers: identifiers, metadata: metadata)
       job.set_data(zk, ZkKeys::BID, bid)
@@ -125,7 +125,7 @@ module MerrittZK
       job.set_data(zk, ZkKeys::CONFIGURATION, data)
       job.set_data(zk, ZkKeys::IDENTIFIERS, identifiers) unless identifiers.empty?
       job.set_data(zk, ZkKeys::METADATA, metadata) unless metadata.empty?
-      job.set_status(zk, JobState.init)
+      job.set_status_with_priority(zk, JobState.init, priority)
       job.set_job_state_path(zk)
       job.set_batch_state_path(zk)
       job
