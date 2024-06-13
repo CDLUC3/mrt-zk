@@ -11,3 +11,4 @@
 
 ## Failure testing
 - Jobs set to fail are represented correctly in ZK batch and queue nodes
+- Ensure that failed jobs release all ZK locks
