@@ -10,7 +10,7 @@ phases:
       - export AWS_ACCOUNT_ID=`aws sts get-caller-identity| jq -r .Account`
       - echo $AWS_ACCOUNT_ID
       - export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain cdlib-uc3-mrt --domain-owner $AWS_ACCOUNT_ID --region us-west-2 --query authorizationToken --output text`
-      - cat ~/.m2/settings.xmlb
+      - cat ~/.m2/settings.xml
       - force-failure
       - echo s3://${S3CFBUCKET}/api 
       - aws s3 ls s3://${S3CFBUCKET}/
