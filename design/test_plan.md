@@ -5,3 +5,6 @@
 -- This will test ZK interactions with multiple processes and locks
 - Small number of very large Jobs
 -- This will test for timeout conditions
+
+## Batch testing
+- Errors in Batch creation should fail all jobs and notify
