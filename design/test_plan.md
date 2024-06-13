@@ -8,3 +8,6 @@
 
 ## Batch testing
 - Errors in Batch creation should fail all jobs and notify
+
+## Failure testing
+- Jobs set to fail are represented correctly in ZK batch and queue nodes
