@@ -9,6 +9,9 @@ phases:
     commands:
       - echo s3://${S3CFBUCKET}/api 
       - aws s3 ls s3://${S3CFBUCKET}/
+      - export AWS_ACCOUNT_ID=`aws sts get-caller-identity| jq -r .Account`
+      - echo $AWS_ACCOUNT_ID
+      - exit
       - git clone https://github.com/CDLUC3/mrt-core2.git
       - mvn -ntp install -f mrt-core2/pom.xml -Pparent
       - mvn -ntp install -f mrt-core2/reflect/pom.xml
