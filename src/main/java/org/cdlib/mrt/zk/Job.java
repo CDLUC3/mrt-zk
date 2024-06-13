@@ -312,7 +312,7 @@ public class Job extends QueueItem {
       if (!QueueItemHelper.exists(client, p)) {
         QueueItemHelper.create(client, p, QueueItemHelper.empty);
       }
-      QueueItemHelper.create(client, bs, QueueItemHelper.empty);
+      QueueItemHelper.createIfNeeded(client, bs);
     }
   }
 
