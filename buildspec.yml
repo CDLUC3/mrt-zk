@@ -31,6 +31,8 @@ phases:
       - cp -r src/main/ruby/doc/* api/ruby
       - echo aws s3 cp --recursive api s3://${S3CFBUCKET}/api 
       - aws s3 cp --recursive api s3://${S3CFBUCKET}/api
+      # recommendation from Brian
+      # - aws cloudfront create-invalidation --distribution-id #{cf_distro} --paths /dmps/* --region #{GLOBAL_REGION}`
   post_build:
     commands:
       #- aws s3 rm s3://${S3CFBUCKET}/api --recursive

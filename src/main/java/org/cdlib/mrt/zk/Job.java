@@ -198,6 +198,9 @@ public class Job extends QueueItem {
   public static Job createJob(ZooKeeper client, String bid, int priority, JSONObject configuration, JSONObject identifiers, JSONObject metadata) throws MerrittZKNodeInvalid, KeeperException, InterruptedException, MerrittStateError {
     String id = QueueItemHelper.createId(client, Job.prefixPath());
     Job job = new Job(id, bid, configuration);
+    if (!job.lock(client)) {
+      return null;
+    }
     job.createData(client, ZKKey.JOB_BID, bid);
     job.createData(client, ZKKey.JOB_PRIORITY, job.priority);
     job.createData(client, ZKKey.JOB_SPACE_NEEDED, job.spaceNeeded);
@@ -212,6 +215,7 @@ public class Job extends QueueItem {
     job.setStatusWithPriority(client, Job.initStatus(), priority);
     job.setBatchStatePath(client);
     job.setJobStatePath(client);
+    job.unlock(client);
     return job;
   }
 
