@@ -255,6 +255,9 @@ abstract public class QueueItem {
       }
       String statpath = makePath(ZKKey.STATUS);
       JSONObject json = statusObject(status);
+      if (message == null) {
+        message = "";
+      }
       if (!message.isEmpty()) {
         json.put(MerrittJsonKey.Message.key(), message);
       }
