@@ -201,22 +201,25 @@ public class Job extends QueueItem {
     if (!job.lock(client)) {
       return null;
     }
-    job.createData(client, ZKKey.JOB_BID, bid);
-    job.createData(client, ZKKey.JOB_PRIORITY, job.priority);
-    job.createData(client, ZKKey.JOB_SPACE_NEEDED, job.spaceNeeded);
-    job.createData(client, ZKKey.JOB_CONFIGURATION, configuration);
+    try {
+      job.createData(client, ZKKey.JOB_BID, bid);
+      job.createData(client, ZKKey.JOB_PRIORITY, job.priority);
+      job.createData(client, ZKKey.JOB_SPACE_NEEDED, job.spaceNeeded);
+      job.createData(client, ZKKey.JOB_CONFIGURATION, configuration);
     
-    if (!identifiers.isEmpty()) {
-      job.setIdentifiers(client, identifiers);
+      if (!identifiers.isEmpty()) {
+        job.setIdentifiers(client, identifiers);
+      }
+      if (!metadata.isEmpty()) {
+        job.setMetadata(client, metadata);
+      }
+      job.setStatusWithPriority(client, Job.initStatus(), priority);
+      job.setBatchStatePath(client);
+      job.setJobStatePath(client);
+      return job;
+    } finally {
+      job.unlock(client);
     }
-    if (!metadata.isEmpty()) {
-      job.setMetadata(client, metadata);
-    }
-    job.setStatusWithPriority(client, Job.initStatus(), priority);
-    job.setBatchStatePath(client);
-    job.setJobStatePath(client);
-    job.unlock(client);
-    return job;
   }
 
   public JSONObject statusObject(IngestState status) {
