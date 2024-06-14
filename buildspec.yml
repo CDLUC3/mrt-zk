@@ -8,8 +8,10 @@ phases:
   pre_build:
     commands:
       - export AWS_ACCOUNT_ID=`aws sts get-caller-identity| jq -r .Account`
-      - echo $AWS_ACCOUNT_ID
+      - export AWS_REGION=us-west-2
+      - export ECR_REGISTRY=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
       - export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain cdlib-uc3-mrt --domain-owner $AWS_ACCOUNT_ID --region us-west-2 --query authorizationToken --output text`
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin ${ECR_REGISTRY}
       - echo s3://${S3CFBUCKET}/api 
       - aws s3 ls s3://${S3CFBUCKET}/
       - git clone https://github.com/CDLUC3/mrt-core2.git

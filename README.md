@@ -30,8 +30,14 @@ ZooKeeper API for Merritt Microservices.
 
 ### Java
 
+Build with tests
 ```bash
-maven clean install
+mvn clean install
+```
+
+Build without tests
+```bash
+mvn clean install -Ddocker.skip -DskipITs -Dmaven.test.skip=true
 ```
 
 ### Ruby
