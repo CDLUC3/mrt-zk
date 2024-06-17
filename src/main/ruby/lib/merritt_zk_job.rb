@@ -29,6 +29,16 @@ module MerrittZK
       @retry_count = js.fetch(:retry_count, 0)
     end
 
+    # for the admin tool
+    def load_optimized(zk)
+      raise MerrittZKNodeInvalid, "Missing Node #{path}" unless zk.exists?(path)
+
+      load_status(zk, json_property(zk, ZkKeys::STATUS))
+      @data = json_property(zk, ZkKeys::CONFIGURATION)
+      @bid = string_property(zk, ZkKeys::BID)
+      self
+    end
+
     def load_properties(zk)
       @data = json_property(zk, ZkKeys::CONFIGURATION)
       @bid = string_property(zk, ZkKeys::BID)
@@ -181,7 +191,8 @@ module MerrittZK
         next if cp == ZkKeys::STATES
 
         begin
-          job = Job.new(cp).load(zk)
+          job = Job.new(cp)
+          job.load_optimized(zk)
           jobjson = job.data
           jobjson[:id] = job.id
           jobjson[:bid] = job.bid

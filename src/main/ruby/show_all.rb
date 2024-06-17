@@ -188,11 +188,16 @@ end
 
 if ARGV.include?('-debug')
   puts '===> DEBUG'
-  MerrittZK::Access.list_jobs_as_json(zk).each do |j|
+  MerrittZK::Job.list_jobs_as_json(zk).each do |j|
     puts j.fetch(:path, '')
     puts JSON.pretty_generate(j)
   end
   exit
+  # MerrittZK::Access.list_jobs_as_json(zk).each do |j|
+  #   puts j.fetch(:path, '')
+  #   puts JSON.pretty_generate(j)
+  # end
+  # exit
 end
 
 if ARGV.include?('-clear')
