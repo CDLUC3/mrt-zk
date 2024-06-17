@@ -35,6 +35,7 @@ create_batch:
     /batches/bid0/status: 
       status: Pending
       last_modified: now
+      message: ''
 create_and_load_batch:
   input:
   output:
@@ -45,6 +46,7 @@ create_and_load_batch:
     /batches/bid0/status: 
       status: Pending
       last_modified: now
+      message: ''
 load_non_existent_batch:
   input:
   output:
@@ -58,6 +60,7 @@ batch_with_lock_unlock:
     /batches/bid0/status: 
       status: Pending
       last_modified: now
+      message: ''
 batch_with_ephemeral_released_lock:
   input:
   output:
@@ -68,6 +71,7 @@ batch_with_ephemeral_released_lock:
     /batches/bid0/status: 
       status: Pending
       last_modified: now
+      message: ''
 batch_with_unreleased_lock:
   input:
   output:
@@ -78,6 +82,7 @@ batch_with_unreleased_lock:
     /batches/bid0/status: 
       status: Pending
       last_modified: now
+      message: ''
     /batches/bid0/lock: null 
 modify_batch_state:
   input:
@@ -89,6 +94,7 @@ modify_batch_state:
     /batches/bid0/status: 
       status: Processing
       last_modified: now
+      message: ''
 batch_acquire:
   input:
   output:
@@ -101,6 +107,7 @@ batch_acquire:
     /batches/bid0/status: 
       status: Processing
       last_modified: now
+      message: ''
     /batches/bid0/lock: null 
     /batches/bid1/submission: 
       foo: bar2
@@ -109,6 +116,7 @@ batch_acquire:
     /batches/bid1/status: 
       status: Processing
       last_modified: now
+      message: ''
     /batches/bid1/lock: null 
 create_job:
   input:
@@ -122,6 +130,7 @@ create_job:
     /batches/bid0/status: 
       status: Processing
       last_modified: now
+      message: ''
     /jobs/jid0/bid: bid0
     /jobs/jid0/configuration:
       job: quack
@@ -132,6 +141,7 @@ create_job:
       status: Pending
       last_modified: now
       retry_count: 0
+      message: ''
     /jobs/states/pending/05-jid0: null
 create_job_state_change:
   input:
@@ -145,6 +155,7 @@ create_job_state_change:
     /batches/bid0/status: 
       status: Processing
       last_modified: now
+      message: ''
     /jobs/jid0/bid: bid0
     /jobs/jid0/configuration:
       job: quack
@@ -155,6 +166,7 @@ create_job_state_change:
       status: Estimating
       last_modified: now
       retry_count: 0
+      message: ''
     /jobs/states/estimating/05-jid0: null
 load_job_state_change:
   input:
@@ -168,6 +180,7 @@ load_job_state_change:
     /batches/bid0/status: 
       status: Processing
       last_modified: now
+      message: ''
     /jobs/jid0/bid: bid0
     /jobs/jid0/configuration:
       job: quack
@@ -178,6 +191,7 @@ load_job_state_change:
       status: Estimating
       last_modified: now
       retry_count: 0
+      message: ''
     /jobs/states/estimating/05-jid0: null
 acquire_pending_job:
   input:
@@ -190,6 +204,7 @@ acquire_pending_job:
     /batches/bid0/status: 
       status: Processing
       last_modified: now
+      message: ''
     /jobs/jid0/bid: bid0
     /jobs/jid0/lock: null
     /jobs/jid0/configuration:
@@ -201,6 +216,7 @@ acquire_pending_job:
       status: Estimating
       last_modified: now
       retry_count: 0
+      message: ''
     /jobs/states/estimating/05-jid0: null
 acquire_lowest_priority_job:
   input:
@@ -215,6 +231,7 @@ acquire_lowest_priority_job:
     /batches/bid0/status: 
       status: Processing
       last_modified: now
+      message: ''
     /jobs/jid0/bid: bid0
     /jobs/jid0/configuration:
       job: quack1
@@ -225,6 +242,7 @@ acquire_lowest_priority_job:
       status: Pending
       last_modified: now
       retry_count: 0
+      message: ''
     /jobs/states/pending/05-jid0: null
     /jobs/jid1/bid: bid0
     /jobs/jid1/lock: null
@@ -237,6 +255,7 @@ acquire_lowest_priority_job:
       status: Estimating
       last_modified: now
       retry_count: 0
+      message: ''
     /jobs/states/estimating/02-jid1: null
     /jobs/jid2/bid: bid0
     /jobs/jid2/configuration:
@@ -248,6 +267,7 @@ acquire_lowest_priority_job:
       status: Pending
       last_modified: now
       retry_count: 0
+      message: ''
     /jobs/states/pending/05-jid2: null
 job_happy_path:
   input:
@@ -262,6 +282,7 @@ job_happy_path:
     /batches/bid0/status: 
       status: Processing
       last_modified: now
+      message: ''
     /jobs/jid0/bid: bid0
     /jobs/jid0/configuration:
       job: quack1
@@ -272,6 +293,7 @@ job_happy_path:
       status: Pending
       last_modified: now
       retry_count: 0
+      message: ''
     /jobs/states/pending/05-jid0: null
     /jobs/jid1/bid: bid0
     /jobs/jid1/configuration:
@@ -283,6 +305,7 @@ job_happy_path:
       status: Completed
       last_modified: now
       retry_count: 0
+      message: ''
     /jobs/jid1/inventory:
       manifest_url: http://storage.manifest.url
       mode: tbd
@@ -297,6 +320,7 @@ job_happy_path:
       status: Pending
       last_modified: now
       retry_count: 0
+      message: ''
     /jobs/states/pending/05-jid2: null
 batch_happy_path:
   input:
@@ -310,6 +334,7 @@ batch_happy_path:
     /batches/bid0/status: 
       status: Completed
       last_modified: now
+      message: ''
     /jobs/jid1/bid: bid0
     /jobs/jid1/configuration:
       job: quack2
@@ -320,6 +345,7 @@ batch_happy_path:
       status: Completed
       last_modified: now
       retry_count: 0
+      message: ''
     /jobs/states/completed/02-jid1: null
 batch_failure:
   input:
@@ -333,6 +359,7 @@ batch_failure:
     /batches/bid0/status: 
       status: Deleted
       last_modified: now
+      message: ''
     /jobs/jid1/bid: bid0
     /jobs/jid1/configuration:
       job: quack2
@@ -358,6 +385,7 @@ batch_recovery:
     /batches/bid0/status: 
       status: Completed
       last_modified: now
+      message: ''
     /jobs/jid1/bid: bid0
     /jobs/jid1/configuration:
       job: quack2
@@ -368,6 +396,7 @@ batch_recovery:
       status: Completed
       last_modified: now
       retry_count: 1
+      message: ''
     /jobs/states/completed/02-jid1: null
 job_happy_path_with_delete:
   input:
@@ -382,6 +411,7 @@ job_happy_path_with_delete:
     /batches/bid0/status: 
       status: Processing
       last_modified: now
+      message: ''
     /jobs/jid0/bid: bid0
     /jobs/jid0/configuration:
       job: quack1
@@ -392,6 +422,7 @@ job_happy_path_with_delete:
       status: Pending
       last_modified: now
       retry_count: 0
+      message: ''
     /jobs/states/pending/05-jid0: null
     /jobs/jid2/bid: bid0
     /jobs/jid2/configuration:
@@ -403,6 +434,7 @@ job_happy_path_with_delete:
       status: Pending
       last_modified: now
       retry_count: 0
+      message: ''
     /jobs/states/pending/05-jid2: null
 batch_happy_path_with_delete:
   input:
@@ -421,6 +453,7 @@ job_create_config:
     /batches/bid0/status: 
       status: Processing
       last_modified: now
+      message: ''
     /jobs/jid0/bid: bid0
     /jobs/jid0/configuration:
       profile_name: a
@@ -435,6 +468,7 @@ job_create_config:
       status: Pending
       last_modified: now
       retry_count: 0
+      message: ''
     /jobs/states/pending/05-jid0: null
 job_create_config_ident:
   input:
@@ -447,6 +481,7 @@ job_create_config_ident:
     /batches/bid0/status: 
       status: Processing
       last_modified: now
+      message: ''
     /jobs/jid0/bid: bid0
     /jobs/jid0/configuration:
       profile_name: a
@@ -466,6 +501,7 @@ job_create_config_ident:
       status: Pending
       last_modified: now
       retry_count: 0
+      message: ''
     /jobs/states/pending/05-jid0: null
 job_create_config_ident_metadata:
   input:
@@ -478,6 +514,7 @@ job_create_config_ident_metadata:
     /batches/bid0/status: 
       status: Processing
       last_modified: now
+      message: ''
     /jobs/jid0/bid: bid0
     /jobs/jid0/configuration:
       profile_name: a
@@ -502,6 +539,7 @@ job_create_config_ident_metadata:
       status: Pending
       last_modified: now
       retry_count: 0
+      message: ''
     /jobs/states/pending/05-jid0: null
 lock_ingest:
   input:
@@ -535,6 +573,7 @@ access_happy_path:
     /access/small/qid0/status:
       status: Completed
       last_modified: now
+      message: ''
 access_happy_path_del:
   input:
   output:
@@ -546,6 +585,7 @@ access_fail_path:
     /access/small/qid0/status:
       status: Deleted
       last_modified: now
+      message: ''
 find_batch_by_uuid:
   input:
   output:
@@ -556,4 +596,5 @@ find_batch_by_uuid:
     /batches/bid0/status: 
       status: Pending
       last_modified: now
+      message: ''
 

@@ -258,9 +258,7 @@ abstract public class QueueItem {
       if (message == null) {
         message = "";
       }
-      if (!message.isEmpty()) {
-        json.put(MerrittJsonKey.Message.key(), message);
-      }
+      json.put(MerrittJsonKey.Message.key(), message);
 
       byte[] data = QueueItemHelper.asBytes(QueueItemHelper.serialize(json));
       if (this.status == null) {

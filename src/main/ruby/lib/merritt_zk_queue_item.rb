@@ -122,7 +122,7 @@ module MerrittZK
       return if status == @status
 
       json = status_object(status)
-      json[:message] = message unless message.empty?
+      json[:message] = message
       data = QueueItem.serialize(json)
       if @status.nil?
         zk.create(status_path, data)
