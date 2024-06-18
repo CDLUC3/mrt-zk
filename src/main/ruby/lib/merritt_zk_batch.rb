@@ -133,6 +133,10 @@ module MerrittZK
       get_jobs(zk, 'batch-completed')
     end
 
+    def get_deleted_jobs(zk)
+      get_jobs(zk, 'batch-deleted')
+    end
+
     def get_failed_jobs(zk)
       get_jobs(zk, 'batch-failed')
     end

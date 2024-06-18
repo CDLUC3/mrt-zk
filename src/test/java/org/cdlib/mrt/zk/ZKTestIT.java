@@ -766,17 +766,21 @@ public class ZKTestIT {
 
       assertEquals(bbb.status(), BatchState.Failed);
       assertFalse(bbb.status().isDeletable());
+      assertTrue(bbb.hasFailure());
+
+      jj.setStatus(zk, JobState.Deleted);
 
       Batch bbbb = new Batch(bbb.id());
       bbbb.load(zk);
       assertEquals(bbbb.status(), BatchState.Failed);
-      assertTrue(bbbb.hasFailure());
 
       List<Job> jobs = bb.getProcessingJobs(zk);
       assertEquals(jobs.size(), 0);
       jobs = bb.getCompletedJobs(zk);
       assertEquals(jobs.size(), 0);
       jobs = bb.getFailedJobs(zk);
+      assertEquals(jobs.size(), 0);
+      jobs = bb.getDeletedJobs(zk);
       assertEquals(jobs.size(), 1);
 
       bbbb.setStatus(zk, BatchState.Deleted);

@@ -194,6 +194,9 @@ public class Batch extends QueueItem {
   public List<Job> getFailedJobs(ZooKeeper client) throws KeeperException, InterruptedException {
     return getJobs(client, BatchJobStates.Failed);
   }
+  public List<Job> getDeletedJobs(ZooKeeper client) throws KeeperException, InterruptedException {
+    return getJobs(client, BatchJobStates.Deleted);
+  }
   public List<Job> getJobs(ZooKeeper client, BatchJobStates state) throws KeeperException, InterruptedException {
     ArrayList<Job> jobs = new ArrayList<>();
     String p = String.format("%s/states/%s", path(), state.path);

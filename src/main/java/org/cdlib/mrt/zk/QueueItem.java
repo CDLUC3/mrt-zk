@@ -41,6 +41,7 @@ abstract public class QueueItem {
   public static enum BatchJobStates {
     Processing("batch-processing"),
     Completed("batch-completed"),
+    Deleted("batch-deleted"),
     Failed("batch-failed");
     public String path;
     BatchJobStates(String path) {

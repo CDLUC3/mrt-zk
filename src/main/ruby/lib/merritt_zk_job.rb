@@ -82,6 +82,7 @@ module MerrittZK
     def batch_state_subpath
       return 'batch-failed' if @status.status == :Failed
       return 'batch-completed' if @status.status == :Completed
+      return 'batch-deleted' if @status.status == :Deleted
 
       'batch-processing'
     end

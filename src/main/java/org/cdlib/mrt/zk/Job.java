@@ -300,6 +300,8 @@ public class Job extends QueueItem {
       return BatchJobStates.Failed.path;
     } else if (this.status() == JobState.Completed) {
       return BatchJobStates.Completed.path;
+    } else if (this.status() == JobState.Deleted) {
+      return BatchJobStates.Deleted.path;
     }
     return BatchJobStates.Processing.path;
   }
@@ -317,7 +319,7 @@ public class Job extends QueueItem {
     if (!QueueItemHelper.exists(client, bs)) {
       String p = Paths.get(bs).getParent().toString();
       if (!QueueItemHelper.exists(client, p)) {
-        QueueItemHelper.create(client, p, QueueItemHelper.empty);
+        QueueItemHelper.createIfNeeded(client, p);
       }
       QueueItemHelper.createIfNeeded(client, bs);
     }

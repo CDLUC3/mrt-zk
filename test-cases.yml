@@ -351,8 +351,9 @@ batch_failure:
   input:
   output:
     /batch-uuids/bid-uuid: bid0
-    /batches/bid0/states/batch-failed/jid1: null
+    /batches/bid0/states/batch-deleted/jid1: null
     /batches/bid0/states/batch-processing: null
+    /batches/bid0/states/batch-failed: null
     /batches/bid0/submission: 
       foo: bar
       batchID: bid-uuid
@@ -367,11 +368,11 @@ batch_failure:
     /jobs/jid1/space_needed: 0
     /jobs/jid1/status: 
       last_successful_status: null
-      status: Failed
+      status: Deleted
       last_modified: now
       retry_count: 0
-      message: Sample Failure Message
-    /jobs/states/failed/02-jid1: null
+      message: ''
+    /jobs/states/deleted/02-jid1: null
 batch_recovery:
   input:
   output:

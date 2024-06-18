@@ -188,16 +188,16 @@ end
 
 if ARGV.include?('-debug')
   puts '===> DEBUG'
-  MerrittZK::Job.list_jobs_as_json(zk).each do |j|
-    puts j.fetch(:path, '')
-    puts JSON.pretty_generate(j)
-  end
-  exit
-  # MerrittZK::Access.list_jobs_as_json(zk).each do |j|
+  # MerrittZK::Job.list_jobs_as_json(zk).each do |j|
   #   puts j.fetch(:path, '')
   #   puts JSON.pretty_generate(j)
   # end
   # exit
+  MerrittZK::Access.list_jobs_as_json(zk).each do |j|
+    puts j.fetch(:path, '')
+    puts JSON.pretty_generate(j)
+  end
+  exit
 end
 
 if ARGV.include?('-clear')
@@ -219,6 +219,15 @@ if ARGV.include?('-m1')
   zk.rm_rf('/migration')
   zk.create('/migration', data: nil)
   zk.create('/migration/m1', data: nil)
+end
+
+if ARGV.include?('-m3')
+  LIST.each do |p|
+    zk.create(p, data: nil) unless zk.exists?(p)
+  end
+  zk.rm_rf('/migration')
+  zk.create('/migration', data: nil)
+  zk.create('/migration/m3', data: nil)
 end
 
 if ARGV.include?('-m13')

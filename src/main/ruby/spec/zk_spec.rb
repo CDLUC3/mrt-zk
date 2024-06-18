@@ -446,6 +446,8 @@ RSpec.describe 'ZK input/ouput tests' do
       expect(arr.length).to eq(1)
       expect(arr[0].id).to eq(@remap['jid1'])
 
+      jj.set_status(@zk, MerrittZK::JobState::Deleted)
+
       bbbb.set_status(@zk, MerrittZK::BatchState::Deleted)
       expect(bbbb.status.status).to eq(:Deleted)
       expect(bbbb.status.deletable?).to be(true)
