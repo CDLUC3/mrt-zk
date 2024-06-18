@@ -53,6 +53,7 @@ graph TD
   Pending --> Estimating
   Held -.-> Pending
   Estimating --> Provisioning
+  Estimating --> Failed
   Provisioning --> Downloading
   Downloading --> Processing
   Downloading --> Failed
