@@ -114,4 +114,18 @@ public class QueueItemHelper {
       create(client, path, QueueItemHelper.empty);
     }
   }
+
+  public static void createIfNeededForgiving(ZooKeeper client, String path) throws KeeperException, InterruptedException {
+    for(int i = 0; i <= 5; i++) {
+      try {
+        createIfNeeded(client, path);
+        return;
+      } catch(KeeperException.NodeExistsException e) {
+        if (i == 5) {
+          throw e;
+        }
+      }
+    }
+  }
+
 }

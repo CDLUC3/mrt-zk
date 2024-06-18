@@ -319,9 +319,9 @@ public class Job extends QueueItem {
     if (!QueueItemHelper.exists(client, bs)) {
       String p = Paths.get(bs).getParent().toString();
       if (!QueueItemHelper.exists(client, p)) {
-        QueueItemHelper.createIfNeeded(client, p);
+        QueueItemHelper.createIfNeededForgiving(client, p);
       }
-      QueueItemHelper.createIfNeeded(client, bs);
+      QueueItemHelper.createIfNeededForgiving(client, bs);
     }
   }
 
