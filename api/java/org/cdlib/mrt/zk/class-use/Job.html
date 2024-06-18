@@ -120,26 +120,36 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static <a href="../Job.html" title="class in org.cdlib.mrt.zk">Job</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Job.</span><code><span class="memberNameLink"><a href="../Job.html#createJob(org.apache.zookeeper.ZooKeeper,java.lang.String,org.json.JSONObject)">createJob</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client,
+<th class="colSecond" scope="row"><span class="typeNameLabel">Job.</span><code><span class="memberNameLink"><a href="../Job.html#createJob(org.apache.zookeeper.ZooKeeper,java.lang.String,int,org.json.JSONObject)">createJob</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client,
          <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;bid,
+         int&nbsp;priority,
          org.json.JSONObject&nbsp;configuration)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static <a href="../Job.html" title="class in org.cdlib.mrt.zk">Job</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Job.</span><code><span class="memberNameLink"><a href="../Job.html#createJob(org.apache.zookeeper.ZooKeeper,java.lang.String,org.json.JSONObject,org.json.JSONObject)">createJob</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client,
+<th class="colSecond" scope="row"><span class="typeNameLabel">Job.</span><code><span class="memberNameLink"><a href="../Job.html#createJob(org.apache.zookeeper.ZooKeeper,java.lang.String,int,org.json.JSONObject,org.json.JSONObject)">createJob</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client,
          <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;bid,
+         int&nbsp;priority,
          org.json.JSONObject&nbsp;configuration,
          org.json.JSONObject&nbsp;identifiers)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static <a href="../Job.html" title="class in org.cdlib.mrt.zk">Job</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Job.</span><code><span class="memberNameLink"><a href="../Job.html#createJob(org.apache.zookeeper.ZooKeeper,java.lang.String,org.json.JSONObject,org.json.JSONObject,org.json.JSONObject)">createJob</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client,
+<th class="colSecond" scope="row"><span class="typeNameLabel">Job.</span><code><span class="memberNameLink"><a href="../Job.html#createJob(org.apache.zookeeper.ZooKeeper,java.lang.String,int,org.json.JSONObject,org.json.JSONObject,org.json.JSONObject)">createJob</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client,
          <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;bid,
+         int&nbsp;priority,
          org.json.JSONObject&nbsp;configuration,
          org.json.JSONObject&nbsp;identifiers,
          org.json.JSONObject&nbsp;metadata)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../Job.html" title="class in org.cdlib.mrt.zk">Job</a></code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Job.</span><code><span class="memberNameLink"><a href="../Job.html#createJob(org.apache.zookeeper.ZooKeeper,java.lang.String,org.json.JSONObject)">createJob</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client,
+         <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;bid,
+         org.json.JSONObject&nbsp;configuration)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 </tbody>
@@ -159,21 +169,26 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="../Job.html" title="class in org.cdlib.mrt.zk">Job</a>&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Batch.</span><code><span class="memberNameLink"><a href="../Batch.html#getFailedJobs(org.apache.zookeeper.ZooKeeper)">getFailedJobs</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client)</code></th>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Batch.</span><code><span class="memberNameLink"><a href="../Batch.html#getDeletedJobs(org.apache.zookeeper.ZooKeeper)">getDeletedJobs</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="../Job.html" title="class in org.cdlib.mrt.zk">Job</a>&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Batch.</span><code><span class="memberNameLink"><a href="../Batch.html#getFailedJobs(org.apache.zookeeper.ZooKeeper)">getFailedJobs</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="../Job.html" title="class in org.cdlib.mrt.zk">Job</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Batch.</span><code><span class="memberNameLink"><a href="../Batch.html#getJobs(org.apache.zookeeper.ZooKeeper,org.cdlib.mrt.zk.QueueItem.BatchJobStates)">getJobs</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client,
        <a href="../QueueItem.BatchJobStates.html" title="enum in org.cdlib.mrt.zk">QueueItem.BatchJobStates</a>&nbsp;state)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="../Job.html" title="class in org.cdlib.mrt.zk">Job</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Batch.</span><code><span class="memberNameLink"><a href="../Batch.html#getProcessingJobs(org.apache.zookeeper.ZooKeeper)">getProcessingJobs</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="../Job.html" title="class in org.cdlib.mrt.zk">Job</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Job.</span><code><span class="memberNameLink"><a href="../Job.html#listJobs(org.apache.zookeeper.ZooKeeper,org.cdlib.mrt.zk.IngestState)">listJobs</a></span>&#8203;(org.apache.zookeeper.ZooKeeper&nbsp;client,
         <a href="../IngestState.html" title="interface in org.cdlib.mrt.zk">IngestState</a>&nbsp;state)</code></th>

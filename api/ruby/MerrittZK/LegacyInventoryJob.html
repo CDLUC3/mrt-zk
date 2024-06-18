@@ -126,7 +126,7 @@
           <p>List legacy inventory jobs as a json object that will be consumed by the admin tool.</p>
 
           <div class="method-source-code" id="list_jobs_as_json-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 321</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 333</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">list_jobs_as_json</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-identifier">jobs</span> = []
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">jobs</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-constant">DIR</span>)
@@ -164,7 +164,7 @@
           
 
           <div class="method-source-code" id="dir-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 303</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 315</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">dir</span>
   <span class="ruby-constant">DIR</span>
 <span class="ruby-keyword">end</span></pre>
@@ -187,7 +187,7 @@
           
 
           <div class="method-source-code" id="json-3F-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 307</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 319</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">json?</span>
   <span class="ruby-keyword">false</span>
 <span class="ruby-keyword">end</span></pre>
@@ -214,7 +214,7 @@
             </div>
 
           <div class="method-source-code" id="payload_object-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 311</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_job.rb, line 323</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">payload_object</span>
   <span class="ruby-identifier">payload</span> = <span class="ruby-keyword">super</span>
   <span class="ruby-identifier">m</span> = <span class="ruby-regexp">/(http:[^&lt;]*)/</span>.<span class="ruby-identifier">match</span>(<span class="ruby-identifier">payload</span>[<span class="ruby-value">:payload</span>])

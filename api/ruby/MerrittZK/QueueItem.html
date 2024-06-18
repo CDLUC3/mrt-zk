@@ -482,7 +482,7 @@
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">status</span> <span class="ruby-operator">==</span> <span class="ruby-ivar">@status</span>
 
   <span class="ruby-identifier">json</span> = <span class="ruby-identifier">status_object</span>(<span class="ruby-identifier">status</span>)
-  <span class="ruby-identifier">json</span>[<span class="ruby-value">:message</span>] = <span class="ruby-identifier">message</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">message</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-identifier">json</span>[<span class="ruby-value">:message</span>] = <span class="ruby-identifier">message</span>
   <span class="ruby-identifier">data</span> = <span class="ruby-constant">QueueItem</span>.<span class="ruby-identifier">serialize</span>(<span class="ruby-identifier">json</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@status</span>.<span class="ruby-identifier">nil?</span>
     <span class="ruby-identifier">zk</span>.<span class="ruby-identifier">create</span>(<span class="ruby-identifier">status_path</span>, <span class="ruby-identifier">data</span>)

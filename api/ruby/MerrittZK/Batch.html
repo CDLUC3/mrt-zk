@@ -84,6 +84,7 @@
     <li ><a href="#method-i-batch_uuid">#batch_uuid</a>
     <li ><a href="#method-i-delete">#delete</a>
     <li ><a href="#method-i-get_completed_jobs">#get_completed_jobs</a>
+    <li ><a href="#method-i-get_deleted_jobs">#get_deleted_jobs</a>
     <li ><a href="#method-i-get_failed_jobs">#get_failed_jobs</a>
     <li ><a href="#method-i-get_jobs">#get_jobs</a>
     <li ><a href="#method-i-get_processing_jobs">#get_processing_jobs</a>
@@ -353,7 +354,7 @@
           
 
           <div class="method-source-code" id="find_batch_by_uuid-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 155</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 159</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">find_batch_by_uuid</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">uuid</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">uuid</span>.<span class="ruby-identifier">empty?</span>
 
@@ -470,7 +471,7 @@
           
 
           <div class="method-source-code" id="delete-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 170</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 174</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">delete</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">MerrittZK</span><span class="ruby-operator">::</span><span class="ruby-constant">MerrittStateError</span>, <span class="ruby-node">&quot;Delete invalid #{path}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@status</span>.<span class="ruby-identifier">deletable?</span>
 
@@ -520,6 +521,29 @@
 
       </div>
 
+      <div id="method-i-get_deleted_jobs" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">get_deleted_jobs</span><span
+              class="method-args">(zk)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="get_deleted_jobs-source">
+            <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 136</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_deleted_jobs</span>(<span class="ruby-identifier">zk</span>)
+  <span class="ruby-identifier">get_jobs</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-string">&#39;batch-deleted&#39;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
       <div id="method-i-get_failed_jobs" class="method-detail ">
         <div class="method-header">
           <div class="method-heading">
@@ -533,7 +557,7 @@
           
 
           <div class="method-source-code" id="get_failed_jobs-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 136</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 140</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_failed_jobs</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-identifier">get_jobs</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-string">&#39;batch-failed&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -556,7 +580,7 @@
           
 
           <div class="method-source-code" id="get_jobs-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 144</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 148</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_jobs</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-identifier">state</span>)
   <span class="ruby-identifier">jobs</span> = []
   <span class="ruby-identifier">p</span> = <span class="ruby-node">&quot;#{path}/states/#{state}&quot;</span>
@@ -586,7 +610,7 @@
           
 
           <div class="method-source-code" id="get_processing_jobs-source">
-            <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 140</span>
+            <pre><span class="ruby-comment"># File lib/merritt_zk_batch.rb, line 144</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_processing_jobs</span>(<span class="ruby-identifier">zk</span>)
   <span class="ruby-identifier">get_jobs</span>(<span class="ruby-identifier">zk</span>, <span class="ruby-string">&#39;batch-processing&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
