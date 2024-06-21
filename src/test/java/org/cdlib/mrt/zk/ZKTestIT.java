@@ -1230,7 +1230,9 @@ public class ZKTestIT {
       //ignore if lock does not exist
       MerrittLocks.unlockIngestQueue(zk);
 
+      assertFalse(MerrittLocks.checkLockIngestQueue(zk));
       assertTrue(MerrittLocks.lockIngestQueue(zk));
+      assertTrue(MerrittLocks.checkLockIngestQueue(zk));
       assertFalse(MerrittLocks.lockIngestQueue(zk));
       MerrittLocks.unlockIngestQueue(zk);
       assertTrue(MerrittLocks.lockIngestQueue(zk));
@@ -1239,7 +1241,9 @@ public class ZKTestIT {
     @Test
     public void lockAccessQueue() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
       load(Tests.lock_access);
+      assertFalse(MerrittLocks.checkLockLargeAccessQueue(zk));
       assertTrue(MerrittLocks.lockLargeAccessQueue(zk));
+      assertTrue(MerrittLocks.checkLockLargeAccessQueue(zk));
       assertFalse(MerrittLocks.lockLargeAccessQueue(zk));
       MerrittLocks.unlockLargeAccessQueue(zk);
       assertTrue(MerrittLocks.lockLargeAccessQueue(zk));
@@ -1253,7 +1257,9 @@ public class ZKTestIT {
     @Test
     public void lockCollection() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
       load(Tests.lock_collection);
+      assertFalse(MerrittLocks.checkLockCollection(zk, "foo"));
       assertTrue(MerrittLocks.lockCollection(zk, "foo"));
+      assertTrue(MerrittLocks.checkLockCollection(zk, "foo"));
       assertFalse(MerrittLocks.lockCollection(zk, "foo"));
       MerrittLocks.unlockCollection(zk, "foo");
       assertTrue(MerrittLocks.lockCollection(zk, "foo"));
@@ -1267,7 +1273,9 @@ public class ZKTestIT {
     @Test
     public void lockStore() throws KeeperException, InterruptedException, MerrittZKNodeInvalid{
       load(Tests.lock_store);
+      assertFalse(MerrittLocks.checkLockObjectStorage(zk, "ark:/aaa/111"));
       assertTrue(MerrittLocks.lockObjectStorage(zk, "ark:/aaa/111"));
+      assertTrue(MerrittLocks.checkLockObjectStorage(zk, "ark:/aaa/111"));
       assertFalse(MerrittLocks.lockObjectStorage(zk, "ark:/aaa/111"));
       MerrittLocks.unlockObjectStorage(zk, "ark:/aaa/111");
       assertTrue(MerrittLocks.lockObjectStorage(zk, "ark:/aaa/111"));

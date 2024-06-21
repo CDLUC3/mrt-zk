@@ -47,6 +47,10 @@ module MerrittZK
       create_lock(zk, LOCKS_QUEUE_INGEST)
     end
 
+    def self.check_lock_ingest_queue(zk)
+      zk.exists?(LOCKS_QUEUE_INGEST)
+    end
+
     def self.unlock_ingest_queue(zk)
       zk.delete(LOCKS_QUEUE_INGEST)
     rescue StandardError
@@ -55,6 +59,10 @@ module MerrittZK
 
     def self.lock_large_access_queue(zk)
       create_lock(zk, LOCKS_QUEUE_ACCESS_LARGE)
+    end
+
+    def self.check_lock_large_access_queue(zk)
+      zk.exists?(LOCKS_QUEUE_ACCESS_LARGE)
     end
 
     def self.unlock_large_access_queue(zk)
@@ -67,6 +75,10 @@ module MerrittZK
       create_lock(zk, LOCKS_QUEUE_ACCESS_SMALL)
     end
 
+    def self.check_lock_small_access_queue(zk)
+      zk.exists?(LOCKS_QUEUE_ACCESS_SMALL)
+    end
+
     def self.unlock_small_access_queue(zk)
       zk.delete(LOCKS_QUEUE_ACCESS_SMALL)
     rescue StandardError
@@ -75,6 +87,10 @@ module MerrittZK
 
     def self.lock_collection(zk, mnemonic)
       create_lock(zk, "#{LOCKS_COLLECTION}/#{mnemonic}")
+    end
+
+    def self.check_lock_collection(zk, mnemonic)
+      zk.exists?("#{LOCKS_COLLECTION}/#{mnemonic}")
     end
 
     def self.unlock_collection(zk, mnemonic)
@@ -87,6 +103,10 @@ module MerrittZK
       create_ephemeral_lock(zk, "#{LOCKS_STORAGE}/#{ark.gsub('/', '_')}")
     end
 
+    def self.check_lock_object_storage(zk, ark)
+      zk.exists?("#{LOCKS_STORAGE}/#{ark.gsub('/', '_')}")
+    end
+
     def self.unlock_object_storage(zk, ark)
       zk.delete("#{LOCKS_STORAGE}/#{ark.gsub('/', '_')}")
     rescue StandardError
@@ -95,6 +115,10 @@ module MerrittZK
 
     def self.lock_object_inventory(zk, ark)
       create_ephemeral_lock(zk, "#{LOCKS_INVENTORY}/#{ark.gsub('/', '_')}")
+    end
+
+    def self.check_lock_object_inventory(zk, ark)
+      zk.exists?("#{LOCKS_INVENTORY}/#{ark.gsub('/', '_')}")
     end
 
     def self.unlock_object_inventory(zk, ark)

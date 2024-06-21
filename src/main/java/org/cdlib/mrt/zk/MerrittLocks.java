@@ -44,6 +44,9 @@ public class MerrittLocks {
   public static void unlockIngestQueue(ZooKeeper client) throws InterruptedException, KeeperException {
     QueueItemHelper.delete(client, QueueItem.ZkPaths.LocksQueueIngest.path);
   }
+  public static boolean checkLockIngestQueue(ZooKeeper client) throws KeeperException, InterruptedException {
+    return QueueItemHelper.exists(client, QueueItem.ZkPaths.LocksQueueIngest.path);
+  }
 
   public static boolean lockLargeAccessQueue(ZooKeeper client) {
     return createLock(client, QueueItem.ZkPaths.LocksQueueAccessLarge.path);
@@ -51,12 +54,18 @@ public class MerrittLocks {
   public static void unlockLargeAccessQueue(ZooKeeper client) throws InterruptedException, KeeperException {
     QueueItemHelper.delete(client, QueueItem.ZkPaths.LocksQueueAccessLarge.path);
   }
+  public static boolean checkLockLargeAccessQueue(ZooKeeper client) throws KeeperException, InterruptedException {
+    return QueueItemHelper.exists(client, QueueItem.ZkPaths.LocksQueueAccessLarge.path);
+  }
 
   public static boolean lockSmallAccessQueue(ZooKeeper client) {
     return createLock(client, QueueItem.ZkPaths.LocksQueueAccessSmall.path);
   }
   public static void unlockSmallAccessQueue(ZooKeeper client) throws InterruptedException, KeeperException {
     QueueItemHelper.delete(client, QueueItem.ZkPaths.LocksQueueAccessSmall.path);
+  }
+  public static boolean checkLockSmallAccessQueue(ZooKeeper client) throws KeeperException, InterruptedException {
+    return QueueItemHelper.exists(client, QueueItem.ZkPaths.LocksQueueAccessSmall.path);
   }
 
   public static boolean lockCollection(ZooKeeper client, String mnemonic) {
@@ -66,6 +75,9 @@ public class MerrittLocks {
   public static void unlockCollection(ZooKeeper client, String mnemonic) throws InterruptedException, KeeperException {
     QueueItemHelper.delete(client, Paths.get(QueueItem.ZkPaths.LocksCollections.path, mnemonic).toString());
   }
+  public static boolean checkLockCollection(ZooKeeper client, String mnemonic) throws KeeperException, InterruptedException {
+    return QueueItemHelper.exists(client, Paths.get(QueueItem.ZkPaths.LocksCollections.path, mnemonic).toString());
+  }
 
   public static boolean lockObjectStorage(ZooKeeper client, String ark) {
     return createEphemeralLock(client, Paths.get(QueueItem.ZkPaths.LocksStorage.path, ark.replaceAll("\\/", "_")).toString());
@@ -73,10 +85,17 @@ public class MerrittLocks {
   public static void unlockObjectStorage(ZooKeeper client, String ark) throws InterruptedException, KeeperException {
     QueueItemHelper.delete(client, Paths.get(QueueItem.ZkPaths.LocksStorage.path, ark.replaceAll("\\/", "_")).toString());
   }
+  public static boolean checkLockObjectStorage(ZooKeeper client, String ark) throws KeeperException, InterruptedException {
+    return QueueItemHelper.exists(client, Paths.get(QueueItem.ZkPaths.LocksStorage.path, ark.replaceAll("\\/", "_")).toString());
+  }
+
   public static boolean lockObjectInventory(ZooKeeper client, String ark) {
     return createEphemeralLock(client, Paths.get(QueueItem.ZkPaths.LocksInventory.path, ark.replaceAll("\\/", "_")).toString());
   }
   public static void unlockObjectInventory(ZooKeeper client, String ark) throws InterruptedException, KeeperException {
     QueueItemHelper.delete(client, Paths.get(QueueItem.ZkPaths.LocksInventory.path, ark.replaceAll("\\/", "_")).toString());
+  }
+  public static boolean checkLockObjectInventory(ZooKeeper client, String ark) throws KeeperException, InterruptedException {
+    return QueueItemHelper.exists(client, Paths.get(QueueItem.ZkPaths.LocksInventory.path, ark.replaceAll("\\/", "_")).toString());
   }
 }

@@ -822,14 +822,18 @@ RSpec.describe 'ZK input/ouput tests' do
     it :lock_ingest do |_x|
       MerrittZK::Locks.unlock_ingest_queue(@zk)
 
+      expect(MerrittZK::Locks.check_lock_ingest_queue(@zk)).to be(false)
       expect(MerrittZK::Locks.lock_ingest_queue(@zk)).to be(true)
+      expect(MerrittZK::Locks.check_lock_ingest_queue(@zk)).to be(true)
       expect(MerrittZK::Locks.lock_ingest_queue(@zk)).to be(false)
       MerrittZK::Locks.unlock_ingest_queue(@zk)
       expect(MerrittZK::Locks.lock_ingest_queue(@zk)).to be(true)
     end
 
     it :lock_access do |_x|
+      expect(MerrittZK::Locks.check_lock_large_access_queue(@zk)).to be(false)
       expect(MerrittZK::Locks.lock_large_access_queue(@zk)).to be(true)
+      expect(MerrittZK::Locks.check_lock_large_access_queue(@zk)).to be(true)
       expect(MerrittZK::Locks.lock_large_access_queue(@zk)).to be(false)
       MerrittZK::Locks.unlock_large_access_queue(@zk)
       expect(MerrittZK::Locks.lock_large_access_queue(@zk)).to be(true)
@@ -841,7 +845,9 @@ RSpec.describe 'ZK input/ouput tests' do
     end
 
     it :lock_collection do |_x|
+      expect(MerrittZK::Locks.check_lock_collection(@zk, 'foo')).to be(false)
       expect(MerrittZK::Locks.lock_collection(@zk, 'foo')).to be(true)
+      expect(MerrittZK::Locks.check_lock_collection(@zk, 'foo')).to be(true)
       expect(MerrittZK::Locks.lock_collection(@zk, 'foo')).to be(false)
       MerrittZK::Locks.unlock_collection(@zk, 'foo')
       expect(MerrittZK::Locks.lock_collection(@zk, 'foo')).to be(true)
@@ -853,7 +859,9 @@ RSpec.describe 'ZK input/ouput tests' do
     end
 
     it :lock_store do |_x|
+      expect(MerrittZK::Locks.check_lock_object_storage(@zk, 'ark:/aaa/111')).to be(false)
       expect(MerrittZK::Locks.lock_object_storage(@zk, 'ark:/aaa/111')).to be(true)
+      expect(MerrittZK::Locks.check_lock_object_storage(@zk, 'ark:/aaa/111')).to be(true)
       expect(MerrittZK::Locks.lock_object_storage(@zk, 'ark:/aaa/111')).to be(false)
       MerrittZK::Locks.unlock_object_storage(@zk, 'ark:/aaa/111')
       expect(MerrittZK::Locks.lock_object_storage(@zk, 'ark:/aaa/111')).to be(true)
@@ -865,7 +873,9 @@ RSpec.describe 'ZK input/ouput tests' do
     end
 
     it :lock_inventory do |_x|
+      expect(MerrittZK::Locks.check_lock_object_inventory(@zk, 'ark:/aaa/111')).to be(false)
       expect(MerrittZK::Locks.lock_object_inventory(@zk, 'ark:/aaa/111')).to be(true)
+      expect(MerrittZK::Locks.check_lock_object_inventory(@zk, 'ark:/aaa/111')).to be(true)
       expect(MerrittZK::Locks.lock_object_inventory(@zk, 'ark:/aaa/111')).to be(false)
       MerrittZK::Locks.unlock_object_inventory(@zk, 'ark:/aaa/111')
       expect(MerrittZK::Locks.lock_object_inventory(@zk, 'ark:/aaa/111')).to be(true)
