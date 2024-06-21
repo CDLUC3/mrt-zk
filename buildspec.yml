@@ -12,8 +12,8 @@ phases:
       - export ECR_REGISTRY=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
       - export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain cdlib-uc3-mrt --domain-owner $AWS_ACCOUNT_ID --region us-west-2 --query authorizationToken --output text`
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin ${ECR_REGISTRY}
-      - echo s3://${S3CFBUCKET}/api 
-      - aws s3 ls s3://${S3CFBUCKET}/
+      # - echo s3://${S3CFBUCKET}/api 
+      # - aws s3 ls s3://${S3CFBUCKET}/api
       - git clone https://github.com/CDLUC3/mrt-core2.git
       - mvn -ntp install -f mrt-core2/pom.xml -Pparent
       - mvn -ntp install -f mrt-core2/reflect/pom.xml
@@ -33,8 +33,7 @@ phases:
       - cp -r src/main/ruby/doc/* api/ruby
       - echo aws s3 cp --recursive api s3://${S3CFBUCKET}/api 
       - aws s3 cp --recursive api s3://${S3CFBUCKET}/api
-      # recommendation from Brian
-      # - aws cloudfront create-invalidation --distribution-id #{cf_distro} --paths /dmps/* --region #{GLOBAL_REGION}`
+      - aws cloudfront create-invalidation --distribution-id ${CFDISTRIBUTIONID} --paths /* --region us-east-1
   post_build:
     commands:
       #- aws s3 rm s3://${S3CFBUCKET}/api --recursive
