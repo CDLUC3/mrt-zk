@@ -86,7 +86,7 @@ end
 zk = ZK.new(ENV.fetch('ZKCONN', 'localhost:8084'))
 LIST = %w[
   /batches /batch-uuids /jobs /jobs/states /access /access/small /access/large
-  /locks /locks/queue /locks/storage /locks/inventory /locks/collection
+  /locks /locks/queue /locks/storage /locks/inventory /locks/collections
   /migration /migration/m1 /migration/m3
 ].freeze
 
