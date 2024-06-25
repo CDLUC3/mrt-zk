@@ -10,17 +10,13 @@ phases:
     commands:
       - export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain cdlib-uc3-mrt --domain-owner $AWS_ACCOUNT_ID --region us-west-2 --query authorizationToken --output text`
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin ${ECR_REGISTRY}
-      # - echo s3://${S3CFBUCKET}/api 
-      # - aws s3 ls s3://${S3CFBUCKET}/api
-      - git clone https://github.com/CDLUC3/mrt-core2.git
-      - mvn -ntp install -f mrt-core2/pom.xml -Pparent
-      - mvn -ntp install -f mrt-core2/reflect/pom.xml
 
   build:
     on-failure: ABORT
     commands:
       # - mvn -ntp clean install -Ddocker.skip -DskipITs -Dmaven.test.skip=true
       - mvn -ntp clean install
+      - mvn deploy:deploy-file -Durl=${CODEARTIFACT_URL} -DrepositoryId=cdlib-uc3-mrt-uc3-mrt-java -Dfile=target/MerrittZK-1.0.jar
       # the following does not return a non zero return code
       # - curl --request PUT "https://cdlib-uc3-mrt-${AWS_ACCOUNT_ID}.d.codeartifact.us-west-2.amazonaws.com/maven/uc3-mrt-java/org/cdlib/mrt/zk/1.0/MerrittZK-1.0.jar" --user "aws:$CODEARTIFACT_AUTH_TOKEN" --header "Content-Type:application/octet-stream" --data-binary @target/MerrittZK-1.0.jar
       # - mvn -ntp deploy -Ddocker.skip -DskipITs -Dmaven.test.skip=true
