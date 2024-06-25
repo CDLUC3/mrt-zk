@@ -6,7 +6,7 @@ version: '3.9'
 services:
   zoo:
     container_name: zoo
-    image: zookeeper:3.8.4
+    image: public.ecr.aws/docker/library/zookeeper:3.8.4
     ports:
     - published: 8084
       target: 2181
