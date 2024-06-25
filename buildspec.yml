@@ -19,9 +19,7 @@ phases:
     commands:
       # - mvn -ntp clean install -Ddocker.skip -DskipITs -Dmaven.test.skip=true
       - mvn -ntp clean install
-      # the following does not return a non zero return code
-      # - curl --request PUT "https://cdlib-uc3-mrt-${AWS_ACCOUNT_ID}.d.codeartifact.us-west-2.amazonaws.com/maven/uc3-mrt-java/org/cdlib/mrt/zk/1.0/MerrittZK-1.0.jar" --user "aws:$CODEARTIFACT_AUTH_TOKEN" --header "Content-Type:application/octet-stream" --data-binary @target/MerrittZK-1.0.jar
-      # - mvn -ntp deploy -Ddocker.skip -DskipITs -Dmaven.test.skip=true
+      - mvn deploy:deploy-file -Durl=${CODEARTIFACT_URL} -DrepositoryId=cdlib-uc3-mrt-uc3-mrt-java -Dfile=target/MerrittZK-1.0.jar
       - mvn -ntp javadoc:javadoc
       - cd src/main/ruby
       - bundle install
