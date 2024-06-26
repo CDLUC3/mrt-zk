@@ -19,7 +19,7 @@ phases:
     commands:
       # - mvn -ntp clean install -Ddocker.skip -DskipITs -Dmaven.test.skip=true
       - mvn -ntp clean install
-      - mvn deploy:deploy-file -Durl=${CODEARTIFACT_URL} -DrepositoryId=cdlib-uc3-mrt-uc3-mrt-java -Dfile=target/MerrittZK-1.0.jar
+      - mvn deploy:deploy-file -Durl=${CODEARTIFACT_URL} -DrepositoryId=cdlib-uc3-mrt-uc3-mrt-java -Dfile=target/MerrittZK-*.jar
       - mvn -ntp javadoc:javadoc
       - cd src/main/ruby
       - bundle install
