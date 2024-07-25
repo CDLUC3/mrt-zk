@@ -24,7 +24,7 @@ import java.util.Map;
 
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooKeeper;
-
+import org.apache.zookeeper.ZooKeeper.States;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -94,7 +94,18 @@ public class ZKTestIT {
     }
 
     public static ZooKeeper createZk() throws IOException {
-      return new ZooKeeper(String.format("%s:%d", host, port), 100, null);
+      ZooKeeper zk = new ZooKeeper(String.format("%s:%d", host, port), 5000, null);
+      for(int i=0; i < 100; i++) {
+        if (zk.getState() == States.CONNECTED) {
+          return zk;
+        }
+        try {
+          Thread.sleep(400);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+      }
+      return zk;
     }
 
     public String makePath(String path, String cp) {
@@ -122,7 +133,7 @@ public class ZKTestIT {
       MerrittLocks.initLocks(zk);
     }
 
-    public void clearPaths(String root) throws KeeperException, InterruptedException {
+    public void clearPaths(String root) throws KeeperException, InterruptedException, IOException {
       for(String s: zk.getChildren(root, false)) {
         String p = makePath(root, s);
         if (p.equals("/zookeeper")) {
@@ -131,11 +142,11 @@ public class ZKTestIT {
         clearPaths(p);
         //System.out.println("DEL "+p);
         zk.delete(p, -1);
-      }
+      }          
     }
 
     @Before
-    public void initTest() throws KeeperException, InterruptedException {
+    public void initTest() throws KeeperException, InterruptedException, IOException {
       clearPaths("/");
       initPaths();
       remap.clear();
