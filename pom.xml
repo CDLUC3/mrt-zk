@@ -5,10 +5,10 @@
 
 	<groupId>org.cdlib.mrt.zk</groupId>
 	<artifactId>MerrittZK</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>3.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>Test</name>
+	<name>MerrittZK</name>
 	<url>http://maven.apache.org</url>
 
 	<dependencyManagement>
@@ -16,7 +16,7 @@
 			<dependency>
 				<groupId>org.cdlib.mrt</groupId>
 				<artifactId>mrt-reflectoring-bom</artifactId>
-				<version>1.0.0</version>
+				<version>3.0-SNAPSHOT</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -26,7 +26,7 @@
 	<parent>
 		<groupId>org.cdlib.mrt</groupId>
 		<artifactId>mrt-parent-properties</artifactId>
-		<version>1.0.0</version>
+		<version>3.0-SNAPSHOT</version>
 	</parent>
 
   <distributionManagement>
