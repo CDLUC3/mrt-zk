@@ -25,7 +25,7 @@ module MerrittZK
     end
 
     def load_status(zk, js)
-      super(zk, js)
+      super
       @retry_count = js.fetch(:retry_count, 0)
     end
 
