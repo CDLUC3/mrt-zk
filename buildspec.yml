@@ -23,10 +23,10 @@ phases:
       - bundle install
       - bundle exec rdoc lib/*.rb
       - cd ../../..
-      - rm -rf api
-      - mkdir -p api/java api/ruby
-      - cp -r target/site/apidocs/* api/java
-      - cp -r src/main/ruby/doc/* api/ruby
+      - rm -rf api/mrt-zk
+      - mkdir -p api/mrt-zk/java api/mrt-zk/ruby
+      - cp -r target/site/apidocs/* api/mrt-zk/java
+      - cp -r src/main/ruby/doc/* api/mrt-zk/ruby
       - echo aws s3 cp --recursive api s3://${S3CFBUCKET}/api 
       - aws s3 cp --recursive api s3://${S3CFBUCKET}/api
       - aws cloudfront create-invalidation --distribution-id ${CFDISTRIBUTIONID} --paths /* --region us-east-1
