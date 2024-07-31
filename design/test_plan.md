@@ -12,3 +12,16 @@
 ## Failure testing
 - Jobs set to fail are represented correctly in ZK batch and queue nodes
 - Ensure that failed jobs release all ZK locks
+
+## Transition/Rules Testing
+- Test hold collection before starting batch
+- Test hold collection as a large batch is processing
+- Release job while collection is held
+- Release job after collection hold is released
+- Release all jobs for a collection
+- Requeue job failure for each phase (document how to force failures)
+  - Estimating
+  - Downloading
+  - Processing
+  - Recording
+  - Notify
