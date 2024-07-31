@@ -13,7 +13,7 @@ module MerrittZK
     PREFIX = 'bid'
 
     def initialize(id, data: nil)
-      super(id, data: data)
+      super
       @has_failure = false
     end
 
