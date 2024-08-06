@@ -8,28 +8,32 @@ phases:
   pre_build:
     on-failure: ABORT
     commands:
-      - cp settings.xml ~/.m2/
-      - export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain cdlib-uc3-mrt --domain-owner $AWS_ACCOUNT_ID --region $AWS_REGION --query authorizationToken --output text`
-      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin ${ECR_REGISTRY}
+    - cp settings.xml ~/.m2/
+    - export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain cdlib-uc3-mrt --domain-owner $AWS_ACCOUNT_ID --region $AWS_REGION --query authorizationToken --output text`
+    - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin ${ECR_REGISTRY}
+
+    - COMMIT=`git rev-parse --short HEAD`
+    - BRANCH=`git symbolic-ref -q --short HEAD || git name-rev $(git rev-parse --short HEAD) | cut -d' ' -f2 || echo ''`
+    - TAG=`git describe --tags --exact-match 2> /dev/null || echo ''`
+    - BRANCHTAG=`git describe --tags --exact-match 2> /dev/null || git symbolic-ref -q --short HEAD || git name-rev $(git rev-parse --short HEAD) | cut -d' ' -f2 || git rev-parse --short HEAD`
+    - echo "Branchtag ${BRANCHTAG}"
 
   build:
     on-failure: ABORT
     commands:
-      # - mvn -ntp clean install -Ddocker.skip -DskipITs -Dmaven.test.skip=true
-      - mvn -ntp clean install
-      - mvn deploy:deploy-file -Durl=${CODEARTIFACT_URL} -DrepositoryId=cdlib-uc3-mrt-uc3-mrt-java -Dfile=$(ls target/MerrittZK-*.jar)
-      - mvn -ntp javadoc:javadoc
-      - cd src/main/ruby
-      - bundle install
-      - bundle exec rdoc lib/*.rb
-      - cd ../../..
-      - rm -rf api/mrt-zk
-      - mkdir -p api/mrt-zk/java api/mrt-zk/ruby
-      - cp -r target/site/apidocs/* api/mrt-zk/java
-      - cp -r src/main/ruby/doc/* api/mrt-zk/ruby
-      - echo aws s3 cp --recursive api s3://${S3CFBUCKET}/api 
-      - aws s3 cp --recursive api s3://${S3CFBUCKET}/api
-      - aws cloudfront create-invalidation --distribution-id ${CFDISTRIBUTIONID} --paths /* --region us-east-1
-  post_build:
-    commands:
-      #- aws s3 rm s3://${S3CFBUCKET}/api --recursive
+    # - mvn -ntp clean install -Ddocker.skip -DskipITs -Dmaven.test.skip=true
+    - mvn -ntp clean install
+    - mvn deploy:deploy-file -Durl=${CODEARTIFACT_URL} -DrepositoryId=cdlib-uc3-mrt-uc3-mrt-java -Dfile=$(ls target/MerrittZK-*.jar)
+    - mvn -ntp javadoc:javadoc
+    - cd src/main/ruby
+    - bundle install
+    - bundle exec rdoc lib/*.rb
+    - cd ../../..
+    - rm -rf api/mrt-zk
+    - mkdir -p api/mrt-zk/java api/mrt-zk/ruby
+    - cp -r target/site/apidocs/* api/mrt-zk/java
+    - cp -r src/main/ruby/doc/* api/mrt-zk/ruby
+    - echo aws s3 cp --recursive api s3://${S3CFBUCKET}/api 
+    - aws s3 cp --recursive api s3://${S3CFBUCKET}/api
+    - aws cloudfront create-invalidation --distribution-id ${CFDISTRIBUTIONID} --paths /* --region us-east-1
+
