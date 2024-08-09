@@ -144,7 +144,7 @@ module MerrittZK
 
     def status_object(oldstat, status)
       oldstatus = oldstat.nil? ? nil : oldstat[:status]
-      jobj = super(oldstat, status)
+      jobj = super
 
       jobj[:last_successful_status] = nil unless jobj.key?(:last_successful_status)
 
