@@ -222,9 +222,23 @@ public class Job extends QueueItem {
     }
   }
 
-  public JSONObject statusObject(IngestState status) {
-    JSONObject jobj = super.statusObject(status);
-    jobj.put(MerrittJsonKey.LastSuccessfulStatus.key(), JSONObject.NULL);
+  public JSONObject statusObject(JSONObject statj, IngestState status) {
+    JSONObject jobj = super.statusObject(statj, status);
+    if (!jobj.has(MerrittJsonKey.LastSuccessfulStatus.key())) {
+      jobj.put(MerrittJsonKey.LastSuccessfulStatus.key(), JSONObject.NULL);
+    }
+
+    JobState oldstat = null;
+    if (statj.has(MerrittJsonKey.Status.key())) {
+      oldstat = JobState.valueOf(statj.get(MerrittJsonKey.Status.key()).toString());
+    }
+
+    if (oldstat == null) {
+    } else if (status == JobState.Failed || status == JobState.Deleted) {
+    } else if (status == oldstat) {
+    } else {
+      jobj.put(MerrittJsonKey.LastSuccessfulStatus.key(), statj.get(MerrittJsonKey.Status.key()));
+    }
     jobj.put(MerrittJsonKey.RetryCount.key(), retryCount);
     return jobj;
   }

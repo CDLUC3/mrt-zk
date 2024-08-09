@@ -142,13 +142,21 @@ module MerrittZK
       job
     end
 
-    def status_object(status)
-      {
-        status: status.name,
-        last_successful_status: nil,
-        last_modified: Time.now.to_s,
-        retry_count: @retry_count
-      }
+    def status_object(oldstat, status)
+      oldstatus = oldstat.nil? ? nil : oldstat[:status]
+      jobj = super(oldstat, status)
+
+      jobj[:last_successful_status] = nil unless jobj.key?(:last_successful_status)
+
+      if oldstatus.nil?
+      elsif status.nil?
+      elsif status == MerrittZK::JobState::Failed || status == MerrittZK::JobState::Deleted
+      elsif status.name == oldstatus
+      else
+        jobj[:last_successful_status] = oldstatus
+      end
+      jobj[:retry_count] = @retry_count
+      jobj
     end
 
     def self.acquire_job(zk, state)

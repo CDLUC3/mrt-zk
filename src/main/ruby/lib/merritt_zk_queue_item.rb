@@ -111,17 +111,22 @@ module MerrittZK
       path.split('/')[-1]
     end
 
-    def status_object(status)
-      {
-        status: status.name,
+    def status_object(oldstat, status)
+      defs = {
         last_modified: Time.now.to_s
       }
+      stat = oldstat.nil? ? defs : oldstat
+      stat[:status] = status.name
+      stat
     end
 
     def set_status(zk, status, message = '')
       return if status == @status
 
-      json = status_object(status)
+      oldjson = nil
+      oldjson = json_property(zk, ZkKeys::STATUS) if zk.exists?("#{path}/#{ZkKeys::STATUS}")
+      
+      json = status_object(oldjson, status)
       json[:message] = message
       data = QueueItem.serialize(json)
       if @status.nil?

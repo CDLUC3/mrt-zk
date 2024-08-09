@@ -233,8 +233,8 @@ abstract public class QueueItem {
     }
   }
 
-  public JSONObject statusObject(IngestState status) {
-    JSONObject jobj = new JSONObject();
+  public JSONObject statusObject(JSONObject statj, IngestState status) {
+    JSONObject jobj = statj == null ? new JSONObject() : new JSONObject(statj.toString());
     jobj.put(MerrittJsonKey.Status.key(), status.name());
     jobj.put(MerrittJsonKey.LastModified.key(), QueueItemHelper.now());
     return jobj;
@@ -255,7 +255,8 @@ abstract public class QueueItem {
         }  
       }
       String statpath = makePath(ZKKey.STATUS);
-      JSONObject json = statusObject(status);
+      JSONObject oldjson = QueueItemHelper.exists(client, statpath) ? jsonProperty(client, ZKKey.STATUS) : new JSONObject();
+      JSONObject json = statusObject(oldjson, status);
       if (message == null) {
         message = "";
       }

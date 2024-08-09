@@ -162,7 +162,7 @@ create_job_state_change:
     /jobs/jid0/priority: 5
     /jobs/jid0/space_needed: 0
     /jobs/jid0/status: 
-      last_successful_status: null
+      last_successful_status: Pending
       status: Estimating
       last_modified: now
       retry_count: 0
@@ -187,7 +187,7 @@ load_job_state_change:
     /jobs/jid0/priority: 5
     /jobs/jid0/space_needed: 0
     /jobs/jid0/status: 
-      last_successful_status: null
+      last_successful_status: Pending
       status: Estimating
       last_modified: now
       retry_count: 0
@@ -212,7 +212,7 @@ acquire_pending_job:
     /jobs/jid0/priority: 5
     /jobs/jid0/space_needed: 0
     /jobs/jid0/status: 
-      last_successful_status: null
+      last_successful_status: Pending
       status: Estimating
       last_modified: now
       retry_count: 0
@@ -251,7 +251,7 @@ acquire_lowest_priority_job:
     /jobs/jid1/priority: 2
     /jobs/jid1/space_needed: 0
     /jobs/jid1/status: 
-      last_successful_status: null
+      last_successful_status: Pending
       status: Estimating
       last_modified: now
       retry_count: 0
@@ -301,7 +301,7 @@ job_happy_path:
     /jobs/jid1/priority: 2
     /jobs/jid1/space_needed: 0
     /jobs/jid1/status: 
-      last_successful_status: null
+      last_successful_status: Notify
       status: Completed
       last_modified: now
       retry_count: 0
@@ -341,7 +341,7 @@ batch_happy_path:
     /jobs/jid1/priority: 2
     /jobs/jid1/space_needed: 0
     /jobs/jid1/status: 
-      last_successful_status: null
+      last_successful_status: Notify
       status: Completed
       last_modified: now
       retry_count: 0
@@ -367,7 +367,7 @@ batch_failure:
     /jobs/jid1/priority: 2
     /jobs/jid1/space_needed: 0
     /jobs/jid1/status: 
-      last_successful_status: null
+      last_successful_status: Recording
       status: Deleted
       last_modified: now
       retry_count: 0
@@ -393,7 +393,7 @@ batch_recovery:
     /jobs/jid1/priority: 2
     /jobs/jid1/space_needed: 0
     /jobs/jid1/status: 
-      last_successful_status: null
+      last_successful_status: Notify
       status: Completed
       last_modified: now
       retry_count: 1
