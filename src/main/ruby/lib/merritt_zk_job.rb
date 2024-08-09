@@ -149,9 +149,13 @@ module MerrittZK
       jobj[:last_successful_status] = nil unless jobj.key?(:last_successful_status)
 
       if oldstatus.nil?
+        # no action 1
       elsif status.nil?
-      elsif status == MerrittZK::JobState::Failed || status == MerrittZK::JobState::Deleted
+        # no action 2
+      elsif [MerrittZK::JobState::Failed, MerrittZK::JobState::Deleted].include?(status)
+        # no action 3
       elsif status.name == oldstatus
+        # no action 4
       else
         jobj[:last_successful_status] = oldstatus
       end

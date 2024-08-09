@@ -125,7 +125,7 @@ module MerrittZK
 
       oldjson = nil
       oldjson = json_property(zk, ZkKeys::STATUS) if zk.exists?("#{path}/#{ZkKeys::STATUS}")
-      
+
       json = status_object(oldjson, status)
       json[:message] = message
       data = QueueItem.serialize(json)
