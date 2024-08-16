@@ -29,13 +29,13 @@ phases:
       do
         for ver in `aws codeartifact list-package-versions \
           --domain=cdlib-uc3-mrt --repository=uc3-mrt-java \
-          --format=maven --namespace=org.cdlib.mrt \
+          --format=maven --namespace=org.cdlib.mrt.zk \
           --package=$pkg --status=Unlisted \
           --output=text | grep Unlisted | cut -f4`
         do
           aws codeartifact delete-package-versions \
             --domain=cdlib-uc3-mrt --repository=uc3-mrt-java \
-            --format=maven --namespace=org.cdlib.mrt \
+            --format=maven --namespace=org.cdlib.mrt.zk \
             --package=$pkg --versions=$ver --no-cli-pager
         done
       done
