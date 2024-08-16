@@ -86,7 +86,6 @@ public class MerrittLocks {
     QueueItemHelper.delete(client, Paths.get(QueueItem.ZkPaths.LocksStorage.path, ark.replaceAll(":?/", "_")).toString());
   }
   public static boolean checkLockObjectStorage(ZooKeeper client, String ark) throws KeeperException, InterruptedException {
-    System.out.println(client.getChildren(QueueItem.ZkPaths.LocksStorage.path, false));
     return QueueItemHelper.exists(client, Paths.get(QueueItem.ZkPaths.LocksStorage.path, ark.replaceAll(":?/", "_")).toString());
   }
 
