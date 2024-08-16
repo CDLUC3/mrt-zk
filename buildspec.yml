@@ -5,6 +5,14 @@ version: 0.2
 #   - Provide minimal github credentials to access public repo
 
 phases:
+  install:
+    runtime-versions:
+      ruby: 3.2.3
+    commands:
+    - rebenv versions
+    - echo Installing Bundler...
+    - gem install bundler
+    - bundle install
   pre_build:
     on-failure: ABORT
     commands:
