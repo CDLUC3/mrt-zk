@@ -98,7 +98,7 @@ public class Access extends QueueItem {
 
   public void delete(ZooKeeper client) throws MerrittStateError, MerrittZKNodeInvalid, KeeperException, InterruptedException {
     if (!this.status().isDeletable()) {
-      throw new MerrittStateError(String.format("Delete invalid for %s", path()));
+      throw new MerrittStateError(String.format("Delete invalid for %s (%s)", path(), this.status().name()));
     }
     QueueItemHelper.deleteAll(client, path());
   }

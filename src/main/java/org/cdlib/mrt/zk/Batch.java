@@ -97,7 +97,7 @@ public class Batch extends QueueItem {
   public void delete(ZooKeeper client) throws MerrittStateError, MerrittZKNodeInvalid, KeeperException, InterruptedException {
     String[] dirs = {BatchJobStates.Processing.path, BatchJobStates.Failed.path, BatchJobStates.Completed.path};
     if (!this.status().isDeletable()) {
-      throw new MerrittStateError(String.format("Delete invalid for %s", path()));
+      throw new MerrittStateError(String.format("Delete invalid for %s (%s)", path(), this.status().name()));
     }
     for(String state: dirs) {
       String p = String.format("%s/states/%s", path(), state);
