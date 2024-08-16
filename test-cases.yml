@@ -559,13 +559,13 @@ lock_collection:
 lock_store:
   input:
   output:
-    /locks/storage/ark:_aaa_111: null
-    /locks/storage/ark:_bbb_222: null
+    /locks/storage/ark_aaa_111: null
+    /locks/storage/ark_bbb_222: null
 lock_inventory:
   input:
   output:
-    /locks/inventory/ark:_aaa_111: null
-    /locks/inventory/ark:_bbb_222: null
+    /locks/inventory/ark_aaa_111: null
+    /locks/inventory/ark_bbb_222: null
 access_happy_path:
   input:
   output:

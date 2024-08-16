@@ -100,29 +100,29 @@ module MerrittZK
     end
 
     def self.lock_object_storage(zk, ark)
-      create_ephemeral_lock(zk, "#{LOCKS_STORAGE}/#{ark.gsub('/', '_')}")
+      create_ephemeral_lock(zk, "#{LOCKS_STORAGE}/#{ark.gsub(':?/', '_')}")
     end
 
     def self.check_lock_object_storage(zk, ark)
-      zk.exists?("#{LOCKS_STORAGE}/#{ark.gsub('/', '_')}")
+      zk.exists?("#{LOCKS_STORAGE}/#{ark.gsub(':?/', '_')}")
     end
 
     def self.unlock_object_storage(zk, ark)
-      zk.delete("#{LOCKS_STORAGE}/#{ark.gsub('/', '_')}")
+      zk.delete("#{LOCKS_STORAGE}/#{ark.gsub(':?/', '_')}")
     rescue StandardError
       # no action
     end
 
     def self.lock_object_inventory(zk, ark)
-      create_ephemeral_lock(zk, "#{LOCKS_INVENTORY}/#{ark.gsub('/', '_')}")
+      create_ephemeral_lock(zk, "#{LOCKS_INVENTORY}/#{ark.gsub(':?/', '_')}")
     end
 
     def self.check_lock_object_inventory(zk, ark)
-      zk.exists?("#{LOCKS_INVENTORY}/#{ark.gsub('/', '_')}")
+      zk.exists?("#{LOCKS_INVENTORY}/#{ark.gsub(':?/', '_')}")
     end
 
     def self.unlock_object_inventory(zk, ark)
-      zk.delete("#{LOCKS_INVENTORY}/#{ark.gsub('/', '_')}")
+      zk.delete("#{LOCKS_INVENTORY}/#{ark.gsub(':?/', '_')}")
     rescue StandardError
       # no action
     end

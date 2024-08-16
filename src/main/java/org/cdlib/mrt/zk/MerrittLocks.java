@@ -80,22 +80,23 @@ public class MerrittLocks {
   }
 
   public static boolean lockObjectStorage(ZooKeeper client, String ark) {
-    return createEphemeralLock(client, Paths.get(QueueItem.ZkPaths.LocksStorage.path, ark.replaceAll("\\/", "_")).toString());
+    return createEphemeralLock(client, Paths.get(QueueItem.ZkPaths.LocksStorage.path, ark.replaceAll(":?/", "_")).toString());
   }
   public static void unlockObjectStorage(ZooKeeper client, String ark) throws InterruptedException, KeeperException {
-    QueueItemHelper.delete(client, Paths.get(QueueItem.ZkPaths.LocksStorage.path, ark.replaceAll("\\/", "_")).toString());
+    QueueItemHelper.delete(client, Paths.get(QueueItem.ZkPaths.LocksStorage.path, ark.replaceAll(":?/", "_")).toString());
   }
   public static boolean checkLockObjectStorage(ZooKeeper client, String ark) throws KeeperException, InterruptedException {
-    return QueueItemHelper.exists(client, Paths.get(QueueItem.ZkPaths.LocksStorage.path, ark.replaceAll("\\/", "_")).toString());
+    System.out.println(client.getChildren(QueueItem.ZkPaths.LocksStorage.path, false));
+    return QueueItemHelper.exists(client, Paths.get(QueueItem.ZkPaths.LocksStorage.path, ark.replaceAll(":?/", "_")).toString());
   }
 
   public static boolean lockObjectInventory(ZooKeeper client, String ark) {
-    return createEphemeralLock(client, Paths.get(QueueItem.ZkPaths.LocksInventory.path, ark.replaceAll("\\/", "_")).toString());
+    return createEphemeralLock(client, Paths.get(QueueItem.ZkPaths.LocksInventory.path, ark.replaceAll(":?/", "_")).toString());
   }
   public static void unlockObjectInventory(ZooKeeper client, String ark) throws InterruptedException, KeeperException {
-    QueueItemHelper.delete(client, Paths.get(QueueItem.ZkPaths.LocksInventory.path, ark.replaceAll("\\/", "_")).toString());
+    QueueItemHelper.delete(client, Paths.get(QueueItem.ZkPaths.LocksInventory.path, ark.replaceAll(":?/", "_")).toString());
   }
   public static boolean checkLockObjectInventory(ZooKeeper client, String ark) throws KeeperException, InterruptedException {
-    return QueueItemHelper.exists(client, Paths.get(QueueItem.ZkPaths.LocksInventory.path, ark.replaceAll("\\/", "_")).toString());
+    return QueueItemHelper.exists(client, Paths.get(QueueItem.ZkPaths.LocksInventory.path, ark.replaceAll(":?/", "_")).toString());
   }
 }
