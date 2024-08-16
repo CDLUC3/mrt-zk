@@ -24,6 +24,21 @@ phases:
     # - mvn -ntp clean install -Ddocker.skip -DskipITs -Dmaven.test.skip=true
     - mvn -ntp clean install
     - mvn deploy:deploy-file -Durl=${CODEARTIFACT_URL} -DrepositoryId=cdlib-uc3-mrt-uc3-mrt-java -Dfile=$(ls target/MerrittZK-*.jar)
+    - |
+      for pkg in MerrittZK
+      do
+        for ver in `aws codeartifact list-package-versions \
+          --domain=cdlib-uc3-mrt --repository=uc3-mrt-java \
+          --format=maven --namespace=org.cdlib.mrt \
+          --package=$pkg --status=Unlisted \
+          --output=text | grep Unlisted | cut -f4`
+        do
+          aws codeartifact delete-package-versions \
+            --domain=cdlib-uc3-mrt --repository=uc3-mrt-java \
+            --format=maven --namespace=org.cdlib.mrt \
+            --package=$pkg --versions=$ver --no-cli-pager
+        done
+      done
     - mvn -ntp javadoc:javadoc
     - cd src/main/ruby
     - bundle install
