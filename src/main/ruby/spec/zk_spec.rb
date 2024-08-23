@@ -846,9 +846,8 @@ RSpec.describe 'ZK input/ouput tests' do
 
     it :lock_collection do |_x|
       expect(MerrittZK::Locks.check_lock_collection(@zk, 'foo')).to be(false)
-      expect(MerrittZK::Locks.lock_collection(@zk, 'foo')).to be(true)
+      MerrittZK::Locks.lock_collection(@zk, 'foo')
       expect(MerrittZK::Locks.check_lock_collection(@zk, 'foo')).to be(true)
-      expect(MerrittZK::Locks.lock_collection(@zk, 'foo')).to be(false)
       MerrittZK::Locks.unlock_collection(@zk, 'foo')
       expect(MerrittZK::Locks.lock_collection(@zk, 'foo')).to be(true)
 
@@ -860,30 +859,38 @@ RSpec.describe 'ZK input/ouput tests' do
 
     it :lock_store do |_x|
       expect(MerrittZK::Locks.check_lock_object_storage(@zk, 'ark:/aaa/111')).to be(false)
-      expect(MerrittZK::Locks.lock_object_storage(@zk, 'ark:/aaa/111')).to be(true)
+      MerrittZK::Locks.lock_object_storage(@zk, 'ark:/aaa/111')
       expect(MerrittZK::Locks.check_lock_object_storage(@zk, 'ark:/aaa/111')).to be(true)
-      expect(MerrittZK::Locks.lock_object_storage(@zk, 'ark:/aaa/111')).to be(false)
       MerrittZK::Locks.unlock_object_storage(@zk, 'ark:/aaa/111')
-      expect(MerrittZK::Locks.lock_object_storage(@zk, 'ark:/aaa/111')).to be(true)
+      expect(MerrittZK::Locks.check_lock_object_storage(@zk, 'ark:/aaa/111')).to be(false)
+      MerrittZK::Locks.lock_object_storage(@zk, 'ark:/aaa/111')
+      expect(MerrittZK::Locks.check_lock_object_storage(@zk, 'ark:/aaa/111')).to be(true)
 
-      expect(MerrittZK::Locks.lock_object_storage(@zk, 'ark:/bbb/222')).to be(true)
-      expect(MerrittZK::Locks.lock_object_storage(@zk, 'ark:/bbb/222')).to be(false)
+      expect(MerrittZK::Locks.check_lock_object_storage(@zk, 'ark:/bbb/222')).to be(false)
+      MerrittZK::Locks.lock_object_storage(@zk, 'ark:/bbb/222')
+      expect(MerrittZK::Locks.check_lock_object_storage(@zk, 'ark:/bbb/222')).to be(true)
       MerrittZK::Locks.unlock_object_storage(@zk, 'ark:/bbb/222')
-      expect(MerrittZK::Locks.lock_object_storage(@zk, 'ark:/bbb/222')).to be(true)
+      expect(MerrittZK::Locks.check_lock_object_storage(@zk, 'ark:/bbb/222')).to be(false)
+      MerrittZK::Locks.lock_object_storage(@zk, 'ark:/bbb/222')
+      expect(MerrittZK::Locks.check_lock_object_storage(@zk, 'ark:/bbb/222')).to be(true)
     end
 
     it :lock_inventory do |_x|
       expect(MerrittZK::Locks.check_lock_object_inventory(@zk, 'ark:/aaa/111')).to be(false)
-      expect(MerrittZK::Locks.lock_object_inventory(@zk, 'ark:/aaa/111')).to be(true)
+      MerrittZK::Locks.lock_object_inventory(@zk, 'ark:/aaa/111')
       expect(MerrittZK::Locks.check_lock_object_inventory(@zk, 'ark:/aaa/111')).to be(true)
-      expect(MerrittZK::Locks.lock_object_inventory(@zk, 'ark:/aaa/111')).to be(false)
       MerrittZK::Locks.unlock_object_inventory(@zk, 'ark:/aaa/111')
-      expect(MerrittZK::Locks.lock_object_inventory(@zk, 'ark:/aaa/111')).to be(true)
+      expect(MerrittZK::Locks.check_lock_object_inventory(@zk, 'ark:/aaa/111')).to be(false)
+      MerrittZK::Locks.lock_object_inventory(@zk, 'ark:/aaa/111')
+      expect(MerrittZK::Locks.check_lock_object_inventory(@zk, 'ark:/aaa/111')).to be(true)
 
-      expect(MerrittZK::Locks.lock_object_inventory(@zk, 'ark:/bbb/222')).to be(true)
-      expect(MerrittZK::Locks.lock_object_inventory(@zk, 'ark:/bbb/222')).to be(false)
+      expect(MerrittZK::Locks.check_lock_object_inventory(@zk, 'ark:/bbb/222')).to be(false)
+      MerrittZK::Locks.lock_object_inventory(@zk, 'ark:/bbb/222')
+      expect(MerrittZK::Locks.check_lock_object_inventory(@zk, 'ark:/bbb/222')).to be(true)
       MerrittZK::Locks.unlock_object_inventory(@zk, 'ark:/bbb/222')
-      expect(MerrittZK::Locks.lock_object_inventory(@zk, 'ark:/bbb/222')).to be(true)
+      expect(MerrittZK::Locks.check_lock_object_inventory(@zk, 'ark:/bbb/222')).to be(false)
+      MerrittZK::Locks.lock_object_inventory(@zk, 'ark:/bbb/222')
+      expect(MerrittZK::Locks.check_lock_object_inventory(@zk, 'ark:/bbb/222')).to be(true)
     end
   end
 
