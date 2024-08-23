@@ -128,8 +128,10 @@ public class Job extends QueueItem {
 
   public static JSONObject createJobIdentifiers(String primary, String local) {
     JSONObject json = new JSONObject();
+    if (primary == null ) primary = "";
     json.put(MerrittJsonKey.PrimaryId.key(), primary);
     JSONArray arr = new JSONArray();
+    if (local == null ) local = "";
     for(String s: local.split(";")) {
       if (!s.isEmpty()) {
         arr.put(s);
