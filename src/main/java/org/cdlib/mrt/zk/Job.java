@@ -361,7 +361,7 @@ public class Job extends QueueItem {
 
   public void delete(ZooKeeper client) throws MerrittStateError, MerrittZKNodeInvalid, InterruptedException, KeeperException {
     if (!this.status().isDeletable()) {
-      throw new MerrittStateError(String.format("Delete invalid for %s (%s)", path(), this.status().name()));
+      throw new MerrittStateError(String.format("Can not delete Job: %s (%s)", path(), this.status().name()));
     }
     QueueItemHelper.delete(client, jobStatePath());
     QueueItemHelper.delete(client, batchStatePath());
