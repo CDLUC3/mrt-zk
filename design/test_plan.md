@@ -20,8 +20,9 @@
 - Release job after collection hold is released
 - Release all jobs for a collection
 - Requeue job failure for each phase (document how to force failures)
-  - Estimating
-  - Downloading
-  - Processing
-  - Recording
-  - Notify
+  - Estimating (temp hardcode)
+  - Provisioning (temp hardcode)
+  - Downloading (bad manifest url)
+  - Processing (bad storage node)
+  - Recording (ask David, turn off inventory and manually fail the step)
+  - Notify (possibly bad email or callback)
