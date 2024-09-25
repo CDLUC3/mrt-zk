@@ -180,9 +180,11 @@ public class Batch extends QueueItem {
              b.delete(client);
              deleted.add(b.id());
 	  } catch (MerrittZKNodeInvalid ni) {
-             System.err.println("Error cleaning ZK node: " + ni.getMessage());
+             System.err.println("Merritt Error cleaning ZK node: " + ni.getMessage());
 	  } catch (KeeperException ke) {
-             System.err.println("Error cleaning ZK node: " + ke.getMessage());
+             System.err.println("Keeper Error cleaning ZK node: " + ke.getMessage());
+	  } catch (Exception e) {
+             System.err.println("General Error cleaning ZK node: " + e.getMessage());
 	  }
         }
       }
