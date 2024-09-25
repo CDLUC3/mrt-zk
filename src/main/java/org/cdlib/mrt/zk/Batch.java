@@ -179,6 +179,8 @@ public class Batch extends QueueItem {
 	  try {
              b.delete(client);
              deleted.add(b.id());
+	  } catch (MerrittZKNodeInvalid ni) {
+             System.err.println("Error cleaning ZK node: " + ni.getMessage());
 	  } catch (KeeperException ke) {
              System.err.println("Error cleaning ZK node: " + ke.getMessage());
 	  }
