@@ -176,8 +176,12 @@ public class Batch extends QueueItem {
           if (b.status() != BatchState.Completed || b.status() == BatchState.Deleted) {
             continue;
           }
-          b.delete(client);
-          deleted.add(b.id());
+	  try {
+             b.delete(client);
+             deleted.add(b.id());
+	  } catch (MerrittZKNodeInvalid zni) {
+             System.err.println("Error cleaning ZK node: " + zni.getMessage());
+	  }
         }
       }
     }
