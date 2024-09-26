@@ -192,6 +192,40 @@ public class Batch extends QueueItem {
     return deleted;
   }
 
+  public static List<String> deleteDeletedJobs(ZooKeeper client) throws MerrittZKNodeInvalid, KeeperException, InterruptedException, MerrittStateError {
+    List<String> deleted = new ArrayList<>();
+    if (!QueueItemHelper.exists(client, QueueItem.ZkPaths.Job.path)) {
+      return deleted;
+    }
+    List<String> jobs = client.getChildren(QueueItem.ZkPaths.Job.path, false);
+    if (jobs.isEmpty()) {
+      return deleted;
+    }
+    jobs.sort(String::compareTo);
+    for(String cp: jobs) {
+      Job j = new Job(cp);
+      try {
+         j.load(client);
+      } catch (KeeperException ke) {
+         // System.err.println("Keeper Error loading ZK node: " + cp + " - " + ke.getMessage());
+      }
+      if (j.status() != JobState.Deleted) {
+         continue;
+      }
+      try {
+         j.delete(client);
+         deleted.add(j.id());
+      } catch (MerrittZKNodeInvalid ni) {
+         System.err.println("Merritt Error cleaning ZK node: " + ni.getMessage());
+      } catch (KeeperException ke) {
+         System.err.println("Keeper Error cleaning ZK node: " + ke.getMessage());
+      } catch (Exception e) {
+         System.err.println("General Error cleaning ZK node: " + e.getMessage());
+      }
+    }
+    return deleted;
+  }
+
   public List<Job> getProcessingJobs(ZooKeeper client) throws KeeperException, InterruptedException {
     return getJobs(client, BatchJobStates.Processing);
   }
