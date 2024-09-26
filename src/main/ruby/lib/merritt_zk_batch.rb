@@ -174,7 +174,7 @@ module MerrittZK
     def delete(zk)
       raise MerrittZK::MerrittStateError, "Delete invalid #{path}" unless @status.deletable?
 
-      %w[batch-processing batch-failed batch-completed].each do |state|
+      %w[batch-processing batch-failed batch-completed batch-deleted].each do |state|
         p = "#{path}/states/#{state}"
         next unless zk.exists?(p)
 
