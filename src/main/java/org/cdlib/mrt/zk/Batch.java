@@ -203,6 +203,9 @@ public class Batch extends QueueItem {
     }
     jobs.sort(String::compareTo);
     for(String cp: jobs) {
+      if ( ! cp.startsWith("jid")) {
+         continue;
+      }
       Job j = new Job(cp);
       try {
          j.load(client);
