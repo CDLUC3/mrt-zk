@@ -137,7 +137,7 @@ RSpec.describe 'state transition tests' do
       expect(state).to_not be_nil
 
       expect(state.status).to eq(:Provisioning)
-      expect(state.fail).to be_nil
+      expect(state.fail).to_not be_nil
       state = state.success
       expect(state).to_not be_nil
 
