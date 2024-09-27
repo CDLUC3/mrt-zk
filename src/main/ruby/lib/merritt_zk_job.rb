@@ -222,6 +222,10 @@ module MerrittZK
       data_prop('submitter', '')
     end
 
+    def submissionDate
+      data_prop('submissionDate', 'foo')
+    end
+
     def creator
       data_prop('creator', '')
     end

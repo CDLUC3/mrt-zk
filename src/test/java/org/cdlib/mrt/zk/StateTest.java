@@ -185,7 +185,7 @@ public class StateTest {
       assertNotNull(state);
 
       assertEquals(state, JobState.Provisioning);      
-      assertNull(state.fail());
+      assertNotNull(state.fail());
       state = state.success();
       assertNotNull(state);
 
@@ -250,7 +250,7 @@ public class StateTest {
       assertNotNull(state);
 
       assertEquals(state, JobState.Provisioning);      
-      assertNull(state.fail());
+      assertNotNull(state.fail());
       state = state.success();
       assertNotNull(state);
 
