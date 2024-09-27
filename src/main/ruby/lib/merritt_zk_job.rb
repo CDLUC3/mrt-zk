@@ -154,6 +154,8 @@ module MerrittZK
         # no action 2
       elsif [MerrittZK::JobState::Failed, MerrittZK::JobState::Deleted].include?(status)
         # no action 3
+      elsif [MerrittZK::JobState::Failed, MerrittZK::JobState::Deleted].include?(oldstatus)
+        # no action 3
       elsif status.name == oldstatus
         # no action 4
       else
