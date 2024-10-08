@@ -191,5 +191,24 @@ module MerrittZK
       # puts "DELETE #{path}"
       zk.rm_rf(path)
     end
+
+    def self.list_batches_as_json(zk)
+      batches = []
+      zk.children(DIR).sort.each do |cp|
+  
+        begin
+          batch = Batch.new(cp)
+          batch.load(zk)
+          batchjson = batch.data
+          batchjson[:id] = batch.id
+          batchjson[:status] = batch.status_name
+          batches.append(batchjson)
+        rescue StandardError => e
+          puts "List Batch #{cp} exception: #{e}"
+        end
+      end
+      batches
+    end
   end
+
 end
