@@ -31,6 +31,7 @@ _A dashed line indicates and administrative action initiated by the Merritt Team
 Batch is ready to be processed
 ### Held
 Collection is HELD.  The hold must be released before the batch can proceed.
+**The Held state has not been implemented.  The priority of supporting this state has not yet been determined.**
 ### Processing
 Payload is analyzed.  If the payload is a manifest, it will be downloaded. Jobs are created in the job queue.
 ### Reporting
