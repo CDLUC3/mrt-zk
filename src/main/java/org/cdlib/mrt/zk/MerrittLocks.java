@@ -15,6 +15,7 @@ public class MerrittLocks {
   public static void initLocks(ZooKeeper client) throws KeeperException, InterruptedException {
     QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.Locks.path);
     QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.LocksQueue.path);
+    QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.LocksLocalID.path);
     QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.LocksStorage.path);
     QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.LocksInventory.path);
     QueueItemHelper.createIfNeeded(client, QueueItem.ZkPaths.LocksCollections.path);
@@ -77,6 +78,16 @@ public class MerrittLocks {
   }
   public static boolean checkLockCollection(ZooKeeper client, String mnemonic) throws KeeperException, InterruptedException {
     return QueueItemHelper.exists(client, Paths.get(QueueItem.ZkPaths.LocksCollections.path, mnemonic).toString());
+  }
+
+  public static boolean lockObjectLocalID(ZooKeeper client, String lid) {
+    return createEphemeralLock(client, Paths.get(QueueItem.ZkPaths.LocksLocalID.path, lid.replaceAll(":?/", "_")).toString());
+  }
+  public static void unlockObjectLocalID(ZooKeeper client, String lid) throws InterruptedException, KeeperException {
+    QueueItemHelper.delete(client, Paths.get(QueueItem.ZkPaths.LocksLocalID.path, lid.replaceAll(":?/", "_")).toString());
+  }
+  public static boolean checkLockObjectLocalID(ZooKeeper client, String lid) throws KeeperException, InterruptedException {
+    return QueueItemHelper.exists(client, Paths.get(QueueItem.ZkPaths.LocksLocalID.path, lid.replaceAll(":?/", "_")).toString());
   }
 
   public static boolean lockObjectStorage(ZooKeeper client, String ark) {
