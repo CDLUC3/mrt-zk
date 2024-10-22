@@ -2,6 +2,7 @@ job_states:
   Pending:
     Held:
     Estimating:
+    Failed: {fail: true}
   Held:
     Pending:
     Deleted:
@@ -26,6 +27,7 @@ job_states:
   Completed:
   Deleted:
   Failed:
+    Pending:
     Estimating:
     Provisioning:
     Downloading:

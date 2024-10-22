@@ -26,6 +26,7 @@ abstract public class QueueItem {
     LocksQueueIngest("/locks/queue/ingest"),
     LocksQueueAccessSmall("/locks/queue/accessSmall"),
     LocksQueueAccessLarge("/locks/queue/accessLarge"),
+    LocksLocalID("/locks/localid"),
     LocksStorage("/locks/storage"),
     LocksInventory("/locks/inventory"),
     LocksCollections("/locks/collections");

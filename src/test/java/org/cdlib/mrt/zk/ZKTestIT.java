@@ -240,6 +240,7 @@ public class ZKTestIT {
       }
       if (path.equals(QueueItem.ZkPaths.LocksInventory.path) || 
           path.equals(QueueItem.ZkPaths.LocksCollections.path) || 
+          path.equals(QueueItem.ZkPaths.LocksLocalID.path) || 
           path.equals(QueueItem.ZkPaths.LocksStorage.path) || 
           path.equals(QueueItem.ZkPaths.LocksQueue.path)) {
         return true;

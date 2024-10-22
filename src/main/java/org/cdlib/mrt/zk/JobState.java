@@ -14,7 +14,10 @@ public enum JobState implements IngestState {
    */
   Pending {
     public List<IngestState> nextStates() {
-      return Arrays.asList(JobState.Held, JobState.Estimating);
+      return Arrays.asList(JobState.Held, JobState.Estimating, JobState.Failed);
+    }
+    public JobState fail() {
+      return JobState.Failed;
     }
   },
   /**
@@ -123,7 +126,7 @@ public enum JobState implements IngestState {
   Failed {
     public List<IngestState> nextStates() {
       return Arrays.asList(
-        JobState.Estimating, JobState.Provisioning, JobState.Deleted, JobState.Downloading, JobState.Processing, JobState.Recording, JobState.Notify
+        JobState.Pending, JobState.Estimating, JobState.Provisioning, JobState.Deleted, JobState.Downloading, JobState.Processing, JobState.Recording, JobState.Notify
       );
     }
   },
