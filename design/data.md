@@ -43,7 +43,7 @@
 | /locks/queue/accessSmall | none | - | Admin | Admin | |
 | /locks/queue/accessLarge | none | - | Admin | Admin | |
 | /locks/storage/{ark} | none | - | Ingest | Ingest | slashes are replaced with _ |
-| /locks/queue/localid(localid}{owner} | none | - | Ingest | Ingest | slashes are replaced with _|
+| /locks/queue/localid/{localid}{owner} | none | - | Ingest | Ingest | slashes are replaced with _|
 | /locks/inventory/{ark} | none | - | Inventory | Inventory | slashes are replaced with _ |
 | /locks/collections/{mnemonic} | none | - | Admin | Admin | |
 
