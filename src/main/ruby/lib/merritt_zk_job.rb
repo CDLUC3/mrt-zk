@@ -199,7 +199,6 @@ module MerrittZK
 
     ##
     # List jobs as a json object that will be consumed by the admin tool.
-    # This is a transitional representation that can be compatible with legacy job listings.
     def self.list_jobs_as_json(zk)
       jobs = []
       zk.children(DIR).sort.each do |cp|
@@ -254,110 +253,6 @@ module MerrittZK
 
     def title
       data_prop('title', '')
-    end
-  end
-
-  ##
-  # Legacy Merritt Ingest Job record.
-  # This class will be removed after the migration is complete
-  class LegacyIngestJob < LegacyItem
-    DIR = '/ingest'
-    def dir
-      DIR
-    end
-
-    def submitter
-      @payload.fetch(:submitter, '')
-    end
-
-    def creator
-      @payload.fetch(:creator, '')
-    end
-
-    def profile
-      @payload.fetch(:profile, '')
-    end
-
-    def response_form
-      @payload.fetch(:responseForm, '')
-    end
-
-    def filename
-      @payload.fetch(:filename, '')
-    end
-
-    def udpate
-      @payload.fetch(:update, false)
-    end
-
-    def type
-      @payload.fetch(:type, '')
-    end
-
-    def title
-      @payload.fetch(:title, '')
-    end
-
-    def bid
-      @payload.fetch(:bid, '')
-    end
-
-    def priority
-      @payload.fetch(:priority, 0)
-    end
-
-    def space_needed
-      @payload.fetch(:space_needed, 0)
-    end
-
-    ##
-    # List legacy ingest jobs as a json object that will be consumed by the admin tool.
-    def self.list_jobs_as_json(zk)
-      jobs = []
-      return jobs unless zk.exists?(DIR)
-
-      zk.children(DIR).sort.each do |cp|
-        lj = LegacyIngestJob.new(cp)
-        lj.load(zk)
-        jobs.append(lj.payload_object)
-      end
-      jobs
-    end
-  end
-
-  ##
-  # Legacy Merritt Inventory Job record.
-  # This class will be removed after the migration is complete
-  class LegacyInventoryJob < LegacyItem
-    DIR = '/mrt.inventory.full'
-    def dir
-      DIR
-    end
-
-    def json?
-      false
-    end
-
-    def payload_object
-      payload = super
-      m = /(http:[^<]*)/.match(payload[:payload])
-      payload[:queueNode] = DIR
-      payload[:manifestURL] = m[1]
-      payload
-    end
-
-    ##
-    # List legacy inventory jobs as a json object that will be consumed by the admin tool.
-    def self.list_jobs_as_json(zk)
-      jobs = []
-      return jobs unless zk.exists?(DIR)
-
-      zk.children(DIR).sort.each do |cp|
-        lj = LegacyInventoryJob.new(cp)
-        lj.load(zk)
-        jobs.append(lj.payload_object)
-      end
-      jobs
     end
   end
 end
