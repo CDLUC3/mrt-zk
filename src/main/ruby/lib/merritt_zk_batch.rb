@@ -195,26 +195,23 @@ module MerrittZK
     def self.list_batches_as_json(zk)
       batches = []
       zk.children(DIR).sort.each do |cp|
-  
-        begin
-          batch = Batch.new(cp)
-          batch.load(zk)
-          batchjson = batch.data
-          batchjson[:id] = batch.id
-          batchjson[:status] = batch.status_name
-          batchjson[:jobCountFailed] = batch.get_failed_jobs(zk).length
-          batchjson[:jobCountDeleted] = batch.get_deleted_jobs(zk).length
-          batchjson[:jobCountCompleted] = batch.get_completed_jobs(zk).length
-          batchjson[:jobCountProcessing] = batch.get_processing_jobs(zk).length
-          batchjson[:jobCount] = batch.get_processing_jobs(zk).length +
-            batch.get_failed_jobs(zk).length + batch.get_deleted_jobs(zk).length + batch.get_completed_jobs(zk).length
-          batches.append(batchjson)
-        rescue StandardError => e
-          puts "List Batch #{cp} exception: #{e}"
-        end
+        batch = Batch.new(cp)
+        batch.load(zk)
+        batchjson = batch.data
+        batchjson[:id] = batch.id
+        batchjson[:status] = batch.status_name
+        batchjson[:jobCountFailed] = batch.get_failed_jobs(zk).length
+        batchjson[:jobCountDeleted] = batch.get_deleted_jobs(zk).length
+        batchjson[:jobCountCompleted] = batch.get_completed_jobs(zk).length
+        batchjson[:jobCountProcessing] = batch.get_processing_jobs(zk).length
+        batchjson[:jobCount] = batch.get_processing_jobs(zk).length +
+                               batch.get_failed_jobs(zk).length + batch.get_deleted_jobs(zk).length +
+                               batch.get_completed_jobs(zk).length
+        batches.append(batchjson)
+      rescue StandardError => e
+        puts "List Batch #{cp} exception: #{e}"
       end
       batches
     end
   end
-
 end

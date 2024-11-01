@@ -449,7 +449,7 @@ RSpec.describe 'ZK input/ouput tests' do
       # Only for Ruby interface
       arr = MerrittZK::Batch.list_batches_as_json(@zk)
       expect(arr.length).to eq(1)
-      
+
       jj.set_status(@zk, MerrittZK::JobState::Deleted)
 
       bbbb.set_status(@zk, MerrittZK::BatchState::Deleted)

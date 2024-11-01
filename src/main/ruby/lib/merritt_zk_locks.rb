@@ -100,7 +100,7 @@ module MerrittZK
     end
 
     def self.store_lock_path(ark)
-      "#{LOCKS_STORAGE}/#{ark.gsub(/:?\//, '_')}"
+      "#{LOCKS_STORAGE}/#{ark.gsub(%r{:?/}, '_')}"
     end
 
     def self.lock_object_storage(zk, ark)
@@ -118,7 +118,7 @@ module MerrittZK
     end
 
     def self.inv_lock_path(ark)
-      "#{LOCKS_INVENTORY}/#{ark.gsub(/:?\//, '_')}"
+      "#{LOCKS_INVENTORY}/#{ark.gsub(%r{:?/}, '_')}"
     end
 
     def self.lock_object_inventory(zk, ark)

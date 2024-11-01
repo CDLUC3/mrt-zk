@@ -223,7 +223,7 @@ module MerrittZK
       data_prop('submitter', '')
     end
 
-    def submissionDate
+    def submission_date
       data_prop('submissionDate', 'foo')
     end
 

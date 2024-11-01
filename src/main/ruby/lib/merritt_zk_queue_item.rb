@@ -151,5 +151,4 @@ module MerrittZK
       @data.fetch(defval, '')
     end
   end
-
 end
