@@ -132,3 +132,13 @@ export ZKCONN=localhost:8084
 # export ZKCONN=`get_ssm_value_by_name inventory/zoo/queueService`
 bundle exec ruby show_all.rb
 ```
+
+## Force Queue Failures when testing
+
+```
+/dpr2/ingest_home/queue/Estimate_FAIL
+/dpr2/ingest_home/queue/Download_FAIL
+/dpr2/ingest_home/queue/Notify_FAIL
+/dpr2/ingest_home/queue/Process_FAIL
+/dpr2/ingest_home/queue/Provision_FAIL
+```
