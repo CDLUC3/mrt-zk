@@ -132,6 +132,7 @@ public class Batch extends QueueItem {
     }  
     return null;
   }
+
   public static Batch acquireBatchForReporting(ZooKeeper client) throws MerrittZKNodeInvalid, KeeperException, InterruptedException, MerrittStateError {
     List<String> batches = client.getChildren(QueueItem.ZkPaths.Batch.path, false);
     batches.sort(String::compareTo);
@@ -142,13 +143,37 @@ public class Batch extends QueueItem {
           Batch b = new Batch(cp);
           b.load(client);
 
-          if (b.status() == BatchState.Completed || b.status() == BatchState.Failed) {
+          if (b.status() == BatchState.Completed || b.status() == BatchState.Failed || b.status() == BatchState.UpdateReporting) {
             continue;
           }
 
           if (b.lock(client)) {
             b.setStatus(client, BatchState.Reporting);
             return b;
+          }
+        }
+      }
+    }  
+    return null;
+  }  
+
+  public static Batch acquireUpdateBatchForReporting(ZooKeeper client) throws MerrittZKNodeInvalid, KeeperException, InterruptedException, MerrittStateError {
+    List<String> batches = client.getChildren(QueueItem.ZkPaths.Batch.path, false);
+    batches.sort(String::compareTo);
+    for(String cp: batches) {
+      String p = String.format("%s/%s/states/%s", QueueItem.ZkPaths.Batch.path, cp, BatchJobStates.Processing.path);
+      if (QueueItemHelper.exists(client, p)) {
+        if (client.getChildren(p, false).isEmpty()) {
+          Batch b = new Batch(cp);
+          b.load(client);
+
+          if (b.status() == BatchState.UpdateReporting) {
+            if (b.lock(client)) {
+              // b.setStatus(client, BatchState.Reporting);
+              return b;
+            }
+	  else
+            continue;
           }
         }
       }
