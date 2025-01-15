@@ -84,7 +84,7 @@
 						<configuration>
 							<images>
 								<image>
-									<name>public.ecr.aws/docker/library/zookeeper:3.8.4</name>
+									<name>public.ecr.aws/docker/library/zookeeper:3.9.3</name>
 									<alias>zoo</alias>
 									<run>
 										<ports>
