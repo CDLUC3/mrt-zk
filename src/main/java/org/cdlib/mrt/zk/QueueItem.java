@@ -280,7 +280,8 @@ abstract public class QueueItem {
   public boolean lock(ZooKeeper client) throws InterruptedException {
     String statpath = makePath(ZKKey.LOCK);
     try {
-      if (! QueueItemHelper.createEphemeral(client, statpath, QueueItemHelper.empty).isEmpty()) 
+      if (client.exists(statpath, null) != null) return false;
+      if (QueueItemHelper.createEphemeral(client, statpath, QueueItemHelper.empty).equals(statpath)) 
       	return true;  
       else 
 	return false;
