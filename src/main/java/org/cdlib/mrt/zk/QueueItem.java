@@ -281,7 +281,7 @@ abstract public class QueueItem {
     String statpath = makePath(ZKKey.LOCK);
     try {
       if (client.exists(statpath, null) != null) return false;
-      if (QueueItemHelper.createEphemeral(client, statpath, QueueItemHelper.empty).equals(statpath)) 
+      if (! QueueItemHelper.createEphemeral(client, statpath, QueueItemHelper.empty).isEmpty())
       	return true;  
       else 
 	return false;
