@@ -189,8 +189,13 @@ public class ZKTestIT {
       }
 
       for(String s: curzk.keySet()) {
-        Object cur = curzk.get(s);
-        Object j = jout.get(s);
+        Object cur = "";
+        try {
+          cur = curzk.get(s);
+        } catch(JSONException e) {
+          //no action
+        }
+        Object j = jout.has(s) ? jout.get(s) : "";
         if (cur.equals(j)) {
           continue;
         }
@@ -199,7 +204,7 @@ public class ZKTestIT {
             continue;
           }
         }
-        System.out.println(String.format("Key Diff %s: %s|%s", s, curzk.get(s), jout.get(s)));
+        System.out.println(String.format("Key Diff %s: %s|%s", s, cur, j));
       }
 
       return false;

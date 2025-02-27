@@ -61,7 +61,7 @@ public class Access extends QueueItem {
   }
 
   @Override
-  public void loadProperties(ZooKeeper client) throws KeeperException, InterruptedException, MerrittZKNodeInvalid {
+  public void loadProperties(ZooKeeper client, boolean setStatus) throws KeeperException, InterruptedException, MerrittZKNodeInvalid {
     data = optJsonProperty(client, ZKKey.ACCESS_TOKEN);
   }
 

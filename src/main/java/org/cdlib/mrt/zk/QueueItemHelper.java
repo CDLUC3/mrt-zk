@@ -90,7 +90,16 @@ public class QueueItemHelper {
       return;
     }
     if (exists(client, p)){
-      client.delete(p, -1);
+      // retry delete, if necessary
+      for (int i=0; i<3; i++) {
+        try {
+          client.delete(p, -1);
+          break;
+        } catch (Exception e) {
+          System.err.println("Error cleaning ZK node: " + p);
+          Thread.sleep(2000);
+        }
+      }
     }
   }
 

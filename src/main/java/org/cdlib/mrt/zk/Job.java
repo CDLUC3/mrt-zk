@@ -85,7 +85,7 @@ public class Job extends QueueItem {
   }
 
   @Override
-  public void loadProperties(ZooKeeper client) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
+  public void loadProperties(ZooKeeper client, boolean setStatus) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
     data = optJsonProperty(client, ZKKey.JOB_CONFIGURATION);
     bid = stringProperty(client, ZKKey.JOB_BID);
     priority = intProperty(client, ZKKey.JOB_PRIORITY);
@@ -93,8 +93,11 @@ public class Job extends QueueItem {
     identifiers = optJsonProperty(client, ZKKey.JOB_IDENTIFIERS);
     metadata = optJsonProperty(client, ZKKey.JOB_METADATA);
     inventory = optJsonProperty(client, ZKKey.JOB_INVENTORY);
-    setJobStatePath(client);
-    setBatchStatePath(client);
+
+    if (setStatus) {
+      setJobStatePath(client);
+      setBatchStatePath(client);
+    }
   }
 
   public IngestState[] states() {
@@ -405,7 +408,7 @@ public class Job extends QueueItem {
         continue;
       }
       Job job = new Job(jid);
-      job.load(client);
+      job.load(client, false);
       if (state == null || state == job.status()) {
         jobs.add(job);
       }
