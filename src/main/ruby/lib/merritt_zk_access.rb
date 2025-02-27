@@ -18,7 +18,7 @@ module MerrittZK
       @queue_name = queue_name
     end
 
-    def load_properties(zk)
+    def load_properties(zk, _set_status_flag)
       @data = json_property(zk, ZkKeys::TOKEN)
     end
 
@@ -77,7 +77,7 @@ module MerrittZK
       [SMALL, LARGE].each do |queue|
         zk.children("#{DIR}/#{queue}").sort.each do |cp|
           job = Access.new(queue, cp)
-          job.load(zk)
+          job.load(zk, set_status_flag: false)
           jobjson = job.data
           jobjson[:id] = cp
           jobjson[:queueNode] = Access.dir(queue)

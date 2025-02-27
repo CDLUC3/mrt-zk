@@ -24,6 +24,8 @@ module MerrittZK
       @inventory = {}
     end
 
+    attr_reader :job_state_path, :batch_state_path
+
     def load_status(zk, js)
       super
       @retry_count = js.fetch(:retry_count, 0)
@@ -39,7 +41,7 @@ module MerrittZK
       self
     end
 
-    def load_properties(zk)
+    def load_properties(zk, set_status_flag)
       @data = json_property(zk, ZkKeys::CONFIGURATION)
       @bid = string_property(zk, ZkKeys::BID)
       @priority = int_property(zk, ZkKeys::PRIORITY)
@@ -47,8 +49,11 @@ module MerrittZK
       @identifiers = json_property(zk, ZkKeys::IDENTIFIERS) if zk.exists?("#{path}/#{ZkKeys::IDENTIFIERS}")
       @metadata = json_property(zk, ZkKeys::METADATA) if zk.exists?("#{path}/#{ZkKeys::METADATA}")
       @inventory = json_property(zk, ZkKeys::INVENTORY) if zk.exists?("#{path}/#{ZkKeys::INVENTORY}")
-      set_job_state_path(zk)
-      set_batch_state_path(zk)
+
+      if set_status_flag
+        set_job_state_path(zk)
+        set_batch_state_path(zk)
+      end
     end
 
     attr_reader :bid, :priority, :space_needed
@@ -172,7 +177,10 @@ module MerrittZK
       zk.children(p).sort.each do |cp|
         j = Job.new(cp[3..]).load(zk)
         begin
-          return j if j.lock(zk)
+          if j.lock(zk)
+            j.load(zk)
+            return j
+          end
         rescue ZK::Exceptions::NodeExists
           # no action
         end

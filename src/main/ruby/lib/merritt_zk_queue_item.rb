@@ -41,11 +41,11 @@ module MerrittZK
       {}
     end
 
-    def load(zk)
+    def load(zk, set_status_flag: true)
       raise MerrittZKNodeInvalid, "Missing Node #{path}" unless zk.exists?(path)
 
       load_status(zk, json_property(zk, ZkKeys::STATUS))
-      load_properties(zk)
+      load_properties(zk, set_status_flag)
       self
     end
 
@@ -54,7 +54,7 @@ module MerrittZK
       @status = states.fetch(s, nil)
     end
 
-    def load_properties(zk)
+    def load_properties(zk, _set_status_flag)
       # Job will override
     end
 
