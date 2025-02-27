@@ -24,7 +24,7 @@ module MerrittZK
       @inventory = {}
     end
 
-    attr_reader :job_state_path, :batch_state_path
+    attr_reader :job_state_path, :batch_state_path, :bid, :priority, :space_needed
 
     def load_status(zk, js)
       super
@@ -50,13 +50,11 @@ module MerrittZK
       @metadata = json_property(zk, ZkKeys::METADATA) if zk.exists?("#{path}/#{ZkKeys::METADATA}")
       @inventory = json_property(zk, ZkKeys::INVENTORY) if zk.exists?("#{path}/#{ZkKeys::INVENTORY}")
 
-      if set_status_flag
-        set_job_state_path(zk)
-        set_batch_state_path(zk)
-      end
-    end
+      return unless set_status_flag
 
-    attr_reader :bid, :priority, :space_needed
+      set_job_state_path(zk)
+      set_batch_state_path(zk)
+    end
 
     def set_priority(zk, priority)
       return if priority == @priority
