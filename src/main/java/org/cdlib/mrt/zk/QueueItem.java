@@ -145,11 +145,15 @@ abstract public class QueueItem {
   }
 
   public QueueItem load(ZooKeeper client) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
+    return load(client, true);
+  }
+
+  public QueueItem load(ZooKeeper client, boolean setStatus) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
     if (!QueueItemHelper.exists(client, path())) {
       throw new MerrittZKNodeInvalid(String.format("Missing Node %s", path()));
     }
     loadStatus(client, jsonProperty(client, ZKKey.STATUS));
-    loadProperties(client);
+    loadProperties(client, setStatus);
     return this;
   }
 
@@ -160,7 +164,7 @@ abstract public class QueueItem {
 
   public abstract IngestState resolveStatus(String s);
 
-  public void loadProperties(ZooKeeper client) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
+  public void loadProperties(ZooKeeper client, boolean setStatus) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
   }
 
   public String optStringProperty(ZooKeeper client, ZKKey key) throws KeeperException, InterruptedException {

@@ -28,7 +28,7 @@ module MerrittZK
       @has_failure = true
     end
 
-    def load_properties(zk)
+    def load_properties(zk, _set_status_flag)
       @data = json_property(zk, ZkKeys::SUBMISSION)
       load_has_failure(zk)
     end
@@ -74,7 +74,7 @@ module MerrittZK
         next if zk.exists?("#{DIR}/#{cp}/#{ZkKeys::STATES}")
 
         b = Batch.new(cp)
-        b.load(zk)
+        b.load(zk, set_status_flag: false)
         begin
           if b.lock(zk)
             b.set_data(zk, ZkKeys::STATES, nil)
@@ -94,7 +94,7 @@ module MerrittZK
         next unless zk.children("#{DIR}/#{cp}/states/batch-processing").empty?
 
         b = Batch.new(cp)
-        b.load(zk)
+        b.load(zk, set_status_flag: false)
         begin
           next if b.status == BatchState::Completed || b.status == BatchState::Failed
 
@@ -116,7 +116,7 @@ module MerrittZK
         next unless zk.children("#{DIR}/#{cp}/states/batch-processing").empty?
 
         b = Batch.new(cp)
-        b.load(zk)
+        b.load(zk, set_status_flag: false)
         begin
           next unless b.status == BatchState::Completed || b.status == BatchState::Deleted
 
@@ -196,7 +196,7 @@ module MerrittZK
       batches = []
       zk.children(DIR).sort.each do |cp|
         batch = Batch.new(cp)
-        batch.load(zk)
+        batch.load(zk, set_status_flag: false)
         batchjson = batch.data
         batchjson[:id] = batch.id
         batchjson[:status] = batch.status_name

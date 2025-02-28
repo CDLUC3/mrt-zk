@@ -69,7 +69,7 @@ public class Batch extends QueueItem {
   }
 
   @Override
-  public void loadProperties(ZooKeeper client) throws KeeperException, InterruptedException, MerrittZKNodeInvalid {
+  public void loadProperties(ZooKeeper client, boolean setStatus) throws KeeperException, InterruptedException, MerrittZKNodeInvalid {
     data = optJsonProperty(client, ZKKey.BATCH_SUBMISSION);
     loadHasFailure(client);
   }
