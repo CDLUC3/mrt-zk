@@ -96,7 +96,7 @@ module MerrittZK
         b = Batch.new(cp)
         b.load(zk, set_status_flag: false)
         begin
-          next if b.status == BatchState::Completed || b.status == BatchState::Failed
+          next if [BatchState::Completed, BatchState::Failed].include?(b.status)
 
           if b.lock(zk)
             b.set_status(zk, BatchState::Reporting)
@@ -118,7 +118,7 @@ module MerrittZK
         b = Batch.new(cp)
         b.load(zk, set_status_flag: false)
         begin
-          next unless b.status == BatchState::Completed || b.status == BatchState::Deleted
+          next unless [BatchState::Completed, BatchState::Deleted].include?(b.status)
 
           b.delete(zk)
           ids << b.id
