@@ -38,11 +38,11 @@ module MerrittZK
         df = d.encode('UTF-8', invalid: :replace, undef: :replace, replace: '?')
       end
       rec = {}
-      rec[:n] = df
+      rec[n] = df
       @listing.push(rec)
     rescue StandardError => e
       rec = {}
-      rec[:n] = e.to_s
+      rec[n] = e.to_s
       @listing.push(rec)
     end
 
