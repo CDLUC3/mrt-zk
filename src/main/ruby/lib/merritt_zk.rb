@@ -12,6 +12,7 @@ require_relative 'merritt_zk_job'
 require_relative 'merritt_zk_batch'
 require_relative 'merritt_zk_access'
 require_relative 'merritt_zk_locks'
+require_relative 'merritt_zk_dump'
 
 ##
 # == Merritt Queue Design
