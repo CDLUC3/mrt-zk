@@ -37,9 +37,13 @@ module MerrittZK
       else
         df = d.encode('UTF-8', invalid: :replace, undef: :replace, replace: '?')
       end
-      @listing.push({ n: df })
+      rec = {}
+      rec[:n] = df
+      @listing.push(rec)
     rescue StandardError => e
-      @listing.push({ n: e.to_s })
+      rec = {}
+      rec[:n] = e.to_s
+      @listing.push(rec)
     end
 
     def get_data(n)
