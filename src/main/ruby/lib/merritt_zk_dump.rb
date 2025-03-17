@@ -14,7 +14,6 @@ module MerrittZK
       @mode = myparams.fetch('mode', 'data')
       @listing = []
       @listing.push("Node State for [#{@zkpath}] as of #{Time.now}")
-      super
     end
 
     attr_reader :listing
