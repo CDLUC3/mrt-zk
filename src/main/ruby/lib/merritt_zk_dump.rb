@@ -28,9 +28,15 @@ module MerrittZK
     end
 
     def show_data(n)
+      puts "Show #{n}"
       d = get_data(n)
-      df = d.is_a?(Hash) ? "\n#{JSON.pretty_generate(d)}" : " #{d}"
-      df = df.encode('UTF-8', invalid: :replace, undef: :replace, replace: '?')
+      if d.is_a?(Hash)
+        df = JSON.pretty_generate(d)
+        df = df.encode('UTF-8', invalid: :replace, undef: :replace, replace: '?')
+        df = JSON.parse(df)
+      else
+        df = d.encode('UTF-8', invalid: :replace, undef: :replace, replace: '?')
+      end
       @listing.push({ n: df })
     rescue StandardError => e
       @listing.push({ n: e.to_s })
@@ -45,7 +51,7 @@ module MerrittZK
       rescue JSON::ParserError
         d
       rescue StandardError => e
-        "#{e.class}:#{e}:\n    #{d}"
+        "#{e.class}:#{e}: #{d}"
       end
     end
 
