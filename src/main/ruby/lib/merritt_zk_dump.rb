@@ -34,8 +34,10 @@ module MerrittZK
         df = JSON.pretty_generate(d)
         df = df.encode('UTF-8', invalid: :replace, undef: :replace, replace: '?')
         df = JSON.parse(df)
-      else
+      elsif d.is_a?(String)
         df = d.encode('UTF-8', invalid: :replace, undef: :replace, replace: '?')
+      else
+        df = d.to_s
       end
       rec = {}
       rec[n] = df
