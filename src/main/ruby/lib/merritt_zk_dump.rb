@@ -37,7 +37,7 @@ module MerrittZK
       elsif d.is_a?(String)
         df = d.encode('UTF-8', invalid: :replace, undef: :replace, replace: '?')
       else
-        df = d.to_s
+        df = d
       end
       rec = {}
       rec[n] = df
