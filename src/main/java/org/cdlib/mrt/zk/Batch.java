@@ -198,7 +198,7 @@ public class Batch extends QueueItem {
           Batch b = new Batch(cp);
           b.load(client);
 
-          if (b.status() != BatchState.Completed || b.status() == BatchState.Deleted) {
+          if (b.status() != BatchState.Completed && b.status() != BatchState.Deleted) {
             continue;
           }
 	  try {
