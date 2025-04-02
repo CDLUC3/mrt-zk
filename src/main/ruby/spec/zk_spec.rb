@@ -135,6 +135,16 @@ RSpec.describe 'ZK input/ouput tests' do
       j = MerrittZK::Job.create_job(@zk, bb.id, { job: 'quack' })
       @remap['jid0'] = j.id
       expect(j.bid).to eq(bb.id)
+
+      puts 'Data dump'
+      params = { zkpath: '/', mode: 'data' }
+      puts MerrittZK::NodeDump.new(@zk, params).listing
+      puts 'Node List'
+      params = { zkpath: '/', mode: 'node' }
+      puts MerrittZK::NodeDump.new(@zk, params).listing
+      puts 'Node Test'
+      params = { zkpath: '/', mode: 'test' }
+      puts MerrittZK::NodeDump.new(@zk, params).listing
     end
 
     it :create_job_state_change do |_x|
