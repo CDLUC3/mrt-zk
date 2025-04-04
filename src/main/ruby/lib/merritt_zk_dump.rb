@@ -177,15 +177,15 @@ module MerrittZK
           d = get_data(spath)
           status = d.fetch(:status, 'na').downcase
           bstatus = case status
-                  when 'deleted'
-                    'batch-deleted'
-                  when 'completed'
-                    'batch-completed'
-                  when 'failed'
-                    'batch-failed'
-                  else
-                    'batch-processing'
-                  end
+                    when 'deleted'
+                      'batch-deleted'
+                    when 'completed'
+                      'batch-completed'
+                    when 'failed'
+                      'batch-failed'
+                    else
+                      'batch-processing'
+                    end
           test_node(n, false, "/batches/#{bid}/states/#{bstatus}/#{jid}")
           %w[batch-deleted batch-completed batch-failed batch-processing].each do |ts|
             next if ts == bstatus
