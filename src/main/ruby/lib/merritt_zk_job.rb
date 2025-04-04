@@ -38,6 +38,7 @@ module MerrittZK
       load_status(zk, json_property(zk, ZkKeys::STATUS))
       @data = json_property(zk, ZkKeys::CONFIGURATION)
       @bid = string_property(zk, ZkKeys::BID)
+      @priority = int_property(zk, ZkKeys::PRIORITY)
       @space_needed = int_property(zk, ZkKeys::SPACE_NEEEDED)
       self
     end
@@ -217,6 +218,8 @@ module MerrittZK
           jobjson = job.data
           jobjson[:id] = job.id
           jobjson[:bid] = job.bid
+          jobjson[:priority] = job.priority
+          jobjson[:space_needed] = job.space_needed
           jobjson[:status] = job.status_name
           jobs.append(jobjson)
         rescue StandardError => e
