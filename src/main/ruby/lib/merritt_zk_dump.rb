@@ -172,9 +172,11 @@ module MerrittZK
         jid = rx2.match(n)[1]
         bid = get_data(n)
         test_node(n, false, "/batches/#{bid}")
-        d = get_data("/jobs/#{jid}/status")
-        status = d.fetch(:status, 'na').downcase
-        bstatus = case status
+        spath = "/jobs/#{jid}/status"
+        if @zk.exists?(spath)
+          d = get_data(spath)
+          status = d.fetch(:status, 'na').downcase
+          bstatus = case status
                   when 'deleted'
                     'batch-deleted'
                   when 'completed'
@@ -184,11 +186,12 @@ module MerrittZK
                   else
                     'batch-processing'
                   end
-        test_node(n, false, "/batches/#{bid}/states/#{bstatus}/#{jid}")
-        %w[batch-deleted batch-completed batch-failed batch-processing].each do |ts|
-          next if ts == bstatus
+          test_node(n, false, "/batches/#{bid}/states/#{bstatus}/#{jid}")
+          %w[batch-deleted batch-completed batch-failed batch-processing].each do |ts|
+            next if ts == bstatus
 
-          test_not_node(n, false, "/batches/#{bid}/states/#{ts}/#{jid}")
+            test_not_node(n, false, "/batches/#{bid}/states/#{ts}/#{jid}")
+          end
         end
       when rx3
         jid = rx3.match(n)[1]
