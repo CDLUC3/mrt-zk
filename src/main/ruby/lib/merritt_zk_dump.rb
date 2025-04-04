@@ -61,9 +61,11 @@ module MerrittZK
       @listing.push(rec)
     end
 
-    def get_data(n)
+    def get_data(n, defval = '')
+      return defval unless @zk.exists?(n)
+
       d = @zk.get(n)[0]
-      return '' if d.nil?
+      return defval if d.nil?
 
       begin
         JSON.parse(d.encode('UTF-8', invalid: :replace, undef: :replace, replace: '?'), symbolize_names: true)
@@ -173,7 +175,7 @@ module MerrittZK
         bid = get_data(n)
         test_node(n, false, "/batches/#{bid}")
         spath = "/jobs/#{jid}/status"
-        d = @zk.exists?(spath) ? get_data(spath) : {}
+        d = get_data(spath, {})
         status = d.fetch(:status, 'na').downcase
         bstatus = case status
                   when 'deleted'
@@ -194,9 +196,9 @@ module MerrittZK
       when rx3
         jid = rx3.match(n)[1]
         spath = "/jobs/#{jid}/status"
-        d = @zk.exists?(spath) ? get_data(spath) : {}
+        d = get_data(spath, {})
         status = d.fetch(:status, 'na').downcase
-        priority = get_data("#{n}/priority")
+        priority = get_data("#{n}/priority", 0)
         test_node(n, false, "/jobs/states/#{status}/#{format('%02d', priority)}-#{jid}")
       when rx4
         jid = rx4.match(n)[1]
