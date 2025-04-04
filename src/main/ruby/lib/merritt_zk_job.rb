@@ -38,6 +38,7 @@ module MerrittZK
       load_status(zk, json_property(zk, ZkKeys::STATUS))
       @data = json_property(zk, ZkKeys::CONFIGURATION)
       @bid = string_property(zk, ZkKeys::BID)
+      @space_needed = int_property(zk, ZkKeys::SPACE_NEEEDED)
       self
     end
 
