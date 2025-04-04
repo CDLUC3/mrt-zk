@@ -173,29 +173,28 @@ module MerrittZK
         bid = get_data(n)
         test_node(n, false, "/batches/#{bid}")
         spath = "/jobs/#{jid}/status"
-        if @zk.exists?(spath)
-          d = get_data(spath)
-          status = d.fetch(:status, 'na').downcase
-          bstatus = case status
-                    when 'deleted'
-                      'batch-deleted'
-                    when 'completed'
-                      'batch-completed'
-                    when 'failed'
-                      'batch-failed'
-                    else
-                      'batch-processing'
-                    end
-          test_node(n, false, "/batches/#{bid}/states/#{bstatus}/#{jid}")
-          %w[batch-deleted batch-completed batch-failed batch-processing].each do |ts|
-            next if ts == bstatus
+        d = @zk.exists?(spath) ? get_data(spath) : ''
+        status = d.fetch(:status, 'na').downcase
+        bstatus = case status
+                  when 'deleted'
+                    'batch-deleted'
+                  when 'completed'
+                    'batch-completed'
+                  when 'failed'
+                    'batch-failed'
+                  else
+                    'batch-processing'
+                  end
+        test_node(n, false, "/batches/#{bid}/states/#{bstatus}/#{jid}")
+        %w[batch-deleted batch-completed batch-failed batch-processing].each do |ts|
+          next if ts == bstatus
 
-            test_not_node(n, false, "/batches/#{bid}/states/#{ts}/#{jid}")
-          end
+          test_not_node(n, false, "/batches/#{bid}/states/#{ts}/#{jid}")
         end
       when rx3
         jid = rx3.match(n)[1]
-        d = get_data("#{n}/status")
+        spath = "/jobs/#{jid}/status"
+        d = @zk.exists?(spath) ? get_data(spath) : ''
         status = d.fetch(:status, 'na').downcase
         priority = get_data("#{n}/priority")
         test_node(n, false, "/jobs/states/#{status}/#{format('%02d', priority)}-#{jid}")
