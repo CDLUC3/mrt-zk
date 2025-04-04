@@ -173,7 +173,7 @@ module MerrittZK
         bid = get_data(n)
         test_node(n, false, "/batches/#{bid}")
         spath = "/jobs/#{jid}/status"
-        d = @zk.exists?(spath) ? get_data(spath) : ''
+        d = @zk.exists?(spath) ? get_data(spath) : {}
         status = d.fetch(:status, 'na').downcase
         bstatus = case status
                   when 'deleted'
@@ -194,7 +194,7 @@ module MerrittZK
       when rx3
         jid = rx3.match(n)[1]
         spath = "/jobs/#{jid}/status"
-        d = @zk.exists?(spath) ? get_data(spath) : ''
+        d = @zk.exists?(spath) ? get_data(spath) : {}
         status = d.fetch(:status, 'na').downcase
         priority = get_data("#{n}/priority")
         test_node(n, false, "/jobs/states/#{status}/#{format('%02d', priority)}-#{jid}")
