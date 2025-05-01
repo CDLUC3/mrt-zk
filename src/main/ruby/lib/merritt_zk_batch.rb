@@ -179,7 +179,11 @@ module MerrittZK
         next unless zk.exists?(p)
 
         zk.children(p).each do |cp|
-          MerrittZK::Job.new(cp).load(zk).delete(zk)
+          begin
+            MerrittZK::Job.new(cp).load(zk).delete(zk)
+          rescue StandardError => e
+            puts "Delete Job #{cp} exception: #{e}"
+          end
         end
       end
 
