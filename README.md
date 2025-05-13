@@ -79,14 +79,14 @@ mvn install -Ddocker.skip -DskipITs -Dmaven.test.skip=true
 
 Launch Containers
 ```
-docker-compose up -d
+docker compose up -d
 ```
 
 Run the junit tests in VSCode.
 
 Stop the contaienr
 ```
-docker-compose down
+docker compose down
 ```
 
 ### Ruby Code 
