@@ -91,7 +91,7 @@ public class MerrittLocks {
   }
 
   public static boolean lockObjectStorage(ZooKeeper client, String ark) {
-    return createEphemeralLock(client, Paths.get(QueueItem.ZkPaths.LocksStorage.path, ark.replaceAll(":?/", "_")).toString());
+    return createLock(client, Paths.get(QueueItem.ZkPaths.LocksStorage.path, ark.replaceAll(":?/", "_")).toString());
   }
   public static void unlockObjectStorage(ZooKeeper client, String ark) throws InterruptedException, KeeperException {
     QueueItemHelper.delete(client, Paths.get(QueueItem.ZkPaths.LocksStorage.path, ark.replaceAll(":?/", "_")).toString());
