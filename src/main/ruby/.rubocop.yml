@@ -39,6 +39,8 @@ Layout/MultilineHashKeyLineBreaks:
   Enabled: true
 Layout/MultilineHashBraceLayout:
   EnforcedStyle: new_line
+Naming/PredicateMethod:
+  Enabled: false
 
 # Special overrides for mrt-zk
 Naming/MethodParameterName:
