@@ -115,18 +115,36 @@ module MerrittZK
     end
 
     def node_stat(n)
-      return 'FAIL' unless @zk.exists?(n)
+      node_age(n, 3600) ? 'WARN' : 'FAIL'
+    end
+
+    def node_age(n, age)
+      return false unless @zk.exists?(n)
 
       ctime = @zk.stat(n).ctime
-      return 'FAIL' if ctime.nil?
+      return false if ctime.nil?
 
-      Time.now - Time.at(ctime / 1000) > 3600 ? 'FAIL' : 'WARN'
+      puts "Node #{n} age: #{Time.now - Time.at(ctime / 1000)} seconds"
+
+      Time.now - Time.at(ctime / 1000) < age
     end
 
     def test_node(path, deleteable, n)
       return if @zk.exists?(n)
 
       result = { path: path, test: "Test: #{n} should exist", status: node_stat(path) }
+      @test_results.append([
+        result[:path], node_datetime(path), deleteable ? result[:path] : '', result[:test],
+        result[:status]
+      ])
+    end
+
+    def test_node_age(path, age, deleteable, n)
+      puts "Testing node age for #{n} with age #{age}"
+      return if @zk.exists?(n)
+      return if node_age(n, age)
+
+      result = { path: path, test: "Test: #{n} should exist", status: 'FAIL' }
       @test_results.append([
         result[:path], node_datetime(path), deleteable ? result[:path] : '', result[:test],
         result[:status]
@@ -159,6 +177,10 @@ module MerrittZK
       rx3 = %r{^/jobs/(jid[0-9]+)$}
       rx4 = %r{^/jobs/states/[^/]*/[0-9][0-9]-(jid[0-9]+)$}
       rx5 = %r{^/batches/bid[0-9]+/states$}
+      rx6 = %r{^/batches/bid[0-9]+/lock$}
+      rx7 = %r{^/jobs/(jid[0-9]+)/lock$}
+
+      puts "Testing node #{n}"
 
       case n
       when %r{^/batch-uuids/(.*)}
@@ -213,6 +235,10 @@ module MerrittZK
         @job_states_count[jid].append(n)
       when rx5
         test_has_children(n, true, n)
+      when rx6
+        test_node_age(n, 120, true, n)
+      when rx7
+        test_node_age(n, 120, true, n)
       end
     end
   end
