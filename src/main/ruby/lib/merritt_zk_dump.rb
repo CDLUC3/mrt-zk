@@ -121,6 +121,7 @@ module MerrittZK
     def node_age(n, age)
       return false unless @zk.exists?(n)
 
+      puts @zk.stat(n).inspect
       ctime = @zk.stat(n).ctime
       return false if ctime.nil?
 
@@ -179,8 +180,6 @@ module MerrittZK
       rx5 = %r{^/batches/bid[0-9]+/states$}
       rx6 = %r{^/batches/bid[0-9]+/lock$}
       rx7 = %r{^/jobs/(jid[0-9]+)/lock$}
-
-      puts "Testing node #{n}"
 
       case n
       when %r{^/batch-uuids/(.*)}
