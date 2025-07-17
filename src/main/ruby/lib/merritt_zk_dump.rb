@@ -166,7 +166,7 @@ module MerrittZK
 
       result = { path: path, test: "Test: #{n} should NOT exist", status: node_stat(path) }
       @test_results.append([
-        result[:path], node_datetime(path), deleteable ? result[:path] : '', result[:test],
+        result[:path], node_datetime(path), deleteable ? n : '', result[:test],
         result[:status]
       ])
     end
