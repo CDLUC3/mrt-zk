@@ -212,7 +212,7 @@ module MerrittZK
         @job_states_count[jid] = [] unless @job_states_count.key?(jid)
         @job_states_count[jid].append(n)
       when rx5
-        test_has_children(n, false, n)
+        test_has_children(n, true, n)
       end
     end
   end
