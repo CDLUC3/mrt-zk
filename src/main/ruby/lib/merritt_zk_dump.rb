@@ -27,6 +27,7 @@ module MerrittZK
 
         states.each do |s|
           @test_results.append([s, node_datetime(s), s, 'Duplicate JID State', 'FAIL'])
+        end
       end
       @test_results.each do |rec|
         lrec = {}
