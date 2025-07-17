@@ -25,7 +25,8 @@ module MerrittZK
       @job_states_count.each_value do |states|
         next unless states.length > 1
 
-        @test_results.append([states.to_s, '', '', 'Duplicate JID', 'FAIL'])
+        states.each do |s|
+          @test_results.append([s, node_datetime(s), s, 'Duplicate JID State', 'FAIL'])
       end
       @test_results.each do |rec|
         lrec = {}
