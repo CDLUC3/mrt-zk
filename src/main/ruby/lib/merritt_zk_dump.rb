@@ -8,6 +8,9 @@ module MerrittZK
   ##
   # Merritt Node Dump
   class NodeDump
+    AGE_FAIL = 3600
+    AGE_ALERT = 120
+
     def initialize(zk, myparams)
       @zk = zk
       @zkpath = myparams.fetch('zkpath', myparams.fetch(:zkpath, '/'))
@@ -115,17 +118,14 @@ module MerrittZK
     end
 
     def node_stat(n)
-      node_age(n, 3600) ? 'WARN' : 'FAIL'
+      node_age(n, AGE_FAIL) ? 'WARN' : 'FAIL'
     end
 
     def node_age(n, age)
       return false unless @zk.exists?(n)
 
-      puts @zk.stat(n).inspect
       ctime = @zk.stat(n).ctime
       return false if ctime.nil?
-
-      puts "Node #{n} age: #{Time.now - Time.at(ctime / 1000)} seconds"
 
       Time.now - Time.at(ctime / 1000) < age
     end
@@ -141,7 +141,6 @@ module MerrittZK
     end
 
     def test_node_age(path, age, deleteable, n)
-      puts "Testing node age for #{n} with for #{age}"
       return unless @zk.exists?(n)
       return if node_age(n, age)
 
@@ -214,7 +213,7 @@ module MerrittZK
           %w[batch-deleted batch-completed batch-failed batch-processing].each do |ts|
             next if ts == bstatus
 
-            test_not_node(n, false, "/batches/#{bid}/states/#{ts}/#{jid}")
+            test_not_node(n, true, "/batches/#{bid}/states/#{ts}/#{jid}")
           end
         end
       when rx3
@@ -235,9 +234,9 @@ module MerrittZK
       when rx5
         test_has_children(n, true, n)
       when rx6
-        test_node_age(n, 120, true, n)
+        test_node_age(n, AGE_ALERT, true, n)
       when rx7
-        test_node_age(n, 120, true, n)
+        test_node_age(n, AGE_ALERT, true, n)
       end
     end
   end
