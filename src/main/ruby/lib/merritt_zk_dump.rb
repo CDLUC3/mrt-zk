@@ -141,8 +141,8 @@ module MerrittZK
     end
 
     def test_node_age(path, age, deleteable, n)
-      puts "Testing node age for #{n} with age #{age}"
-      return if @zk.exists?(n)
+      puts "Testing node age for #{n} with for #{age}"
+      return unless @zk.exists?(n)
       return if node_age(n, age)
 
       result = { path: path, test: "Test: #{n} should exist", status: 'FAIL' }
