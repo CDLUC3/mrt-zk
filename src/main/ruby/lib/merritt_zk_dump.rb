@@ -235,8 +235,7 @@ module MerrittZK
         @job_states_count[jid].append(n)
       when rx5
         test_has_children(n, true, n)
-      when rx6
-      when rx7
+      when rx6, rx7
         test_node_age(n, AGE_ALERT, true, n)
       end
     end
