@@ -236,7 +236,6 @@ module MerrittZK
       when rx5
         test_has_children(n, true, n)
       when rx6
-        test_node_age(n, AGE_ALERT, true, n)
       when rx7
         test_node_age(n, AGE_ALERT, true, n)
       end
