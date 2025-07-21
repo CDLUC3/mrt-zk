@@ -31,7 +31,7 @@ module MerrittZK
       end
     end
 
-    attr_reader :listing
+    attr_reader :listing, :test_results
 
     def standard_node(n)
       n =~ %r{^/(access|batch-uuids|batches|jobs|locks|migration)(/|$)}
