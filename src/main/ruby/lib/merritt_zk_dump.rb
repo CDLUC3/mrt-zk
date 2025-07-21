@@ -18,7 +18,6 @@ module MerrittZK
       @listing = []
       @test_results = []
       @job_states_count = {}
-      @listing.push({ Status: "Node State for [#{@zkpath}] as of #{Time.now}.  Mode: #{@mode}" })
       dump_node(@zkpath)
       return unless @mode == 'test'
 
