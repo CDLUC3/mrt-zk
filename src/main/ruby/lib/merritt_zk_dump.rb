@@ -8,6 +8,9 @@ module MerrittZK
   ##
   # Merritt Node Dump
   class NodeDump
+    AGE_FAIL = 3600
+    AGE_ALERT = 120
+
     def initialize(zk, myparams)
       @zk = zk
       @zkpath = myparams.fetch('zkpath', myparams.fetch(:zkpath, '/'))
@@ -15,14 +18,15 @@ module MerrittZK
       @listing = []
       @test_results = []
       @job_states_count = {}
-      @listing.push({ Status: "Node State for [#{@zkpath}] as of #{Time.now}.  Mode: #{@mode}" })
       dump_node(@zkpath)
       return unless @mode == 'test'
 
       @job_states_count.each_value do |states|
         next unless states.length > 1
 
-        @test_results.append([states.to_s, '', '', 'Duplicate JID', 'FAIL'])
+        states.each do |s|
+          @test_results.append([s, node_datetime(s), s, 'Duplicate JID State', 'FAIL'])
+        end
       end
       @test_results.each do |rec|
         lrec = {}
@@ -115,18 +119,33 @@ module MerrittZK
     end
 
     def node_stat(n)
-      return 'FAIL' unless @zk.exists?(n)
+      node_age(n, AGE_FAIL) ? 'WARN' : 'FAIL'
+    end
+
+    def node_age(n, age)
+      return false unless @zk.exists?(n)
 
       ctime = @zk.stat(n).ctime
-      return 'FAIL' if ctime.nil?
+      return false if ctime.nil?
 
-      Time.now - Time.at(ctime / 1000) > 3600 ? 'FAIL' : 'WARN'
+      Time.now - Time.at(ctime / 1000) < age
     end
 
     def test_node(path, deleteable, n)
       return if @zk.exists?(n)
 
       result = { path: path, test: "Test: #{n} should exist", status: node_stat(path) }
+      @test_results.append([
+        result[:path], node_datetime(path), deleteable ? result[:path] : '', result[:test],
+        result[:status]
+      ])
+    end
+
+    def test_node_age(path, age, deleteable, n)
+      return unless @zk.exists?(n)
+      return if node_age(n, age)
+
+      result = { path: path, test: "Test: #{n} should exist", status: 'FAIL' }
       @test_results.append([
         result[:path], node_datetime(path), deleteable ? result[:path] : '', result[:test],
         result[:status]
@@ -148,7 +167,7 @@ module MerrittZK
 
       result = { path: path, test: "Test: #{n} should NOT exist", status: node_stat(path) }
       @test_results.append([
-        result[:path], node_datetime(path), deleteable ? result[:path] : '', result[:test],
+        result[:path], node_datetime(path), deleteable ? n : '', result[:test],
         result[:status]
       ])
     end
@@ -159,6 +178,8 @@ module MerrittZK
       rx3 = %r{^/jobs/(jid[0-9]+)$}
       rx4 = %r{^/jobs/states/[^/]*/[0-9][0-9]-(jid[0-9]+)$}
       rx5 = %r{^/batches/bid[0-9]+/states$}
+      rx6 = %r{^/batches/bid[0-9]+/lock$}
+      rx7 = %r{^/jobs/(jid[0-9]+)/lock$}
 
       case n
       when %r{^/batch-uuids/(.*)}
@@ -174,39 +195,47 @@ module MerrittZK
         jid = rx2.match(n)[1]
         bid = get_data(n)
         test_node(n, false, "/batches/#{bid}")
-        spath = "/jobs/#{jid}/status"
-        d = get_data(spath, {})
-        status = d.fetch(:status, 'na').downcase
-        bstatus = case status
-                  when 'deleted'
-                    'batch-deleted'
-                  when 'completed'
-                    'batch-completed'
-                  when 'failed'
-                    'batch-failed'
-                  else
-                    'batch-processing'
-                  end
-        test_node(n, false, "/batches/#{bid}/states/#{bstatus}/#{jid}")
-        %w[batch-deleted batch-completed batch-failed batch-processing].each do |ts|
-          next if ts == bstatus
+        snode = "/jobs/#{jid}/status"
+        test_node(n, true, snode)
+        if @zk.exists?(snode)
+          d = get_data(snode, {})
+          status = d.fetch(:status, 'na').downcase
+          bstatus = case status
+                    when 'deleted'
+                      'batch-deleted'
+                    when 'completed'
+                      'batch-completed'
+                    when 'failed'
+                      'batch-failed'
+                    else
+                      'batch-processing'
+                    end
+          test_node(n, false, "/batches/#{bid}/states/#{bstatus}/#{jid}")
+          %w[batch-deleted batch-completed batch-failed batch-processing].each do |ts|
+            next if ts == bstatus
 
-          test_not_node(n, false, "/batches/#{bid}/states/#{ts}/#{jid}")
+            test_not_node(n, true, "/batches/#{bid}/states/#{ts}/#{jid}")
+          end
         end
       when rx3
         jid = rx3.match(n)[1]
-        spath = "/jobs/#{jid}/status"
-        d = get_data(spath, {})
-        status = d.fetch(:status, 'na').downcase
-        priority = get_data("#{n}/priority", 0)
-        test_node(n, false, "/jobs/states/#{status}/#{format('%02d', priority)}-#{jid}")
+        snode = "/jobs/#{jid}/status"
+        test_node(n, true, snode)
+        if @zk.exists?(snode)
+          d = get_data(snode, {})
+          status = d.fetch(:status, 'na').downcase
+          priority = get_data("#{n}/priority", 0)
+          test_node(n, false, "/jobs/states/#{status}/#{format('%02d', priority)}-#{jid}")
+        end
       when rx4
         jid = rx4.match(n)[1]
         test_node(n, true, "/jobs/#{jid}")
         @job_states_count[jid] = [] unless @job_states_count.key?(jid)
         @job_states_count[jid].append(n)
       when rx5
-        test_has_children(n, false, n)
+        test_has_children(n, true, n)
+      when rx6, rx7
+        test_node_age(n, AGE_ALERT, true, n)
       end
     end
   end
