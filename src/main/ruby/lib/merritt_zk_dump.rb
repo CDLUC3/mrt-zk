@@ -35,7 +35,7 @@ module MerrittZK
       end
     end
 
-    attr_reader :listing
+    attr_reader :listing, :test_results
 
     def standard_node(n)
       n =~ %r{^/(access|batch-uuids|batches|jobs|locks|migration)(/|$)}
@@ -145,7 +145,7 @@ module MerrittZK
       return unless @zk.exists?(n)
       return if node_age(n, age)
 
-      result = { path: path, test: "Test: #{n} should exist", status: 'FAIL' }
+      result = { path: path, test: "Test: #{n} has existed for too long", status: 'FAIL' }
       @test_results.append([
         result[:path], node_datetime(path), deleteable ? result[:path] : '', result[:test],
         result[:status]
