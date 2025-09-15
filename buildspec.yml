@@ -8,6 +8,8 @@ phases:
   install:
     runtime-versions:
       java: corretto21
+      ruby: 3.2.8
+
   pre_build:
     on-failure: ABORT
     commands:
