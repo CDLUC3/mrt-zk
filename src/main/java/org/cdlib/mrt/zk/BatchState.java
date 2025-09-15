@@ -30,7 +30,7 @@ public enum BatchState implements IngestState{
    */
   Processing {
     public List<IngestState> nextStates() {
-      return Arrays.asList(BatchState.Reporting);
+      return Arrays.asList(BatchState.Reporting, BatchState.Failed);
     }
     public IngestState success() {
       return BatchState.Reporting;
