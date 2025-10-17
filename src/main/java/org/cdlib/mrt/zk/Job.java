@@ -24,6 +24,7 @@ public class Job extends QueueItem {
   private JSONObject identifiers = new JSONObject();
   private JSONObject metadata = new JSONObject();
   private JSONObject inventory = new JSONObject();
+  private JSONObject store = new JSONObject();
 
   public Job(String id) {
     super(id);
@@ -93,6 +94,7 @@ public class Job extends QueueItem {
     identifiers = optJsonProperty(client, ZKKey.JOB_IDENTIFIERS);
     metadata = optJsonProperty(client, ZKKey.JOB_METADATA);
     inventory = optJsonProperty(client, ZKKey.JOB_INVENTORY);
+    store = optJsonProperty(client, ZKKey.JOB_STORE);
 
     if (setStatus) {
       setJobStatePath(client);
@@ -297,6 +299,20 @@ public class Job extends QueueItem {
 
   public String inventoryMode() {
     return jsonStringProperty(inventory, MerrittJsonKey.InventoryMode, "");
+  }
+
+  public void setStore(ZooKeeper client, String manifest_url, String mode) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
+    store.put(MerrittJsonKey.StoreManifestUrl.key(), manifest_url);
+    store.put(MerrittJsonKey.StoreMode.key(), mode);
+    createOrSetData(client, ZKKey.JOB_STORE, store);
+  }
+
+  public String storeManifestUrl() {
+    return jsonStringProperty(store, MerrittJsonKey.StoreManifestUrl, "");
+  }
+
+  public String storeMode() {
+    return jsonStringProperty(inventory, MerrittJsonKey.StoreMode, "");
   }
 
   public void setStatusWithRetry(ZooKeeper client, IngestState status) throws MerrittZKNodeInvalid, KeeperException, InterruptedException, MerrittStateError {

@@ -67,6 +67,10 @@ public enum ZKKey {
    */
   JOB_INVENTORY("inventory"),
   /**
+   * inventory parameters
+   */
+  JOB_STORE("store"),
+  /**
    * Access assembly token data
    */
   ACCESS_TOKEN("token");

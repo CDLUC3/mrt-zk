@@ -586,6 +586,11 @@ public class ZKTestIT {
       assertNotNull(jj);
       assertEquals(jj.id(), remap.get("jid1"));
 
+      jj.setStore(zk, "http://ingest.manifest.url", "add");
+      jj.setStatus(zk, jj.status().success());
+      jj.unlock(zk);
+      assertEquals(jj.status(), JobState.Storing);
+
       jj.setInventory(zk, "http://storage.manifest.url", "tbd");
       jj.setStatus(zk, jj.status().success());
       jj.unlock(zk);
@@ -666,6 +671,13 @@ public class ZKTestIT {
       assertEquals(jj.status(), JobState.Processing);
 
       jj = Job.acquireJob(zk, JobState.Processing);
+      assertNotNull(jj);
+      assertEquals(jj.id(), remap.get("jid1"));
+      jj.setStatus(zk, jj.status().success());
+      jj.unlock(zk);
+      assertEquals(jj.status(), JobState.Storing);
+
+      jj = Job.acquireJob(zk, JobState.Storing);
       assertNotNull(jj);
       assertEquals(jj.id(), remap.get("jid1"));
       jj.setStatus(zk, jj.status().success());
@@ -751,6 +763,13 @@ public class ZKTestIT {
       assertEquals(jj.status(), JobState.Processing);
 
       jj = Job.acquireJob(zk, JobState.Processing);
+      assertNotNull(jj);
+      assertEquals(jj.id(), remap.get("jid1"));
+      jj.setStatus(zk, jj.status().success());
+      jj.unlock(zk);
+      assertEquals(jj.status(), JobState.Storing);
+
+      jj = Job.acquireJob(zk, JobState.Storing);
       assertNotNull(jj);
       assertEquals(jj.id(), remap.get("jid1"));
       jj.setStatus(zk, jj.status().success());
@@ -848,6 +867,13 @@ public class ZKTestIT {
       assertEquals(jj.status(), JobState.Processing);
 
       jj = Job.acquireJob(zk, JobState.Processing);
+      assertNotNull(jj);
+      assertEquals(jj.id(), remap.get("jid1"));
+      jj.setStatus(zk, jj.status().success());
+      jj.unlock(zk);
+      assertEquals(jj.status(), JobState.Storing);
+
+      jj = Job.acquireJob(zk, JobState.Storing);
       assertNotNull(jj);
       assertEquals(jj.id(), remap.get("jid1"));
       jj.setStatus(zk, jj.status().success());
@@ -963,6 +989,13 @@ public class ZKTestIT {
       assertEquals(jj.id(), remap.get("jid1"));
       jj.setStatus(zk, jj.status().success());
       jj.unlock(zk);
+      assertEquals(jj.status(), JobState.Storing);
+
+      jj = Job.acquireJob(zk, JobState.Storing);
+      assertNotNull(jj);
+      assertEquals(jj.id(), remap.get("jid1"));
+      jj.setStatus(zk, jj.status().success());
+      jj.unlock(zk);
       assertEquals(jj.status(), JobState.Recording);
 
       jj = Job.acquireJob(zk, JobState.Recording);
@@ -1034,6 +1067,13 @@ public class ZKTestIT {
       assertEquals(jj.status(), JobState.Processing);
 
       jj = Job.acquireJob(zk, JobState.Processing);
+      assertNotNull(jj);
+      assertEquals(jj.id(), remap.get("jid1"));
+      jj.setStatus(zk, jj.status().success());
+      jj.unlock(zk);
+      assertEquals(jj.status(), JobState.Storing);
+
+      jj = Job.acquireJob(zk, JobState.Storing);
       assertNotNull(jj);
       assertEquals(jj.id(), remap.get("jid1"));
       jj.setStatus(zk, jj.status().success());
@@ -1118,6 +1158,13 @@ public class ZKTestIT {
       assertEquals(jj.status(), JobState.Processing);
 
       jj = Job.acquireJob(zk, JobState.Processing);
+      assertNotNull(jj);
+      assertEquals(jj.id(), remap.get("jid1"));
+      jj.setStatus(zk, jj.status().success());
+      jj.unlock(zk);
+      assertEquals(jj.status(), JobState.Storing);
+
+      jj = Job.acquireJob(zk, JobState.Storing);
       assertNotNull(jj);
       assertEquals(jj.id(), remap.get("jid1"));
       jj.setStatus(zk, jj.status().success());
