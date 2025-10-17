@@ -103,6 +103,10 @@ RSpec.describe 'state transition tests' do
       state = state.success
       expect(state).to_not be_nil
 
+      expect(state.status).to eq(:Storing)
+      state = state.success
+      expect(state).to_not be_nil
+
       expect(state.status).to eq(:Recording)
       state = state.success
       expect(state).to_not be_nil
@@ -147,6 +151,11 @@ RSpec.describe 'state transition tests' do
       expect(state).to_not be_nil
 
       expect(state.status).to eq(:Processing)
+      expect(state.fail).to_not be_nil
+      state = state.success
+      expect(state).to_not be_nil
+
+      expect(state.status).to eq(:Storing)
       expect(state.fail).to_not be_nil
       state = state.success
       expect(state).to_not be_nil
@@ -209,6 +218,10 @@ RSpec.describe 'state transition tests' do
       expect(state).to_not be_nil
 
       expect(state.status).to eq(:Processing)
+      state = state.success
+      expect(state).to_not be_nil
+
+      expect(state.status).to eq(:Storing)
       state = state.success
       expect(state).to_not be_nil
 

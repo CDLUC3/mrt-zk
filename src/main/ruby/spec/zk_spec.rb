@@ -260,6 +260,14 @@ RSpec.describe 'ZK input/ouput tests' do
       jj.set_status(@zk, jj.status.success)
       jj.set_data(@zk, MerrittZK::ZkKeys::INVENTORY, { manifest_url: 'http://storage.manifest.url', mode: 'tbd' })
       jj.unlock(@zk)
+      expect(jj.status.status).to eq(:Storing)
+
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Storing)
+      expect(jj).to_not be_nil
+      expect(jj.id).to eq(@remap['jid1'])
+      jj.set_status(@zk, jj.status.success)
+      jj.set_data(@zk, MerrittZK::ZkKeys::STORE, { manifest_url: 'http://ingest.manifest.url', mode: 'add' })
+      jj.unlock(@zk)
       expect(jj.status.status).to eq(:Recording)
 
       jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Recording)
@@ -332,6 +340,13 @@ RSpec.describe 'ZK input/ouput tests' do
       expect(jj.status.status).to eq(:Processing)
 
       jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Processing)
+      expect(jj).to_not be_nil
+      expect(jj.id).to eq(@remap['jid1'])
+      jj.set_status(@zk, jj.status.success)
+      jj.unlock(@zk)
+      expect(jj.status.status).to eq(:Storing)
+
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Storing)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
       jj.set_status(@zk, jj.status.success)
@@ -412,6 +427,13 @@ RSpec.describe 'ZK input/ouput tests' do
       expect(jj.status.status).to eq(:Processing)
 
       jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Processing)
+      expect(jj).to_not be_nil
+      expect(jj.id).to eq(@remap['jid1'])
+      jj.set_status(@zk, jj.status.success)
+      jj.unlock(@zk)
+      expect(jj.status.status).to eq(:Storing)
+
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Storing)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
       jj.set_status(@zk, jj.status.success)
@@ -506,6 +528,13 @@ RSpec.describe 'ZK input/ouput tests' do
       expect(jj.status.status).to eq(:Processing)
 
       jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Processing)
+      expect(jj).to_not be_nil
+      expect(jj.id).to eq(@remap['jid1'])
+      jj.set_status(@zk, jj.status.success)
+      jj.unlock(@zk)
+      expect(jj.status.status).to eq(:Storing)
+
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Storing)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
       jj.set_status(@zk, jj.status.success)
@@ -609,6 +638,13 @@ RSpec.describe 'ZK input/ouput tests' do
       expect(jj.id).to eq(@remap['jid1'])
       jj.set_status(@zk, jj.status.success)
       jj.unlock(@zk)
+      expect(jj.status.status).to eq(:Storing)
+
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Storing)
+      expect(jj).to_not be_nil
+      expect(jj.id).to eq(@remap['jid1'])
+      jj.set_status(@zk, jj.status.success)
+      jj.unlock(@zk)
       expect(jj.status.status).to eq(:Recording)
 
       jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Recording)
@@ -672,6 +708,13 @@ RSpec.describe 'ZK input/ouput tests' do
       expect(jj.status.status).to eq(:Processing)
 
       jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Processing)
+      expect(jj).to_not be_nil
+      expect(jj.id).to eq(@remap['jid1'])
+      jj.set_status(@zk, jj.status.success)
+      jj.unlock(@zk)
+      expect(jj.status.status).to eq(:Storing)
+
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Storing)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
       jj.set_status(@zk, jj.status.success)
@@ -751,6 +794,13 @@ RSpec.describe 'ZK input/ouput tests' do
       expect(jj.status.status).to eq(:Processing)
 
       jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Processing)
+      expect(jj).to_not be_nil
+      expect(jj.id).to eq(@remap['jid1'])
+      jj.set_status(@zk, jj.status.success)
+      jj.unlock(@zk)
+      expect(jj.status.status).to eq(:Storing)
+
+      jj = MerrittZK::Job.acquire_job(@zk, MerrittZK::JobState::Storing)
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
       jj.set_status(@zk, jj.status.success)

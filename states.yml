@@ -35,6 +35,7 @@ job_states:
     Provisioning:
     Downloading:
     Processing:
+    Storing:
     Recording:
     Notify:
     Deleted:
