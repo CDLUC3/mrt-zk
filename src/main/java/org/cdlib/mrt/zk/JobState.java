@@ -83,6 +83,20 @@ public enum JobState implements IngestState {
    */
   Processing {
     public List<IngestState> nextStates() {
+      return Arrays.asList(JobState.Failed, JobState.Storing);
+    }
+    public JobState success() {
+      return JobState.Storing;
+    }
+    public JobState fail() {
+      return JobState.Failed;
+    }
+  },
+  /**
+   * Processing is complete; ready for Storage. The Storage service will operate on this state
+   */
+  Storing {
+    public List<IngestState> nextStates() {
       return Arrays.asList(JobState.Failed, JobState.Recording);
     }
     public JobState success() {
@@ -93,7 +107,7 @@ public enum JobState implements IngestState {
     }
   },
   /**
-   * Storage is complete; ready for Inventory. The Inventory service will operate on this step.
+   * Storage is complete; ready for Inventory. The Inventory service will operate on this state.
    */
   Recording {
     public List<IngestState> nextStates() {
@@ -126,7 +140,7 @@ public enum JobState implements IngestState {
   Failed {
     public List<IngestState> nextStates() {
       return Arrays.asList(
-        JobState.Pending, JobState.Estimating, JobState.Provisioning, JobState.Deleted, JobState.Downloading, JobState.Processing, JobState.Recording, JobState.Notify
+        JobState.Pending, JobState.Estimating, JobState.Provisioning, JobState.Deleted, JobState.Downloading, JobState.Processing, JobState.Storing, JobState.Recording, JobState.Notify
       );
     }
   },
