@@ -266,7 +266,7 @@ RSpec.describe 'ZK input/ouput tests' do
       expect(jj).to_not be_nil
       expect(jj.id).to eq(@remap['jid1'])
       jj.set_status(@zk, jj.status.success)
-      jj.set_data(@zk, MerrittZK::ZkKeys::STORE, { manifest_url: 'http://ingest.manifest.url', mode: 'add' })
+      jj.set_data(@zk, MerrittZK::ZkKeys::STORE, { manifest_url: 'http://ingest.manifest.url', mode: 'add' ,delete: ''})
       jj.unlock(@zk)
       expect(jj.status.status).to eq(:Recording)
 

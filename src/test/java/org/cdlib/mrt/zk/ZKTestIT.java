@@ -586,7 +586,7 @@ public class ZKTestIT {
       assertNotNull(jj);
       assertEquals(jj.id(), remap.get("jid1"));
 
-      jj.setStore(zk, "http://ingest.manifest.url", "add");
+      jj.setStore(zk, "http://ingest.manifest.url", "add", "");
       jj.setStatus(zk, jj.status().success());
       jj.unlock(zk);
       assertEquals(jj.status(), JobState.Storing);

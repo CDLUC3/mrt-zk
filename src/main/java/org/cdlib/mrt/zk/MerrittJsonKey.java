@@ -35,6 +35,7 @@ public enum MerrittJsonKey {
   InventoryMode("mode"),
   StoreManifestUrl("manifest_url"),
   StoreMode("mode"),
+  StoreDelete("delete"),
   BatchId("batchID");
 
   private String key;

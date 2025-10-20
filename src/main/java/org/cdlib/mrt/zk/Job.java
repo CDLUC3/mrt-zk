@@ -301,9 +301,10 @@ public class Job extends QueueItem {
     return jsonStringProperty(inventory, MerrittJsonKey.InventoryMode, "");
   }
 
-  public void setStore(ZooKeeper client, String manifest_url, String mode) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
+  public void setStore(ZooKeeper client, String manifest_url, String mode, String delete) throws MerrittZKNodeInvalid, KeeperException, InterruptedException {
     store.put(MerrittJsonKey.StoreManifestUrl.key(), manifest_url);
     store.put(MerrittJsonKey.StoreMode.key(), mode);
+    store.put(MerrittJsonKey.StoreDelete.key(), delete);
     createOrSetData(client, ZKKey.JOB_STORE, store);
   }
 
