@@ -58,7 +58,7 @@ phases:
     - cd ../../..
     - rm -rf api/mrt-zk
     - mkdir -p api/mrt-zk/java api/mrt-zk/ruby
-    - cp -r target/site/apidocs/* api/mrt-zk/java
+    - cp -r target/reports/apidocs/* api/mrt-zk/java
     - cp -r src/main/ruby/doc/* api/mrt-zk/ruby
     - echo aws s3 cp --recursive api s3://${S3CFBUCKET}/api 
     - aws s3 cp --recursive api s3://${S3CFBUCKET}/api
