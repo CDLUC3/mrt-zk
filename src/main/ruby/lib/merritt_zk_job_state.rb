@@ -27,6 +27,7 @@ module MerrittZK
     Failed = @states[:Failed]
     Deleted = @states[:Deleted]
     Completed = @states[:Completed]
+    Storing = @states[:Storing]
 
     private_class_method :new
 
