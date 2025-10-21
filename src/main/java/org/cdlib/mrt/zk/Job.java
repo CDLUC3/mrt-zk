@@ -313,11 +313,11 @@ public class Job extends QueueItem {
   }
 
   public String storeMode() {
-    return jsonStringProperty(inventory, MerrittJsonKey.StoreMode, "");
+    return jsonStringProperty(store, MerrittJsonKey.StoreMode, "");
   }
 
   public String storeDelete() {
-    return jsonStringProperty(inventory, MerrittJsonKey.StoreDelete, "");
+    return jsonStringProperty(store, MerrittJsonKey.StoreDelete, "");
   }
 
   public void setStatusWithRetry(ZooKeeper client, IngestState status) throws MerrittZKNodeInvalid, KeeperException, InterruptedException, MerrittStateError {
