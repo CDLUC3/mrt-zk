@@ -316,6 +316,10 @@ public class Job extends QueueItem {
     return jsonStringProperty(inventory, MerrittJsonKey.StoreMode, "");
   }
 
+  public String storeDelete() {
+    return jsonStringProperty(inventory, MerrittJsonKey.StoreDelete, "");
+  }
+
   public void setStatusWithRetry(ZooKeeper client, IngestState status) throws MerrittZKNodeInvalid, KeeperException, InterruptedException, MerrittStateError {
     retryCount += 1;
     setStatus(client, status);
