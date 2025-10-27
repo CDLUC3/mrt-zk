@@ -141,6 +141,10 @@ public class StateTest {
       state = state.success();
       assertNotNull(state);
 
+      assertEquals(state, JobState.Storing);      
+      state = state.success();
+      assertNotNull(state);
+
       assertEquals(state, JobState.Recording);      
       state = state.success();
       assertNotNull(state);
@@ -195,6 +199,11 @@ public class StateTest {
       assertNotNull(state);
 
       assertEquals(state, JobState.Processing);      
+      assertNotNull(state.fail());
+      state = state.success();
+      assertNotNull(state);
+
+      assertEquals(state, JobState.Storing);
       assertNotNull(state.fail());
       state = state.success();
       assertNotNull(state);
@@ -260,6 +269,11 @@ public class StateTest {
       assertNotNull(state);
 
       assertEquals(state, JobState.Processing);      
+      assertNotNull(state.fail());
+      state = state.success();
+      assertNotNull(state);
+
+      assertEquals(state, JobState.Storing);      
       assertNotNull(state.fail());
       state = state.success();
       assertNotNull(state);

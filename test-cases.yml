@@ -309,6 +309,10 @@ job_happy_path:
     /jobs/jid1/inventory:
       manifest_url: http://storage.manifest.url
       mode: tbd
+    /jobs/jid1/store:
+      manifest_url: http://ingest.manifest.url
+      mode: add
+      delete: ''
     /jobs/states/completed/02-jid1: null
     /jobs/jid2/bid: bid0
     /jobs/jid2/configuration:

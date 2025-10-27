@@ -13,7 +13,7 @@ GEM
     parser (3.3.9.0)
       ast (~> 2.4.1)
       racc
-    prism (1.5.2)
+    prism (1.6.0)
     psych (5.2.6)
       date
       stringio

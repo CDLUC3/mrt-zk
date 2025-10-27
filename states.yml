@@ -16,6 +16,9 @@ job_states:
     Processing: {success: true}
     Failed: {fail: true}
   Processing:
+    Storing: {success: true}
+    Failed: {fail: true}
+  Storing:
     Recording: {success: true}
     Failed: {fail: true}
   Recording:
@@ -32,6 +35,7 @@ job_states:
     Provisioning:
     Downloading:
     Processing:
+    Storing:
     Recording:
     Notify:
     Deleted:
