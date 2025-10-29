@@ -10,7 +10,7 @@
 	<url>http://maven.apache.org</url>
 
   <properties>
-    <merritt-bom.version>4.0-SNAPSHOT</merritt-bom.version>
+    <!--merritt-bom.version>4.0-SNAPSHOT</merritt-bom.version-->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<docker.skip>${env.SKIP_DOCKER_TEST}</docker.skip>
 		<skipTests>${env.SKIP_DOCKER_TEST}</skipTests>
