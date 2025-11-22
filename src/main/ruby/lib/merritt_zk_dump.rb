@@ -237,6 +237,12 @@ module MerrittZK
       when rx6, rx7
         test_node_age(n, AGE_ALERT, true, n)
       end
+    rescue StandardError => e
+      result = { path: n, test: "Parsing Error on #{n}", status: "ERROR: #{e}" }
+      @test_results.append([
+        result[:path], node_datetime(n), '', result[:test],
+        result[:status]
+      ])
     end
   end
 end
