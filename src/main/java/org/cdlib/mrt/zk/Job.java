@@ -402,10 +402,23 @@ public class Job extends QueueItem {
     for(String cp: jobs) {
       Job j = new Job(cp.substring(3));
       if (j.lock(client)) {
-        j.load(client);
-        return j;
+	try {
+            j.load(client);
+            return j;
+	} catch (MerrittZKNodeInvalid | KeeperException | InterruptedException me) {
+	   System.out.println("[ZK] Error loading Job,  Attempting to unlock: " + cp.substring(3));
+	   try {
+	      j.unlock(client);
+	   } catch (Exception e) {
+	      // Could not unlock.  Let's return the job ID so the client can remove
+	      System.out.println("[ZK] Unable to remove lock. Throwing exception with JID: " + cp.substring(3));
+	      throw new InterruptedException("[ZK] Unable to unlock job: " + cp.substring(3));
+	   }
+	   throw me;
+        } 
       }
     }  
+
     return null;
   }
 
