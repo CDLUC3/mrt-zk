@@ -59,9 +59,12 @@ graph TD
   Downloading --> Processing
   Downloading --> Failed
   Failed -.-> Downloading
-  Processing --> Recording
+  Processing --> Storing
   Processing --> Failed
   Failed -.-> Processing
+  Storing --> Recording
+  Storing --> Failed
+  Failed -.-> Storing
   Recording --> Notify
   Recording --> Failed
   Failed -.-> Recording
