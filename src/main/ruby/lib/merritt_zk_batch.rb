@@ -112,8 +112,9 @@ module MerrittZK
     def self.delete_completed_batches(zk)
       ids = []
       zk.children(DIR).sort.each do |cp|
-        next unless zk.exists?("#{DIR}/#{cp}/states/batch-processing")
-        next unless zk.children("#{DIR}/#{cp}/states/batch-processing").empty?
+        if zk.exists?("#{DIR}/#{cp}/states/batch-processing")
+          next unless zk.children("#{DIR}/#{cp}/states/batch-processing").empty?
+        end
 
         b = Batch.new(cp)
         b.load(zk, set_status_flag: false)
