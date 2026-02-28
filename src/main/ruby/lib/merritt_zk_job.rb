@@ -229,6 +229,30 @@ module MerrittZK
       jobs
     end
 
+    def self.metrics(zk)
+      metrics = {
+        num_jobs_processing: 0,
+        num_jobs_completed: 0,
+        num_jobs_failed: 0
+      }
+      path = "#{DIR}/#{ZkKeys::STATES}"
+      zk.children(path).sort.each do |cp|
+        spath = "#{path}/#{cp}"
+        count = zk.children(spath).length
+        case cp
+        when 'completed'
+          metrics[:num_jobs_completed] = count
+        when 'failed'
+          metrics[:num_jobs_failed] = count
+        when 'deleted'
+          # no action
+        else
+          metrics[:num_jobs_processing] += count
+        end
+      end
+      metrics
+    end
+
     def submitter
       data_prop('submitter', '')
     end

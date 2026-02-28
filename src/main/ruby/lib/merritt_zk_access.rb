@@ -92,5 +92,30 @@ module MerrittZK
       end
       jobs
     end
+
+    def self.metrics(zk)
+      metrics = {
+        num_assemblies_completed: 0,
+        num_assemblies_failed: 0,
+        num_assemblies_processing: 0
+      }
+      [SMALL, LARGE].each do |queue|
+        zk.children("#{DIR}/#{queue}").sort.each do |cp|
+          job = Access.new(queue, cp)
+          job.load(zk, set_status_flag: false)
+          case job.status.status
+          when 'Completed'
+            metrics[:num_assemblies_completed] += 1
+          when 'Failed'
+            metrics[:num_assemblies_failed] += 1
+          when 'Deleted'
+            # no action
+          else
+            metrics[:num_assemblies_processing] += 1
+          end
+        end
+      end
+      metrics
+    end
   end
 end
