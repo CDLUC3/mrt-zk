@@ -244,13 +244,13 @@ module MerrittZK
           job.load_optimized(zk)
           case job.status_name
           when 'completed'
-            metrics[:num_jobs_completed] = count
+            metrics[:num_jobs_completed] = 1
           when 'failed'
-            metrics[:num_jobs_failed] = count
+            metrics[:num_jobs_failed] = 1
           when 'deleted'
             # no action
           else
-            metrics[:num_jobs_processing] += count
+            metrics[:num_jobs_processing] += 1
             metrics[:bytes_in_process] += job.space_needed
           end
         rescue StandardError => e
