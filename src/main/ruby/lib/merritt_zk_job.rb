@@ -233,21 +233,28 @@ module MerrittZK
       metrics = {
         num_jobs_processing: 0,
         num_jobs_completed: 0,
-        num_jobs_failed: 0
+        num_jobs_failed: 0,
+        bytes_in_process: 0
       }
-      path = "#{DIR}/#{ZkKeys::STATES}"
-      zk.children(path).sort.each do |cp|
-        spath = "#{path}/#{cp}"
-        count = zk.children(spath).length
-        case cp
-        when 'completed'
-          metrics[:num_jobs_completed] = count
-        when 'failed'
-          metrics[:num_jobs_failed] = count
-        when 'deleted'
-          # no action
-        else
-          metrics[:num_jobs_processing] += count
+      zk.children(DIR).sort.each do |cp|
+        next if cp == ZkKeys::STATES
+
+        begin
+          job = Job.new(cp)
+          job.load_optimized(zk)
+          case job.status_name
+          when 'completed'
+            metrics[:num_jobs_completed] = count
+          when 'failed'
+            metrics[:num_jobs_failed] = count
+          when 'deleted'
+            # no action
+          else
+            metrics[:num_jobs_processing] += count
+            metrics[:bytes_in_process] += job.space_needed
+          end
+        rescue StandardError => e
+          puts "Metrics Job #{cp} exception: #{e}"
         end
       end
       metrics
