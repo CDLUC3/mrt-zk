@@ -242,7 +242,7 @@ module MerrittZK
         begin
           job = Job.new(cp)
           job.load_optimized(zk)
-          case job.status_name
+          case job.status.name
           when 'completed'
             metrics[:num_jobs_completed] = 1
           when 'failed'
