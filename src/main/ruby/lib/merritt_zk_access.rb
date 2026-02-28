@@ -103,7 +103,7 @@ module MerrittZK
         zk.children("#{DIR}/#{queue}").sort.each do |cp|
           job = Access.new(queue, cp)
           job.load(zk, set_status_flag: false)
-          case job.status.status
+          case job.status.name
           when 'Completed'
             metrics[:num_assemblies_completed] += 1
           when 'Failed'
