@@ -216,5 +216,30 @@ module MerrittZK
       end
       batches
     end
+
+    def self.metrics(zk)
+      metrics = {
+        num_batches_processing: 0,
+        num_batches_completed: 0,
+        num_batches_failed: 0
+      }
+      zk.children(DIR).sort.each do |cp|
+        batch = Batch.new(cp)
+        batch.load(zk, set_status_flag: false)
+        case job.batch.name
+        when 'completed'
+          metrics[:num_batches_completed] = 1
+        when 'failed'
+          metrics[:num_batches_failed] = 1
+        when 'deleted'
+          # no action
+        else
+          metrics[:num_batches_processing] += 1
+        end
+      rescue StandardError => e
+        puts "Metrics Batch #{cp} exception: #{e}"
+      end
+      metrics
+    end
   end
 end
