@@ -226,7 +226,7 @@ module MerrittZK
       zk.children(DIR).sort.each do |cp|
         batch = Batch.new(cp)
         batch.load(zk, set_status_flag: false)
-        case job.batch.name
+        case batch.status.name
         when 'Completed'
           metrics[:num_batches_completed] += 1
         when 'Failed'
