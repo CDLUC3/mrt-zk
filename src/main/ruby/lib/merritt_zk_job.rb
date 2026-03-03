@@ -243,11 +243,11 @@ module MerrittZK
           job = Job.new(cp)
           job.load_optimized(zk)
           case job.status.name
-          when 'completed'
+          when 'Completed'
             metrics[:num_jobs_completed] = 1
-          when 'failed'
+          when 'Failed'
             metrics[:num_jobs_failed] = 1
-          when 'deleted'
+          when 'Deleted'
             # no action
           else
             metrics[:num_jobs_processing] += 1

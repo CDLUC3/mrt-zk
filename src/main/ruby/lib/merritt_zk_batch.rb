@@ -227,11 +227,11 @@ module MerrittZK
         batch = Batch.new(cp)
         batch.load(zk, set_status_flag: false)
         case job.batch.name
-        when 'completed'
+        when 'Completed'
           metrics[:num_batches_completed] = 1
-        when 'failed'
+        when 'Failed'
           metrics[:num_batches_failed] = 1
-        when 'deleted'
+        when 'Deleted'
           # no action
         else
           metrics[:num_batches_processing] += 1
