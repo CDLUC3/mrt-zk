@@ -229,12 +229,13 @@ module MerrittZK
       jobs
     end
 
+    # not currently used, an expedited implementation was created
     def self.metrics(zk)
       metrics = {
         num_jobs_processing: 0,
         num_jobs_completed: 0,
         num_jobs_failed: 0,
-        bytes_in_process: 0
+        gb_in_process: 0.0
       }
       zk.children(DIR).sort.each do |cp|
         next if cp == ZkKeys::STATES
@@ -251,7 +252,7 @@ module MerrittZK
             # no action
           else
             metrics[:num_jobs_processing] += 1
-            metrics[:bytes_in_process] += job.space_needed
+            metrics[:gb_in_process] += job.space_needed
           end
         rescue StandardError => e
           puts "Metrics Job #{cp} exception: #{e}"
