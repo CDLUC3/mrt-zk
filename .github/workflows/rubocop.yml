@@ -13,7 +13,7 @@ jobs:
     # Install Ruby and run bundler
     - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '3.2'
+        ruby-version: '3.4'
         bundler-cache: true
         working-directory: src/main/ruby
 
