@@ -138,6 +138,12 @@ The queue will track the last successful step so that the job can be resumed at 
 
 ```mermaid
 graph LR
+  accTitle: 'Access Queue State Diagram'
+  accDescr {
+    Pending to Processing.
+    Processing to Failed, Completed.
+    Failed to Processing, Deleted.
+  }
   START --> Pending
   Pending --> Processing
   Failed -.-> Processing
