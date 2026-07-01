@@ -8,6 +8,15 @@
 
 ```mermaid
 graph LR
+  accTitle: 'Batch Queue State Diagram'
+  accDescr {
+    Pending to Held, Processing.
+    Held to Processing, Deleted.
+    Processing to Reporting.
+    Reporting to Completed, Failed.
+    Failed to UpdateReporting, Deleted.
+    UpdateReporting to Failed, Completed.
+  }
   START --> Pending
   click START "javascript:alert(222)" "Tip"
   Pending --> Held
@@ -49,6 +58,19 @@ Determine if any previously FAILED jobs are not complete.  If so, notify the dep
 ### Job Queue State Diagram
 ```mermaid
 graph TD
+  accTitle: 'Job Queue State Diagram'
+  accDescr {
+    Pending to Held, Estimating.
+    Held to Pending, Deleted.
+    Estimating to Provisioning, Failed.
+    Provisioning to Downloading, Failed.
+    Downloading to Processing, Failed.
+    Processing to Storing, Failed.
+    Storing to Recording, Failed.
+    Recording to Notify, Failed.
+    Notify to Completed, Failed.
+    Failed to Estimating, Provisioning, Downloading, Processing, Storing, Recording, Notify, Deleted.
+  }
   START --> Pending
   Pending --> Held
   Pending --> Estimating
