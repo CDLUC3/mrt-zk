@@ -8,6 +8,7 @@
 
 ```mermaid
 graph TD
+  accTitle: 'New Batch is created with a status of Pending'
   Manifest[/Batch Manifest/]
   Ingest(Ingest Service)
   Batch[Batch: Pending]
@@ -19,6 +20,7 @@ graph TD
 
 ```mermaid
 graph TD
+  accTitle: 'Batch status is processing'
   Batch[Batch: Processing]
 ```
 
@@ -26,6 +28,7 @@ graph TD
 
 ```mermaid
 graph TD
+  accTitle: 'Batch (Processing) has 3 Jobs in a Pending state'
   Batch[Batch: Processing]
   Job1[Job 1: Pending]
   Job2[Job 2: Pending]
@@ -39,6 +42,7 @@ graph TD
   
 ```mermaid
 graph TD
+  accTitle: 'Batch (Processing) has 3 Jobs (Processing, Processing, Processing)'
   Batch[Batch: Processing]
   Job1[Job 1: Processing]
   Job2[Job 2: Processing]
@@ -52,6 +56,7 @@ graph TD
   
 ```mermaid
 graph TD
+  accTitle: 'Batch (Processing) has 3 Jobs (Processing, Complete, Processing)'
   Batch[Batch: Processing]
   Job1[Job 1: Processing]
   Job2[Job 2: COMPLETE]
@@ -63,6 +68,7 @@ graph TD
 ### Job 3 completes  
 ```mermaid
 graph TD
+  accTitle: 'Batch (Processing) has 3 Jobs (Processing, Complete, Complete)'
   Batch[Batch: Processing]
   Job1[Job 1: Processing]
   Job2[Job 2: COMPLETE]
@@ -75,6 +81,7 @@ graph TD
 ### Job 1 completes  
 ```mermaid
 graph TD
+  accTitle: 'Batch (Reporting) has 3 Jobs (Complete, Complete, Complete): The completion of the last job triggers a state update for the Batch'
   Batch[Batch: Reporting]
   Job1[Job 1: COMPLETE]
   Job2[Job 2: COMPLETE]
@@ -87,6 +94,7 @@ graph TD
 ### Batch Reports Job Status to Depositor 
 ```mermaid
 graph TD
+  accTitle: 'Email notification is generated for the entire batch'
   Batch[Batch: Reporting]
   Job1[Job 1: COMPLETE]
   Job2[Job 2: COMPLETE]
@@ -103,6 +111,7 @@ graph TD
 ### Batch Completes
 ```mermaid
 graph TD
+  accTitle: 'Batch is in a completed state'
   Batch[Batch: COMPLETED]
 ```
 
@@ -112,6 +121,7 @@ graph TD
 
 ```mermaid
 graph TD
+  accTitle: 'New Batch is created with a status of Pending'
   Manifest[/Batch Manifest/]
   Ingest(Ingest Service)
   Batch[Batch: Pending]
@@ -123,6 +133,7 @@ graph TD
 
 ```mermaid
 graph TD
+  accTitle: 'Batch is in a Processing State'
   Batch[Batch: Processing]
 ```
 
@@ -130,6 +141,7 @@ graph TD
 
 ```mermaid
 graph TD
+  accTitle: 'Batch(Processing) has 3 Jobs (Pending, Pending, Pending)'
   Batch[Batch: Processing]
   Job1[Job 1: Pending]
   Job2[Job 2: Pending]
@@ -143,6 +155,7 @@ graph TD
   
 ```mermaid
 graph TD
+  accTitle: 'Batch(Processing) has 3 Jobs (Processing, Processing, Processing)'
   Batch[Batch: Processing]
   Job1[Job 1: Processing]
   Job2[Job 2: Processing]
@@ -156,6 +169,7 @@ graph TD
   
 ```mermaid
 graph TD
+  accTitle: 'Batch(Processing) has 3 Jobs (Processing, Complete, Processing)'
   Batch[Batch: Processing]
   Job1[Job 1: Processing]
   Job2[Job 2: COMPLETE]
@@ -167,6 +181,7 @@ graph TD
 ### Job 3 fails  
 ```mermaid
 graph TD
+  accTitle: 'Batch(Processing) has 3 Jobs (Processing, Complete, Failed)'
   Batch[Batch: Processing]
   Job1[Job 1: Processing]
   Job2[Job 2: COMPLETE]
@@ -179,6 +194,7 @@ graph TD
 ### Job 1 completes  
 ```mermaid
 graph TD
+  accTitle: 'Batch(Reporting) has 3 Jobs (Complete, Complete, Failed): Batch goes to Reporting state upon completion of the last job'
   Batch[Batch: Reporting]
   Job1[Job 1: COMPLETE]
   Job2[Job 2: COMPLETE]
@@ -191,6 +207,7 @@ graph TD
 ### Batch Reports Job Status to Depositor 
 ```mermaid
 graph TD
+  accTitle: 'Email notification is generated for the entire batch'
   Batch[Batch: Reporting]
   Job1[Job 1: COMPLETE]
   Job2[Job 2: COMPLETE]
@@ -207,6 +224,7 @@ graph TD
 ### Batch Goes to Failed state
 ```mermaid
 graph TD
+  accTitle: 'Batch(Failed) has 3 Jobs (Complete, Complete, Failed): After reporting the failure, batch status changes to Failed'
   Batch[Batch: Failed]
   Job1[Job 1: COMPLETE]
   Job2[Job 2: COMPLETE]
