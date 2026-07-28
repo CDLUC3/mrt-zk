@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 gem 'zk'
-gem 'zookeeper'
+# gem 'zookeeper'
 
 group :test do
   gem 'colorize'

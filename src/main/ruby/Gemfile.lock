@@ -73,7 +73,6 @@ DEPENDENCIES
   rspec
   rubocop
   zk
-  zookeeper
 
 BUNDLED WITH
   4.0.15
