@@ -58,7 +58,7 @@ public enum BatchState implements IngestState{
    */
   Failed{
     public List<IngestState> nextStates() {
-      return Arrays.asList(BatchState.UpdateReporting, BatchState.Deleted);
+      return Arrays.asList(BatchState.UpdateReporting, BatchState.Deleted, BatchState.Pending);
     }
   },
   /**

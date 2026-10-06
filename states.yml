@@ -55,6 +55,7 @@ batch_states:
   Completed:
   Deleted:
   Failed:
+    Pending:
     UpdateReporting:
     Deleted:
   UpdateReporting:
