@@ -207,7 +207,7 @@ module MerrittZK
 
     ##
     # Convert job to a json representation for the admin tool.
-    def self.jobjson(job)
+    def self.jobjson(zk,job)
       job.load_optimized(zk)
       jobjson = job.data
       jobjson[:id] = id
@@ -227,7 +227,7 @@ module MerrittZK
 
         begin
           job = Job.new(cp)
-          jobs.append(Job::jobjson(job))
+          jobs.append(Job::jobjson(zk, job))
         rescue StandardError => e
           puts "List Job #{cp} exception: #{e}"
         end
