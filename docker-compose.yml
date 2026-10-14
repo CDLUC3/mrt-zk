@@ -5,10 +5,19 @@
 services:
   zoo:
     container_name: zoo
-    image: public.ecr.aws/docker/library/zookeeper:3.9.4
+    image: public.ecr.aws/docker/library/zookeeper:3.9.5
     ports:
     - published: 8084
       target: 2181
+    - published: 8080
+      target: 8080
     restart: unless-stopped
     stdin_open: true
     tty: true
+
+# aws --profile ... s3 cp s3://${CONFIG_BUCKET}/uc3/mrt/zk/snapshots/stg/latest_snapshot.out zksnap.out
+# ct="'Content-Type:application/octet-stream'"
+# zk_auth='Authorization: digest admin:manager'
+# curl -H "${ct}" -H "${zk_auth}" \
+#   -X POST http://localhost:8080/commands/restore \
+#  --data-binary "@$HOME/zksnap.out"
