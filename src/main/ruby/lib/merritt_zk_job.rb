@@ -210,7 +210,7 @@ module MerrittZK
     def self.jobjson(zk, job)
       job.load_optimized(zk)
       jobjson = job.data
-      jobjson[:id] = id
+      jobjson[:id] = job.id
       jobjson[:bid] = job.bid
       jobjson[:priority] = job.priority
       jobjson[:space_needed] = job.space_needed
