@@ -157,6 +157,28 @@ module MerrittZK
       jobs
     end
 
+    def count_completed_jobs(zk)
+      count_jobs(zk, 'batch-completed')
+    end
+
+    def count_deleted_jobs(zk)
+      count_jobs(zk, 'batch-deleted')
+    end
+
+    def count_failed_jobs(zk)
+      count_jobs(zk, 'batch-failed')
+    end
+
+    def count_processing_jobs(zk)
+      count_jobs(zk, 'batch-processing')
+    end
+
+    def count_jobs(zk, state)
+      p = "#{path}/states/#{state}"
+      return 0 unless zk.exists?(p)
+      zk.children(p).length
+    end
+
     def self.find_batch_by_uuid(zk, uuid)
       return if uuid.empty?
 
@@ -203,13 +225,13 @@ module MerrittZK
         batchjson = batch.data
         batchjson[:id] = batch.id
         batchjson[:status] = batch.status_name
-        batchjson[:jobCountFailed] = batch.get_failed_jobs(zk).length
-        batchjson[:jobCountDeleted] = batch.get_deleted_jobs(zk).length
-        batchjson[:jobCountCompleted] = batch.get_completed_jobs(zk).length
-        batchjson[:jobCountProcessing] = batch.get_processing_jobs(zk).length
-        batchjson[:jobCount] = batch.get_processing_jobs(zk).length +
-                               batch.get_failed_jobs(zk).length + batch.get_deleted_jobs(zk).length +
-                               batch.get_completed_jobs(zk).length
+        batchjson[:jobCountFailed] = batch.count_failed_jobs(zk)
+        batchjson[:jobCountDeleted] = batch.count_deleted_jobs(zk)
+        batchjson[:jobCountCompleted] = batch.count_completed_jobs(zk)
+        batchjson[:jobCountProcessing] = batch.count_processing_jobs(zk)
+        batchjson[:jobCount] = batch.count_processing_jobs(zk) +
+                               batch.count_failed_jobs(zk) + batch.count_deleted_jobs(zk) +
+                               batch.count_completed_jobs(zk)
         batches.append(batchjson)
       rescue StandardError => e
         puts "List Batch #{cp} exception: #{e}"
