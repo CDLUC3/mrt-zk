@@ -161,6 +161,10 @@ module MerrittZK
       jobs
     end
 
+    def get_all_jobs(zk)
+      get_processing_jobs(zk) + get_failed_jobs(zk) + get_completed_jobs(zk) + get_deleted_jobs(zk)
+    end
+
     def count_completed_jobs(zk)
       count_jobs(zk, 'batch-completed')
     end
