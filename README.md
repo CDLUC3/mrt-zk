@@ -142,3 +142,19 @@ bundle exec ruby show_all.rb
 /dpr2/ingest_home/queue/Process_FAIL
 /dpr2/ingest_home/queue/Provision_FAIL
 ```
+
+## Test with snapshot
+
+Get snapshot
+```bash
+aws --profile ... s3 cp s3://${CONFIG_BUCKET}/uc3/mrt/zk/snapshots/stg/latest_snapshot.out zksnap.out
+```
+
+Load snapshot to docker-compose
+```bash
+ct="'Content-Type:application/octet-stream'"
+zk_auth='Authorization: digest admin:manager'
+curl -H "${ct}" -H "${zk_auth}" \
+  -X POST http://localhost:8080/commands/restore \
+   --data-binary "@$HOME/zksnap.out"
+```

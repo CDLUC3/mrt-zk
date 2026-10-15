@@ -59,6 +59,10 @@ module MerrittZK
       @data.fetch(:batchID, '')
     end
 
+    def profile(zk)
+      json_property(zk, ZkKeys::SUBMISSION).fetch(:profile, '')
+    end
+
     def self.create_batch(zk, submission)
       id = QueueItem.create_id(zk, prefix_path)
       batch = Batch.new(id, data: submission)
@@ -176,6 +180,7 @@ module MerrittZK
     def count_jobs(zk, state)
       p = "#{path}/states/#{state}"
       return 0 unless zk.exists?(p)
+
       zk.children(p).length
     end
 
@@ -217,21 +222,29 @@ module MerrittZK
       zk.rm_rf(path)
     end
 
+    ##
+    # Convert batch to a json representation for the admin tool.
+    def self.batchjson(zk, batch)
+      batchjson = batch.data
+      batchjson[:id] = batch.id
+      batchjson[:profile] = batch.profile(zk)
+      batchjson[:status] = batch.status_name
+      batchjson[:jobCountFailed] = batch.count_failed_jobs(zk)
+      batchjson[:jobCountDeleted] = batch.count_deleted_jobs(zk)
+      batchjson[:jobCountCompleted] = batch.count_completed_jobs(zk)
+      batchjson[:jobCountProcessing] = batch.count_processing_jobs(zk)
+      batchjson[:jobCount] = batch.count_processing_jobs(zk) +
+                             batch.count_failed_jobs(zk) + batch.count_deleted_jobs(zk) +
+                             batch.count_completed_jobs(zk)
+      batchjson
+    end
+
     def self.list_batches_as_json(zk)
       batches = []
       zk.children(DIR).sort.each do |cp|
         batch = Batch.new(cp)
         batch.load(zk, set_status_flag: false)
-        batchjson = batch.data
-        batchjson[:id] = batch.id
-        batchjson[:status] = batch.status_name
-        batchjson[:jobCountFailed] = batch.count_failed_jobs(zk)
-        batchjson[:jobCountDeleted] = batch.count_deleted_jobs(zk)
-        batchjson[:jobCountCompleted] = batch.count_completed_jobs(zk)
-        batchjson[:jobCountProcessing] = batch.count_processing_jobs(zk)
-        batchjson[:jobCount] = batch.count_processing_jobs(zk) +
-                               batch.count_failed_jobs(zk) + batch.count_deleted_jobs(zk) +
-                               batch.count_completed_jobs(zk)
+        batchjson = batchjson(zk, batch)
         batches.append(batchjson)
       rescue StandardError => e
         puts "List Batch #{cp} exception: #{e}"

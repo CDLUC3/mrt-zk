@@ -227,7 +227,7 @@ module MerrittZK
 
         begin
           job = Job.new(cp)
-          jobs.append(self.jobjson(zk, job))
+          jobs.append(jobjson(zk, job))
         rescue StandardError => e
           puts "List Job #{cp} exception: #{e}"
         end
