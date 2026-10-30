@@ -22,9 +22,14 @@ module MerrittZK
       return unless @mode == 'test'
 
       @job_states_count.each_value do |states|
-        next unless states.length > 1
-
+        tstates = []
         states.each do |s|
+          tstates.append(s) unless node_datetime(s) == 'na'
+        end
+
+        next unless tstates.length > 1
+
+        tstates.each do |s|
           @test_results.append([s, node_datetime(s), s, 'Duplicate JID State', 'FAIL'])
         end
       end
