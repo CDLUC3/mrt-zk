@@ -82,7 +82,7 @@
 						<configuration>
 							<images>
 								<image>
-									<name>public.ecr.aws/docker/library/zookeeper:3.9.5</name>
+									<name>public.ecr.aws/docker/library/zookeeper:3.9.7</name>
 									<alias>zoo</alias>
 									<run>
 										<ports>
