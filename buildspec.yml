@@ -8,11 +8,12 @@ phases:
   install:
     runtime-versions:
       java: corretto21
-      ruby: 3.4.13
+      ruby: 3.4.12
 
   pre_build:
     on-failure: ABORT
     commands:
+    - ruby -v
     - javac -version
     - mvn -version
     - cp settings.xml ~/.m2/
