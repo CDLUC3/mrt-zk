@@ -57,6 +57,7 @@ phases:
       done
     - mvn -ntp javadoc:javadoc
     - cd src/main/ruby
+    - rm .ruby-version
     - bundle install
     - bundle exec rdoc lib/*.rb
     - cd ../../..
